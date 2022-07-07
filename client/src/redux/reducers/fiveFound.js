@@ -6,7 +6,7 @@ const initialState = [];
 const fiveFoundReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
-    case GET_FIVELOST:
+    case GET_FIVEFOUND:
       return payload;
     default:
       return state;

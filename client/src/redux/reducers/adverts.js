@@ -1,3 +1,5 @@
+import { GET_ADVERTS } from "../constants/constants";
+
 const initialState = [];
 
 const advertsReducer = (state = initialState, action) => {
