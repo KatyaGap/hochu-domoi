@@ -6,7 +6,7 @@ const lostReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case GET_LOST:
-      return [...state, payload];
+      return payload;
     default:
       return state;
   }
