@@ -1,12 +1,7 @@
+
 import axios from 'axios';
-import {
-  GET_ADVERTS,
-  GET_FIVEFOUND,
-  GET_FIVELOST,
-  GET_FOUND,
-  GET_LOST,
-  GET_LOST1,
-} from '../constants/constants';
+
+import { GET_ADVERTS, GET_FIVEFOUND, GET_FIVELOST, GET_FOUND, GET_LOST } from '../constants/constants';
 
 export const getAdverts = (data) => ({ type: GET_ADVERTS, payload: data });
 export const getFiveLost = (data) => ({ type: GET_FIVELOST, payload: data });
@@ -43,6 +38,7 @@ export const getFiveFoundThunk = () => async (dispatch) => {
     console.log(error);
   }
 };
+
 // export const getLostThunk = () => async (dispatch) => {
 //   try {
 //     const response = await fetch('/map/lost');
@@ -62,4 +58,14 @@ export const getFiveFoundThunk = () => async (dispatch) => {
 //   } catch (error) {
 //     console.log(error);
 //   }
+// };
+// export const yaAction = (value) => ({
+//   type: GET_LOST,
+//   payload: value,
+// })
+
+// export const yandexMap = (body) => (dispatch) => {
+//   axios.post('http://localhost:3002/map', body)
+//     .then((res) => dispatch(yaAction(res.data)))
+//     .catch((err) => console.log(err));
 // };
