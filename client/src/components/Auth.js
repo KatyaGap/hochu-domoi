@@ -5,7 +5,7 @@ import { TextField, Typography } from '@mui/material';
 import Switch from '@mui/material/Switch';
 import { UserContext } from '../context/user';
 
-function Auth({ type }) {
+function Auth({ isNewPost }) {
   const [regToggle, setRegToggle] = useState(false);
   const { handleAuth, handleLogout, message } = useContext(UserContext);
 
@@ -17,8 +17,8 @@ function Auth({ type }) {
 
   const sendForm = async (e) => {
     e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.target));
-    handleAuth(data, regToggle);
+    const data = (Object.fromEntries(new FormData(e.target)));
+    handleAuth(data, regToggle, isNewPost);
   };
 
   const label = { inputProps: { 'aria-label': 'Switch demo' } };

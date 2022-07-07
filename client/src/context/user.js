@@ -23,7 +23,7 @@ function UserContextProvider({ children }) {
     })
     .catch(console.log);
 
-  const handleAuth = async (data, regToggle) => {
+  const handleAuth = async (data, regToggle, newPost) => {
     const fetchUrl = regToggle ? '/auth/register' : '/auth/login';
     const response = await fetch(fetchUrl, {
       method: 'POST',
@@ -38,7 +38,11 @@ function UserContextProvider({ children }) {
         setMessage(result.message);
       }
     }
-    navigate('/');
+    if (newPost) {
+      navigate('/newpost');
+    } else {
+      navigate('/');
+    }
   };
 
   return (
