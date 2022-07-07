@@ -16,7 +16,6 @@ import axios from 'axios';
 //потеряшки/найденыши
 
 function MapYandex({ filter }) {
-<<<<<<< HEAD
   const { lost } = useSelector((state) => state);
 
   useEffect(() => {
