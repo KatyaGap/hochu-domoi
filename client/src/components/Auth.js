@@ -7,7 +7,7 @@ import { UserContext } from '../context/user';
 
 function Auth({ isNewPost }) {
   const [regToggle, setRegToggle] = useState(false);
-  const { handleAuth, handleLogout } = useContext(UserContext);
+  const { handleAuth, handleLogout, message } = useContext(UserContext);
 
   const regAuthToggle = () => {
     const titles = document.querySelectorAll('.auth-title-text');
@@ -25,22 +25,48 @@ function Auth({ isNewPost }) {
   return (
     <div className="auth-container">
       <div className="auth-title">
-        <Typography variant="h4" className="auth-title-text" gutterBottom component="div">
+        <Typography
+          variant="h4"
+          className="auth-title-text"
+          gutterBottom
+          component="div"
+        >
           Авторизация
         </Typography>
         <Switch {...label} onClick={regAuthToggle} />
-        <Typography variant="h4" className="auth-title-text auth-off" gutterBottom component="div">
+        <Typography
+          variant="h4"
+          className="auth-title-text auth-off"
+          gutterBottom
+          component="div"
+        >
           Регистрация
         </Typography>
       </div>
 
       <form onSubmit={sendForm} id="auth-form" className="auth-form">
-        {regToggle ? <TextField required name="name" label="Имя" variant="outlined" /> : null}
+        {regToggle ? (
+          <TextField required name="name" label="Имя" variant="outlined" />
+        ) : null}
         <TextField required name="email" label="Почта" variant="outlined" />
-        <TextField required name="password" label="Пароль" type="password" autoComplete="current-password" variant="outlined" />
-        <Button variant="contained" type="submit" className="form-button" size="large">Отправить</Button>
+        <TextField
+          required
+          name="password"
+          label="Пароль"
+          type="password"
+          autoComplete="current-password"
+          variant="outlined"
+        />
+        <Button
+          variant="contained"
+          type="submit"
+          className="form-button"
+          size="large"
+        >
+          Отправить
+        </Button>
       </form>
-
+      {message && <div>{message} </div>}
     </div>
   );
 }
