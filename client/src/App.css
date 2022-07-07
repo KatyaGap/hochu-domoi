@@ -28,11 +28,64 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* НАВБАР */
+
+.App .navbar {
+
+}
+
+.nav-buttons {
+  display: flex;
+  margin-right: 1.5rem;
+}
+
+.nav-buttons button {
+  margin-left: 1rem;
+}
+
+
+/* РЕГИСТРАЦИЯ */
+
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px 40px;
+  box-sizing: border-box;
+}
+
+.auth-title {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.auth-form .MuiFormControl-root,
+.auth-form .form-button {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 350px;
+}
+
+.auth-form .MuiFormControl-root {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+.auth-title .auth-title-text {
+  color: #222;
+  font-weight: 300;
+}
+
+.auth-title .auth-off {
+  color: rgba(128, 128, 128, 0.3);
+  transition: all 0.3s;
 }
