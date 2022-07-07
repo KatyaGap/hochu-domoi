@@ -2,6 +2,7 @@ import * as React from 'react';
 import { AppBar, Toolbar, Box, Menu, Avatar, Container, Button, Tooltip, MenuItem, IconButton, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
+import '../App.css';
 
 import AdbIcon from '@mui/icons-material/Adb';
 
@@ -24,8 +25,12 @@ function Navbar() {
     navigate(`/${settingsLinks[settingsLinksArrNumber]}`);
   };
 
-  const authLink = () => {
-    navigate('/auth');
+  const authLink = (isNewPost) => {
+    if (isNewPost) {
+      navigate('/authnewpost');
+    } else {
+      navigate('/auth');
+    }
   };
 
   const handleOpenNavMenu = (event) => {
@@ -46,7 +51,7 @@ function Navbar() {
     <AppBar className="navbar" position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <img src="/iconW24.png" alt="logo" width="24" height="24" style={{ marginRight: ".5rem" }} />
           <Typography variant="h6" noWrap component="a" href="/" sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none' }}>
             ХОТИМ ДОМОЙ
           </Typography>
@@ -78,9 +83,10 @@ function Navbar() {
             ))}
           </Box>
 
-          <MenuItem onClick={authLink}>
-            <Typography textAlign="center">Авторизация</Typography>
-          </MenuItem>
+          <Box className="nav-buttons" sx={{ flexGrow: 0 }}>
+            <Button onClick={(e) => authLink(false)} variant="outlined" color="secondary">Авторизация</Button>
+            <Button onClick={(e) => authLink(true)} variant="contained" color="secondary">Подать объявление</Button>
+          </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
