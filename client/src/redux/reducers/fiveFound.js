@@ -1,4 +1,3 @@
-
 import { GET_FIVEFOUND } from "../constants/constants";
 
 const initialState = [];

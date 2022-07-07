@@ -8,7 +8,9 @@ const FileStore = require('session-file-store')(session);
 // const upload = require('./middlewares/middlewares');
 const { User } = require('./db/models');
 const Bcrypt = require('./utils/bcrypt');
+const indexRouter = require('./routers/indexRouter');
 const registerRouter = require('./routers/registerRouter');
+const mapRouter = require('./routers/mapRouter');
 
 const app = express();
 
@@ -33,11 +35,11 @@ const sessionConfig = {
 
 app.use(session(sessionConfig));
 
-// app.use('/', indexRouter); // правим
+app.use('/adverts', indexRouter); // правим
 app.use('/auth', registerRouter); // оставляем
 // app.use('/login', loginRouter); // оставляем
 // app.use('/logout', logoutRouter); // оставляем
-// app.use('/party', partyRouter); // правим
+app.use('/map', mapRouter); // правим
 
 app.listen(process.env.PORT, () => {
   console.log('The Best Server in Elbrus', process.env.PORT);

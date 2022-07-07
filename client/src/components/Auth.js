@@ -71,7 +71,7 @@ function Auth({ isNewPost }) {
         </Button>
       </form>
       {message && (
-        <div>
+        <div className='toast-njksonkio'>
           {toast.info(message, {
             position: toast.POSITION.BOTTOM_CENTER,
           })}
