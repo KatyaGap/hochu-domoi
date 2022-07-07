@@ -4,6 +4,8 @@ import '../App.css';
 import { TextField, Typography } from '@mui/material';
 import Switch from '@mui/material/Switch';
 import { UserContext } from '../context/user';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Auth({ isNewPost }) {
   const [regToggle, setRegToggle] = useState(false);
@@ -17,9 +19,11 @@ function Auth({ isNewPost }) {
 
   const sendForm = async (e) => {
     e.preventDefault();
-    const data = (Object.fromEntries(new FormData(e.target)));
+    const data = Object.fromEntries(new FormData(e.target));
     handleAuth(data, regToggle, isNewPost);
   };
+
+  // toast.configure();
 
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
   return (
@@ -66,7 +70,13 @@ function Auth({ isNewPost }) {
           Отправить
         </Button>
       </form>
-      {message && <div>{message} </div>}
+      {message && (
+        <div>
+          {toast.info(message, {
+            position: toast.POSITION.BOTTOM_CENTER,
+          })}
+        </div>
+      )}
     </div>
   );
 }

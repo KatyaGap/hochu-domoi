@@ -29,6 +29,7 @@ router.route('/logout')
 router.route('/register')
   .post(checkAuth, async (req, res) => {
     try {
+			console.log('я тутт')
       const { name, email, password } = req.body;
       if (name && email && password) {
         const user = await User.create({ email, password: await Bcrypt.hash(password), name });
@@ -37,6 +38,7 @@ router.route('/register')
         res.json(user);
       }
     } catch (err) {
+			console.log('я в ощибке')
       console.log(err);
       const user = await User.findOne({ where: { name: req.body.name, email: req.body.email } });
       if (user) {
@@ -65,7 +67,7 @@ router.route('/login')
           const message = 'Пользователь с таким e-mail не существует';
           res.json({ message: `${message}` });
         } else {
-          const passCheck = await Bcrypt.compare(password, res.password);
+          const passCheck = await Bcrypt.compare(password, user.password);
           if (user && passCheck) {
             req.session.userId = user.id;
             req.session.userName = user.name;
