@@ -35,5 +35,6 @@ module.exports = {
     "react/jsx-props-no-spreading": 0,
     "max-len": 0,
     "camelcase": 0,
+    "object-curly-newline": 0,
   },
 };
