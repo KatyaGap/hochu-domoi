@@ -1,8 +1,8 @@
-import { GET_ADVERTS } from '../constants/constants';
+import { GET_ADVERTS, GET_FIVEFOUND, GET_FIVELOST } from '../constants/constants';
 
 export const getAdverts = (data) => ({ type: GET_ADVERTS, payload: data });
 export const getFiveLost = (data) => ({ type: GET_FIVELOST, payload: data });
-export const getFiveFound = (data) => ({ type: GET_FIVELOST, payload: data });
+export const getFiveFound = (data) => ({ type: GET_FIVEFOUND, payload: data });
 
 export const getAdvertsThunk = () => async (dispatch) => {
   try {

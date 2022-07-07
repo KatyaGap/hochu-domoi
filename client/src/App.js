@@ -1,10 +1,10 @@
 import './App.css';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { Slide, ToastContainer } from 'react-toastify';
 import Navbar from './components/Navbar';
 import Main from './components/Main';
 import Auth from './components/Auth';
 import Map from './components/Map';
-import { Slide, ToastContainer } from 'react-toastify';
 
 function App() {
   return (
