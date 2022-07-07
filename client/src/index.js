@@ -4,6 +4,7 @@ import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import UserContextProvider from './context/user';
 import { BrowserRouter } from 'react-router-dom';
 import store from './store';
 
@@ -11,7 +12,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Provider store={store}>
-      <App />,
+      <UserContextProvider>
+        <App />   
+      </UserContextProvider>
     </Provider>
   </BrowserRouter>
 );
