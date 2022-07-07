@@ -1,4 +1,5 @@
-import advertsReducer from "../actions/adverts";
+import { combineReducers } from "redux";
+import advertsReducer from "./adverts";
 import fiveFoundReducer from "./fiveFound";
 import fiveLostReducer from "./fiveLost";
 import foundReducer from "./found";
