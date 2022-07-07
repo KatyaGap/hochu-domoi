@@ -24,6 +24,10 @@ function Navbar() {
     navigate(`/${settingsLinks[settingsLinksArrNumber]}`);
   };
 
+  const authLink = () => {
+    navigate('/auth');
+  };
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -39,7 +43,7 @@ function Navbar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar className="navbar" position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -51,6 +55,7 @@ function Navbar() {
             <IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit">
               <MenuIcon />
             </IconButton>
+
             <Menu id="menu-appbar" anchorEl={anchorElNav} anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'left' }} open={Boolean(anchorElNav)} onClose={handleCloseNavMenu} sx={{ display: { xs: 'block', md: 'none' } }}>
               {pages.map((page, index) => (
                 <MenuItem key={page} onClick={(e) => navLink(index)}>
@@ -59,10 +64,12 @@ function Navbar() {
               ))}
             </Menu>
           </Box>
+
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography variant="h5" noWrap component="a" href="" sx={{ mr: 2, display: { xs: 'flex', md: 'none' }, flexGrow: 1, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none' }}>
             ХОТИМ ДОМОЙ
           </Typography>
+
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page, index) => (
               <Button key={page} onClick={(e) => navLink(index)} sx={{ my: 2, color: 'white', display: 'block' }}>
@@ -70,6 +77,10 @@ function Navbar() {
               </Button>
             ))}
           </Box>
+
+          <MenuItem onClick={authLink}>
+            <Typography textAlign="center">Авторизация</Typography>
+          </MenuItem>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
