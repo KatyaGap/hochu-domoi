@@ -1,5 +1,6 @@
 import './App.scss';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { Slide, ToastContainer } from 'react-toastify';
 import Navbar from './components/Navbar';
 import Main from './components/Main';
 import Auth from './components/Auth';
@@ -19,6 +20,19 @@ function App() {
         <Route path="/authnewpost" element={<Auth isNewPost />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+      <div>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+      </div>
     </div>
   );
 }
