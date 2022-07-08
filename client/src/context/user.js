@@ -17,12 +17,11 @@ function UserContextProvider({ children }) {
     return () => {};
   }, []);
 
-  const handleLogout = () =>
-    fetch('/auth/logout')
-      .then(() => {
-        setUser(null);
-      })
-      .catch(console.log);
+  const handleLogout = () => fetch('/auth/logout')
+    .then(() => {
+      setUser(null);
+    })
+    .catch(console.log);
 
   const handleAuth = async (data, regToggle, newPost) => {
     const fetchUrl = regToggle ? '/auth/register' : '/auth/login';
