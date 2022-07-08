@@ -10,9 +10,8 @@ import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import { PhotoCamera } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
-// import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
-export default function Form({ type }) {
+export default function Newpost({ type }) {
   const location = useLocation();
   const [post, setPost] = React.useState({
     type_id: type === 'found' ? 1 : 2,
@@ -22,14 +21,9 @@ export default function Form({ type }) {
     size: '',
     status_id: '',
     text: '',
-    date: 'aaaaaa',
+    date: '',
   });
   const [posts, setPosts] = React.useState([]);
-  // const handleChange = (event: SelectChangeEvent) => {
-  //   setPost((prev) => ({ ...prev, [event.target.name]: event.target.value }));
-
-  //   // console.log(value)
-  // };
   console.log(post);
   const handleSubmit = (e) => {
     console.log('я тут');
@@ -148,8 +142,8 @@ export default function Form({ type }) {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              name="status"
-              value={post.status}
+              name="status_id"
+              value={post.status_id}
               label="Status"
               onChange={handleChange}
             >
@@ -161,7 +155,32 @@ export default function Form({ type }) {
           </FormControl>
         </div>
       </Box>
-      <Typography variant="h6" component="div" gutterBottom>
+      {post.type_id === 1 ? (
+        <Typography variant="h6" component="div" gutterBottom>
+          Дата обнаружения
+        </Typography>
+      ) : (
+        <Typography variant="h6" component="div" gutterBottom>
+          Дата пропажи
+        </Typography>
+      )}
+      <div className="select">
+        <Stack component="form" noValidate spacing={3}>
+          <TextField
+            id="date"
+            label="Date"
+            type="date"
+            name="date"
+            defaultValue="2022-07-08"
+            sx={{ width: 220 }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={handleChange}
+          />
+        </Stack>
+      </div>
+      <Typography className="h" variant="h6" component="div" gutterBottom>
         Добавьте текст объявления
       </Typography>
       <Box
@@ -184,16 +203,7 @@ export default function Form({ type }) {
           placeholder="Введите текст объявления"
         />
       </Box>
-      {/* <div>
-        <DesktopDatePicker
-          label="Date desktop"
-          inputFormat="MM/dd/yyyy"
-          value={post.date}
-          onChange={handleChange}
-          renderInput={(params) => <TextField {...params} />}
-        />
-      </div> */}
-      <Typography variant="h6" component="div" gutterBottom>
+      <Typography className="h" variant="h6" component="div" gutterBottom>
         Добавьте фото животного
       </Typography>
       <Stack className="file" direction="row" alignItems="center" spacing={2}>
