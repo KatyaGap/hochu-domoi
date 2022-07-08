@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Main from './components/Main';
 import Auth from './components/Auth';
 import Map from './components/Map';
+import Form from './components/Form';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/found-map" element={<Map filter="found" />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/authnewpost" element={<Auth isNewPost />} />
+				<Route path="/newpost" element={<Form />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <div>

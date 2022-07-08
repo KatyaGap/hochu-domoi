@@ -92,3 +92,6 @@
 .toast-njksonkio{
 	font-size:0px
 }
+.MuiFormControl-root .MuiOutlinedInput-input{
+	width: 40vw;
+}
