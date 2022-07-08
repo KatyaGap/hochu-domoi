@@ -114,40 +114,42 @@ function Navbar() {
             ))}
           </Box>
 
-          {window.location.pathname.includes('auth')
-            ? null
-            : (
-              <Stack className="nav-buttons" sx={{ flexGrow: 0 }} direction="row" spacing={2}>
-                {user?.id
-                  ? (
-                    <Tooltip title="Мои сообщения">
-                      <IconButton onClick={chatLink} aria-label="delete">
-                        <Message sx={{ color: "#fff" }} />
-                      </IconButton>
-                    </Tooltip>
-                  ) : null}
-
-                <Button onClick={newPostLink} variant="contained" color="secondary">Подать объявление</Button>
-                {user?.id
-                  ? (
-                    <Box className="navbar=avatar" sx={{ flexGrow: 0 }}>
-                      <Tooltip title="Open settings">
-                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                          <Avatar alt="Remy Sharp" src="/doge.jpg" width="40" height="40" />
+          <Stack className="nav-buttons" sx={{ flexGrow: 0 }} direction="row" spacing={2}>
+            {window.location.pathname.includes('auth')
+              ? null
+              : (
+                <>
+                  {user?.id
+                    ? (
+                      <Tooltip title="Мои сообщения">
+                        <IconButton onClick={chatLink} aria-label="delete">
+                          <Message sx={{ color: "#fff" }} />
                         </IconButton>
                       </Tooltip>
-                      <Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right' }} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>
-                        {settings.map((setting, index) => (
-                          <MenuItem key={setting} onClick={(e) => navSettings(index)}>
-                            <Typography textAlign="center">{setting}</Typography>
-                          </MenuItem>
-                        ))}
-                      </Menu>
-                    </Box>
-                  )
-                  : <Button onClick={(e) => authLink(false)} variant="text" className="auth-button" sx={{ color: 'white' }}>Войти</Button>}
-              </Stack>
-            )}
+                    ) : null}
+
+                  <Button onClick={newPostLink} variant="contained" color="secondary">Подать объявление</Button>
+                  {user?.id
+                    ? (
+                      <Box className="navbar=avatar" sx={{ flexGrow: 0 }}>
+                        <Tooltip title="Open settings">
+                          <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                            <Avatar alt="Remy Sharp" src="/doge.jpg" width="40" height="40" />
+                          </IconButton>
+                        </Tooltip>
+                        <Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right' }} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>
+                          {settings.map((setting, index) => (
+                            <MenuItem key={setting} onClick={(e) => navSettings(index)}>
+                              <Typography textAlign="center">{setting}</Typography>
+                            </MenuItem>
+                          ))}
+                        </Menu>
+                      </Box>
+                    )
+                    : <Button onClick={(e) => authLink(false)} variant="text" className="auth-button" sx={{ color: 'white' }}>Войти</Button>}
+                </>
+              )}
+          </Stack>
 
         </Toolbar>
       </Container>
