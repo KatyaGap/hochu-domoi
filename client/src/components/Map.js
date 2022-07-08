@@ -12,18 +12,17 @@ import {
 } from 'react-yandex-maps';
 import axios from 'axios';
 
-
 //потеряшки/найденыши
 
 function MapYandex({ filter }) {
-  const { lost } = useSelector((state) => state);
+  const [arr, setArr] = useState([]);
 
   useEffect(() => {
     axios('http://localhost:3000/map/lost') //изменить запрос
       .then((res) => {
-				console.log('res', res.data)
-				res.data
-			})
+        console.log('res', res.data);
+        setArr(res.data);
+      })
       .catch((err) => console.log(err));
   }, []);
 
@@ -51,14 +50,15 @@ function MapYandex({ filter }) {
                 float: 'left',
               }}
             />
-            {lost &&
-              lost.map((el) => (
+            {arr &&
+              arr.map((el, ind) => (
                 <Placemark
                   geometry={[el.address_lattitude, el.address_longitude]}
                   properties={{
                     balloonContentHeader: 'что-то там из масива',
                     balloonContentBody: 'описание чего-то там из массива',
                   }}
+                  key={ind + 1}
                   options={{
                     iconLayout: 'default#image',
                     iconImageHref:
