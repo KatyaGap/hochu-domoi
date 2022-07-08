@@ -10,23 +10,24 @@ import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import { PhotoCamera } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
+// import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
-export default function Form({ param }) {
+export default function Form({ type }) {
   const location = useLocation();
   const [post, setPost] = React.useState({
-    type_id: 1,
+    type_id: type === 'found' ? 1 : 2,
     pet_id: '',
-    breed_id: '',
+    breed_id: 4,
     color_id: '',
     size: '',
-    status: '',
+    status_id: '',
     text: '',
-    photo_url: '',
     date: 'aaaaaa',
   });
   const [posts, setPosts] = React.useState([]);
   // const handleChange = (event: SelectChangeEvent) => {
   //   setPost((prev) => ({ ...prev, [event.target.name]: event.target.value }));
+
   //   // console.log(value)
   // };
   console.log(post);
@@ -34,14 +35,16 @@ export default function Form({ param }) {
     console.log('я тут');
     e.preventDefault();
     const formData = new FormData();
-    formData.append('pet_id', post.pet_id);
-    formData.append('breed_id', post.breed_id);
-    formData.append('color_id', post.color_id);
-    formData.append('size', post.size);
-    formData.append('status', post.status);
+    formData.append('pet_id', Number(post.pet_id));
+    formData.append('breed_id', Number(post.breed_id));
+    formData.append('color_id', Number(post.color_id));
+    formData.append('size', Number(post.size));
+    formData.append('status_id', Number(post.status));
     formData.append('file', post.file);
     formData.append('date', post.date);
-    fetch('/map/lost', { method: 'Post', body: formData })
+    formData.append('text', post.text);
+
+    fetch(`/map/${type}`, { method: 'Post', body: formData })
       .then((response) => response.json())
       .then((result) => {
         console.log(result, posts);
@@ -49,6 +52,7 @@ export default function Form({ param }) {
       })
       .finally(() => setPost({}));
   };
+
   const handleChange = React.useCallback((e) => {
     if (e.target.type === 'file') {
       setPost((prev) => ({
@@ -60,6 +64,7 @@ export default function Form({ param }) {
       setPost((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     }
   }, []);
+
   return (
     <form onSubmit={handleSubmit}>
       <Typography variant="h4" component="div" gutterBottom>
@@ -82,7 +87,7 @@ export default function Form({ param }) {
             </Select>
           </FormControl>
         </div>
-        {param && (
+        {post.pet_id === '1' && (
           <div className="select">
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Порода</InputLabel>
@@ -97,10 +102,12 @@ export default function Form({ param }) {
                 <MenuItem value={1}>Такса</MenuItem>
                 <MenuItem value={2}>Метис</MenuItem>
                 <MenuItem value={3}>Двортерьер</MenuItem>
+                <MenuItem value={4}>Иное</MenuItem>
               </Select>
             </FormControl>
           </div>
         )}
+
         <div className="select">
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Цвет</InputLabel>
@@ -177,8 +184,16 @@ export default function Form({ param }) {
           placeholder="Введите текст объявления"
         />
       </Box>
+      {/* <div>
+        <DesktopDatePicker
+          label="Date desktop"
+          inputFormat="MM/dd/yyyy"
+          value={post.date}
+          onChange={handleChange}
+          renderInput={(params) => <TextField {...params} />}
+        />
+      </div> */}
       <Typography variant="h6" component="div" gutterBottom>
-        {' '}
         Добавьте фото животного
       </Typography>
       <Stack className="file" direction="row" alignItems="center" spacing={2}>
@@ -207,3 +222,6 @@ export default function Form({ param }) {
     </form>
   );
 }
+// {
+//   /* <input type="datetime-local" required class="form-control" name="date" placeholder="date and time" ></input> */
+// }
