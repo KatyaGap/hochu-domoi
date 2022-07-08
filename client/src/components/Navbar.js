@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Box, Menu, Avatar, Container, Button, Tooltip, MenuIte
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 import { Message } from '@mui/icons-material';
-import '../App.css';
+// import '../App.scss';
 
 import AdbIcon from '@mui/icons-material/Adb';
 

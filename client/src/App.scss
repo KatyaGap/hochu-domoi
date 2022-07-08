@@ -1,4 +1,9 @@
-@import "../node_modules/bootstrap/scss/containers";
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/maps";
+@import "../node_modules/bootstrap/scss/mixins";
+@import "../node_modules/bootstrap/scss/root";
+@import "../node_modules/bootstrap/scss/carousel";
 
 * {
   -webkit-box-sizing: border-box;
@@ -184,11 +189,23 @@
 	font-size:0px
 }
 
-.carousel-inner .carousel-item.active {
+// .carousel-inner .carousel-item {
+//   display: none;
+// }
+
+.carousel-inner .carousel-flex {
   display: flex;
 }
 
 .main-last-posts .small-card {
   margin-right: 0.75rem;
   margin-left: 0.75rem;
+}
+
+.visually-hidden {
+  display: none;
+}
+
+.carousel-control-prev, .carousel-control-next {
+  width: 5%;
 }

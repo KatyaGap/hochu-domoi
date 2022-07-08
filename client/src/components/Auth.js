@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import Button from '@mui/material/Button';
-import '../App.css';
+import '../App.scss';
 import { TextField, Typography } from '@mui/material';
 import Switch from '@mui/material/Switch';
 import { UserContext } from '../context/user';
