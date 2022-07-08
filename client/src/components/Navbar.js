@@ -1,17 +1,21 @@
 import * as React from 'react';
-import { AppBar, Toolbar, Box, Menu, Avatar, Container, Button, Tooltip, MenuItem, IconButton, Typography } from '@mui/material';
+import { useContext } from 'react';
+import { AppBar, Toolbar, Box, Menu, Avatar, Container, Button, Tooltip, MenuItem, IconButton, Typography, Stack } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
-import '../App.css';
+import { Message } from '@mui/icons-material';
+// import '../App.scss';
 
 import AdbIcon from '@mui/icons-material/Adb';
+import { UserContext } from '../context/user';
 
-const pages = ['Потеряшки', 'Найдёныши'];
-const pagesLinks = ['lost-map', 'found-map'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-const settingsLinks = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Потеряшки', 'Найдёныши', 'Каталог'];
+const pagesLinks = ['lost-map', 'found-map', 'catalog'];
+const settings = ['Профиль', 'Выйти'];
+const settingsLinks = ['profile', 'logout'];
 
 function Navbar() {
+  const { user, handleLogout } = useContext(UserContext);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
@@ -20,17 +24,37 @@ function Navbar() {
     setAnchorElNav(null);
     navigate(`/${pagesLinks[pagesLinksArrNumber]}`);
   };
+
   const navSettings = (settingsLinksArrNumber) => {
     setAnchorElUser(null);
+    if (settingsLinks[settingsLinksArrNumber] === "logout") {
+      handleLogout();
+    }
     navigate(`/${settingsLinks[settingsLinksArrNumber]}`);
   };
 
-  const authLink = (isNewPost) => {
-    if (isNewPost) {
-      navigate('/authnewpost');
+  const newPostLink = () => {
+    if (user?.id) {
+      navigate('/newpost');
     } else {
-      navigate('/auth');
+      navigate('/authnewpost');
     }
+  };
+
+  const authLink = () => {
+    navigate('/auth');
+  };
+
+  const chatLink = () => {
+    navigate('/chat');
+  };
+
+  const mainLink = () => {
+    navigate('/');
+  };
+
+  const logoutLink = () => {
+    navigate('/logout');
   };
 
   const handleOpenNavMenu = (event) => {
@@ -50,11 +74,16 @@ function Navbar() {
   return (
     <AppBar className="navbar" position="static">
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <img src="/iconW24.png" alt="logo" width="24" height="24" style={{ marginRight: ".5rem" }} />
-          <Typography variant="h6" noWrap component="a" href="/" sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none' }}>
-            ХОТИМ ДОМОЙ
-          </Typography>
+        <Toolbar className="navbar-content" disableGutters>
+
+          <Stack className="logo" sx={{ flexGrow: 0 }} direction="row" spacing={1}>
+            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+              <img src="/iconW24.png" alt="logo" width="24" height="24" />
+            </Box>
+            <Typography variant="h6" noWrap component="a" onClick={mainLink} sx={{ cursor: 'pointer', mr: 2, display: { xs: 'none', md: 'flex' }, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none' }}>
+              ХОТИМ ДОМОЙ
+            </Typography>
+          </Stack>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit">
@@ -70,12 +99,14 @@ function Navbar() {
             </Menu>
           </Box>
 
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <img src="/iconW24.png" alt="logo" width="24" height="24" style={{ marginRight: ".5rem" }} />
+          </Box>
           <Typography variant="h5" noWrap component="a" href="" sx={{ mr: 2, display: { xs: 'flex', md: 'none' }, flexGrow: 1, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none' }}>
             ХОТИМ ДОМОЙ
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box className="nav-menu" sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page, index) => (
               <Button key={page} onClick={(e) => navLink(index)} sx={{ my: 2, color: 'white', display: 'block' }}>
                 {page}
@@ -83,25 +114,43 @@ function Navbar() {
             ))}
           </Box>
 
-          <Box className="nav-buttons" sx={{ flexGrow: 0 }}>
-            <Button onClick={(e) => authLink(false)} variant="outlined" color="secondary">Авторизация</Button>
-            <Button onClick={(e) => authLink(true)} variant="contained" color="secondary">Подать объявление</Button>
-          </Box>
+          <Stack className="nav-buttons" sx={{ flexGrow: 0 }} direction="row" spacing={2}>
+            {window.location.pathname.includes('auth')
+              ? null
+              : (
+                <>
+                  {user?.id
+                    ? (
+                      <Tooltip title="Мои сообщения">
+                        <IconButton onClick={chatLink} aria-label="delete">
+                          <Message sx={{ color: "#fff" }} />
+                        </IconButton>
+                      </Tooltip>
+                    ) : null}
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right' }} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>
-              {settings.map((setting, index) => (
-                <MenuItem key={setting} onClick={(e) => navSettings(index)}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+                  <Button onClick={newPostLink} variant="contained" color="secondary">Подать объявление</Button>
+                  {user?.id
+                    ? (
+                      <Box className="navbar=avatar" sx={{ flexGrow: 0 }}>
+                        <Tooltip title="Open settings">
+                          <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                            <Avatar alt="Remy Sharp" src="/doge.jpg" width="40" height="40" />
+                          </IconButton>
+                        </Tooltip>
+                        <Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right' }} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>
+                          {settings.map((setting, index) => (
+                            <MenuItem key={setting} onClick={(e) => navSettings(index)}>
+                              <Typography textAlign="center">{setting}</Typography>
+                            </MenuItem>
+                          ))}
+                        </Menu>
+                      </Box>
+                    )
+                    : <Button onClick={(e) => authLink(false)} variant="text" className="auth-button" sx={{ color: 'white' }}>Войти</Button>}
+                </>
+              )}
+          </Stack>
+
         </Toolbar>
       </Container>
     </AppBar>

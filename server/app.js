@@ -20,6 +20,8 @@ app.use(express.json());
 app.use(morgan('dev'));
 app.use(express.static(path.join(process.env.PWD, 'public')));
 
+const PORT = process.env.PORT || 3001;
+
 const sessionConfig = {
   name: 'pet',
   secret: process.env.SECRET || 'thisisnotsecure',
@@ -37,10 +39,8 @@ app.use(session(sessionConfig));
 
 app.use('/adverts', indexRouter); // правим
 app.use('/auth', registerRouter); // оставляем
-// app.use('/login', loginRouter); // оставляем
-// app.use('/logout', logoutRouter); // оставляем
 app.use('/map', mapRouter); // правим
 
-app.listen(process.env.PORT, () => {
-  console.log('The Best Server in Elbrus', process.env.PORT);
+app.listen(PORT, () => {
+  console.log('The Best Server in Elbrus', PORT);
 });

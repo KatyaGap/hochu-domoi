@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import { GET_LOST } from "../constants/constants";
 
 export const yaAction = (value) => ({

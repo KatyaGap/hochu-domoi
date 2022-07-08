@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import Button from '@mui/material/Button';
-import '../App.css';
+import '../App.scss';
 import { TextField, Typography } from '@mui/material';
 import Switch from '@mui/material/Switch';
-import { UserContext } from '../context/user';
 import { toast } from 'react-toastify';
+import { UserContext } from '../context/user';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Auth({ isNewPost }) {
@@ -71,7 +71,7 @@ function Auth({ isNewPost }) {
         </Button>
       </form>
       {message && (
-        <div className='toast-njksonkio'>
+        <div className="toast-njksonkio">
           {toast.info(message, {
             position: toast.POSITION.BOTTOM_CENTER,
           })}
