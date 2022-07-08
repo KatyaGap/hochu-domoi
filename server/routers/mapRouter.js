@@ -40,8 +40,8 @@ router
 
   .post(upload.single('file'), async (req, res) => {
     try {
-			console.log('я в посте')
-			console.log('reqbody', req.body)
+      console.log('я в посте');
+      console.log('reqbody', req.body);
       const type = await Type.findOne({ where: { type: req.params.type } });
 
       const { userId } = req.session;
