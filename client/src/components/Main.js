@@ -1,16 +1,23 @@
 import { Button, ButtonGroup, Typography } from '@mui/material';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../App.scss';
 import Carousel from './Carousel';
 
 function Main() {
+  const navigate = useNavigate();
+
+  const newpostLink = (type) => {
+    navigate(`/chat?type=${type}`);
+  };
+
   return (
     <div className="container">
       <div className="content">
 
         <ButtonGroup className="main-buttons-group" size="large" variant="contained" aria-label="outlined primary button group">
-          <Button>Я потерял</Button>
-          <Button>Я нашёл</Button>
+          <Button onClick={(e) => newpostLink("lost")}>Я потерял</Button>
+          <Button onClick={(e) => newpostLink("found")}>Я нашёл</Button>
         </ButtonGroup>
 
         <div className="main-last-posts main-last-posts-lost">
