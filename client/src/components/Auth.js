@@ -66,7 +66,12 @@ function Auth({ isNewPost }) {
           Отправить
         </Button>
       </form>
-      {message && <div>{message} </div>}
+      {message && (
+      <div>
+        {message}
+        {' '}
+      </div>
+      )}
     </div>
   );
 }
