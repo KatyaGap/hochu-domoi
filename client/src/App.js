@@ -1,9 +1,10 @@
-import './App.css';
+import './App.scss';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Main from './components/Main';
 import Auth from './components/Auth';
 import Map from './components/Map';
+import Pet from './components/Pet';
 
 function App() {
   return (
@@ -11,8 +12,9 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/lost-map" element={<Map filter="lost" />} />
-        <Route path="/found-map" element={<Map filter="found" />} />
+        {/* <Route path="/lost-map" element={<Map filter="lost" />} />
+        <Route path="/found-map" element={<Map filter="found" />} /> */}
+        <Route path="/pet" element={<Pet />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/authnewpost" element={<Auth isNewPost />} />
         <Route path="*" element={<Navigate to="/" />} />

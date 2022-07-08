@@ -6,6 +6,7 @@ export const UserContext = createContext();
 function UserContextProvider({ children }) {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -13,8 +14,7 @@ function UserContextProvider({ children }) {
       .then((res) => res.json())
       .then((res) => setUser(res))
       .finally(() => setLoading(false));
-    return () => {
-    };
+    return () => {};
   }, []);
 
   const handleLogout = () => fetch('/auth/logout')
@@ -34,6 +34,8 @@ function UserContextProvider({ children }) {
       const result = await response.json();
       if (result.id) {
         setUser({ id: result.id, name: result.name, email: result.email });
+      } else {
+        setMessage(result.message);
       }
     }
     if (newPost) {
