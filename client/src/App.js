@@ -22,7 +22,7 @@ function App() {
         <Route path="/chat" element={<Chat />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/authnewpost" element={<Auth isNewPost />} />
-        <Route path="/addlabel" element={<AddLabel />} />
+        {/* <Route path="/addlabel" element={<AddLabel />} /> */}
         <Route path="/newpost" element={<Form />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
