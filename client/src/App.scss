@@ -185,6 +185,12 @@
   box-orient: vertical;
 }
 
+.main-last-posts .main-last-posts-title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
 /* КАРУСЕЛЬ НА ГЛАВНОЙ */
 
 .toast-njksonkio{
@@ -227,5 +233,21 @@
 }
 .file {
 	margin: 15px
+}
+
+
+.carouser-indicators button {
+  background-color: #2776d2;
+}
+
+#map {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.map-container {
+  width: 100%;
+  flex-grow: 1;
 }
 
