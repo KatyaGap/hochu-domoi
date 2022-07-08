@@ -10,7 +10,6 @@ const { User } = require('./db/models');
 const Bcrypt = require('./utils/bcrypt');
 const indexRouter = require('./routers/indexRouter');
 const registerRouter = require('./routers/registerRouter');
-const logoutRouter = require('./routers/logoutRouter');
 const mapRouter = require('./routers/mapRouter');
 
 const app = express();
@@ -40,8 +39,6 @@ app.use(session(sessionConfig));
 
 app.use('/adverts', indexRouter); // правим
 app.use('/auth', registerRouter); // оставляем
-// app.use('/login', loginRouter); // оставляем
-app.use('/logout', logoutRouter);
 app.use('/map', mapRouter); // правим
 
 app.listen(PORT, () => {
