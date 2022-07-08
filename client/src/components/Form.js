@@ -14,20 +14,24 @@ import Typography from '@mui/material/Typography';
 export default function Form({ param }) {
   const location = useLocation();
   const [post, setPost] = React.useState({
+    type_id: 1,
     pet_id: '',
     breed_id: '',
     color_id: '',
     size: '',
     status: '',
+    text: '',
+    photo_url: '',
+    date: 'aaaaaa',
   });
   const [posts, setPosts] = React.useState([]);
   // const handleChange = (event: SelectChangeEvent) => {
   //   setPost((prev) => ({ ...prev, [event.target.name]: event.target.value }));
-
   //   // console.log(value)
   // };
   console.log(post);
   const handleSubmit = (e) => {
+    console.log('я тут');
     e.preventDefault();
     const formData = new FormData();
     formData.append('pet_id', post.pet_id);
@@ -35,9 +39,9 @@ export default function Form({ param }) {
     formData.append('color_id', post.color_id);
     formData.append('size', post.size);
     formData.append('status', post.status);
-    formData.append('photo_url', post.photo_url);
-
-    fetch('/upload', { method: 'Post', body: formData })
+    formData.append('file', post.file);
+    formData.append('date', post.date);
+    fetch('/map/lost', { method: 'Post', body: formData })
       .then((response) => response.json())
       .then((result) => {
         console.log(result, posts);
@@ -45,21 +49,19 @@ export default function Form({ param }) {
       })
       .finally(() => setPost({}));
   };
-
   const handleChange = React.useCallback((e) => {
     if (e.target.type === 'file') {
       setPost((prev) => ({
         ...prev,
         [e.target.name]: e.target.value,
-        photo_url: e.target.files[0],
+        file: e.target.files[0],
       }));
     } else {
       setPost((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     }
   }, []);
-
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <Typography variant="h4" component="div" gutterBottom>
         Пожалуйста, заполните данные о животном
       </Typography>
@@ -99,7 +101,6 @@ export default function Form({ param }) {
             </FormControl>
           </div>
         )}
-
         <div className="select">
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Цвет</InputLabel>
@@ -140,7 +141,7 @@ export default function Form({ param }) {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              name="size"
+              name="status"
               value={post.status}
               label="Status"
               onChange={handleChange}
@@ -171,6 +172,7 @@ export default function Form({ param }) {
           sx={{ m: 1 }}
           variant="outlined"
           name="text"
+          value={post.text}
           onChange={handleChange}
           placeholder="Введите текст объявления"
         />
@@ -187,6 +189,8 @@ export default function Form({ param }) {
             type="file"
             onChange={handleChange}
             placeholder="Фото"
+            name="photo_url"
+            value={post.photo_url}
           />
           <IconButton
             color="primary"
