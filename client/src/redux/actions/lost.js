@@ -7,7 +7,8 @@ export const yaAction = (value) => ({
 });
 
 export const yandexMap = (body) => (dispatch) => {
-  axios.post('http://localhost:3002/map', body)
-    .then((res) => dispatch(yaAction(res.data)))
+  axios
+    .post('http://localhost:3000/map/lost', body)
+    .then((res) => dispatch(yaAction(...res.data)))
     .catch((err) => console.log(err));
 };
