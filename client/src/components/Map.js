@@ -18,7 +18,7 @@ function MapYandex({ filter }) {
   const [arr, setArr] = useState([]);
 
   useEffect(() => {
-    axios('http://localhost:3000/map/lost') //изменить запрос
+    axios('http://localhost:3000/map/lost') 
       .then((res) => {
         console.log('res', res.data);
         setArr(res.data);
