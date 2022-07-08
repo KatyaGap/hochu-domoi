@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Main from './components/Main';
 import Auth from './components/Auth';
 import Map from './components/Map';
+import Form from './components/Form';
 import Pet from './components/Pet';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/pet" element={<Pet />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/authnewpost" element={<Auth isNewPost />} />
+				<Route path="/newpost" element={<Form />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <div>
