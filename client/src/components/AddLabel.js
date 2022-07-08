@@ -3,7 +3,6 @@
 // import { YMaps, Map, Placemark, RouteButton, SearchControl, GeolocationControl, GeoObject, Circle } from "react-yandex-maps";
 // import axios from 'axios';
 // import { yandexMap } from '../redux/actions/lost';
-
 // export default function AddLabel() {
 //   const dispatch = useDispatch();
 //   const [coord, setCoord] = useState('');
@@ -78,3 +77,4 @@
 //     </YMaps>
 //   );
 // }
+
