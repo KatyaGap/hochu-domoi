@@ -7,37 +7,25 @@ import {
   RouteButton,
   SearchControl,
   GeolocationControl,
-  geoObject,
+  GeoObject,
   Circle,
 } from 'react-yandex-maps';
 import axios from 'axios';
-import {
-  getFoundThunk,
-  getLostThunk,
-} from '../redux/actions/adverts';
+
 
 //потеряшки/найденыши
 
 function MapYandex({ filter }) {
-  const dispatch = useDispatch();
-  const { lost, found } = useSelector((state) => state);
-  let posts = [];
+  const { lost } = useSelector((state) => state);
 
   useEffect(() => {
-    dispatch(getLostThunk());
-    dispatch(getFoundThunk());
-    if (filter === 'lost') {
-      posts = lost;
-    } else if (filter === 'found') {
-      posts = found;
-    }
-  }, [lost, found]);
-
-  // useEffect(() => {
-  //   fetch('http://localhost:3002/map') //изменить запрос
-  //     .then((res) => res.data)
-  //     .catch((err) => console.log(err));
-  // }, []);
+    axios('http://localhost:3000/map/lost') //изменить запрос
+      .then((res) => {
+				console.log('res', res.data)
+				res.data
+			})
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <div className="upMap">
@@ -63,13 +51,13 @@ function MapYandex({ filter }) {
                 float: 'left',
               }}
             />
-            {posts &&
-              posts.map((el) => (
+            {lost &&
+              lost.map((el) => (
                 <Placemark
-                  geometry={[el.lattitude, el.longitude]}
+                  geometry={[el.address_lattitude, el.address_longitude]}
                   properties={{
                     balloonContentHeader: 'что-то там из масива',
-                    balloonContentBody: el.text,
+                    balloonContentBody: 'описание чего-то там из массива',
                   }}
                   options={{
                     iconLayout: 'default#image',
@@ -78,7 +66,6 @@ function MapYandex({ filter }) {
                   }}
                 />
               ))}
-
             <RouteButton options={{ float: 'right' }} />
             <SearchControl
               options={{
@@ -94,84 +81,101 @@ function MapYandex({ filter }) {
 }
 export default MapYandex;
 
-//для добавления
-
+// для добавления
 // import React, { useEffect, useState } from 'react'
 // import { useDispatch, useSelector } from 'react-redux';
 // import { YMaps, Map, Placemark, RouteButton, SearchControl, GeolocationControl, GeoObject, Circle } from "react-yandex-maps";
 // import axios from 'axios'
 
-// import { deleteLableYaMap, yandexMap } from '../../redux/action/yaAction';
+// import { deleteLableYaMap, yandexMap } from '../redux/actions/lost';
 
-// export default function YaMap() {
+// export function YaMap() {
 //   const dispatch = useDispatch();
-//   const [ coord, setCoord ] = useState('')
-//   const [ sendCoord, setSendCoord ] = useState({})
+//   const [coord, setCoord] = useState('');
+//   const [sendCoord, setSendCoord] = useState({});
 //   const [form, setForm] = useState('');
-//   const {lost} = useSelector((state) => state)
-//   const { user } = useSelector((state) => state)
+//   const { lost } = useSelector((state) => state);
+//   const { user } = useSelector((state) => state);
 //   const [inputs, setInputs] = useState({});
 
 //   const bek = async (coor) => {
-//     const co = coor.join(', ')
-//     dispatch(yandexMap({coord: co, title: inputs.title, description: inputs.description, file: inputs.file, user_id: inputs.id}))
-//   }
-//   // console.log('---;',sendCoord);
+//     const co = coor.join(', ');
+//     dispatch(
+//       yandexMap({
+//         coord: co,
+//         title: inputs.title,
+//         description: inputs.description,
+//         file: inputs.file,
+//         user_id: inputs.id,
+//       })
+//     );
+//   };
+//   console.log('---;', sendCoord);
 //   // console.log('input', inputs);
 //   const getAnyCoordinate = (e) => {
-//     setCoord((e.get('coords')));
-//     bek((e.get('coords')))
-//   }
+//     setCoord(e.get('coords'));
+//     bek(e.get('coords'));
+//   };
 
-// useEffect(() => {
-// axios('http://localhost:3002/map') //изменить
-// .then((res) => setSendCoord(res.data))
-// .catch((err) => console.log(err))
-// }, [])
-// // console.log('====', sendCoord);
-// console.log('form->', form);
+//   useEffect(() => {
+//     axios('http://localhost:3000/map/lost') //изменить
+//       .then((res) => {
+//         console.log('res.data2', res.data);
+//         setSendCoord(res.data);
+//       })
+//       .catch((err) => console.log(err));
+//   }, []);
+//   // console.log('====', sendCoord);
+//   console.log('form->', form);
 //   return (
-//     <>
 //     <YMaps
-//     query={{
-//       apikey: 'ee7ed649-e248-4853-96e6-be2aa79824a9',
-//       ns: 'use-load-option',
-//       load: 'Map,Placemark,control.ZoomControl,control.FullscreenControl,geoObject.addon.balloon'
-//     }}
+//       query={{
+//         apikey: 'ee7ed649-e248-4853-96e6-be2aa79824a9',
+//         ns: 'use-load-option',
+//         load: 'Map,Placemark,control.ZoomControl,control.FullscreenControl,geoObject.addon.balloon',
+//       }}
 //     >
-//     <Map
-//     onClick={getAnyCoordinate}
-//     className='map' defaultState={{
-//       center: [55.75, 37.57],
-//       zoom: 9,
-//       controls: ['zoomControl', 'fullscreenControl'],
-//     }} >
-
-//     <GeolocationControl options={{
-//       float: 'left'
-//     }} />
-// {lost&& lost.map((el) => {
-//   return <Placemark
-//     onClick={(e) => delLableMap(e.id)}
-//     geometry={el.coordinate.split(', ')}
-//     properties={{
-//       balloonContentHeader: el.text,
-//       // balloonContentBody: `<div><button type="button">Удалить</button></div>`,
-//      }}
-//     options={{
-//       iconLayout: 'default#image',
-//       iconImageHref: 'https://avatars.mds.yandex.net/i?id=66193d0fc93ff6d89b1483bb731930d3-5332098-images-thumbs&n=13',
-//     }}
-//     />
-// })}
-//     <RouteButton options={{float: 'right'}} />
-//     <SearchControl options={{
-//       float: 'left',
-//       provider: 'yandex#search'}}/>
+//       <Map
+//         onClick={getAnyCoordinate}
+//         className="map"
+//         defaultState={{
+//           center: [55.75, 37.57],
+//           zoom: 9,
+//           controls: ['zoomControl', 'fullscreenControl'],
+//         }}
+//       >
+//         <GeolocationControl
+//           options={{
+//             float: 'left',
+//           }}
+//         />
+//         {lost &&
+//           lost.map((el) => {
+//             return (
+//               <Placemark
+//                 onClick={(e) => delLableMap(e.id)}
+//                 geometry={el.coordinate.split(', ')}
+//                 properties={{
+//                   balloonContentHeader: el.text,
+//                   // balloonContentBody: `<div><button type="button">Удалить</button></div>`,
+//                 }}
+//                 options={{
+//                   iconLayout: 'default#image',
+//                   iconImageHref:
+//                     'https://avatars.mds.yandex.net/i?id=66193d0fc93ff6d89b1483bb731930d3-5332098-images-thumbs&n=13',
+//                 }}
+//               />
+//             );
+//           })}
+//         <RouteButton options={{ float: 'right' }} />
+//         <SearchControl
+//           options={{
+//             float: 'left',
+//             provider: 'yandex#search',
+//           }}
+//         />
 //       </Map>
-
-//       <div className='upMap'></div>
+//       <div className="upMap"></div>
 //     </YMaps>
-//     </>
-//   )
+//   );
 // }
