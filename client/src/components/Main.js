@@ -15,9 +15,12 @@ function Main() {
 
         <div className="main-last-posts main-last-posts-lost">
           <div className="main-last-posts-wrapper">
-            <Typography variant="h4" gutterBottom component="div">
-              Потерялись недавно
-            </Typography>
+            <div className="main-last-posts-title-wrapper">
+              <Typography className="main-last-posts-title" variant="h4" gutterBottom component="div">
+                Потерялись недавно
+              </Typography>
+              <Button variant="text">Показать всех</Button>
+            </div>
 
             <Carousel id={1} imgArray={new Array(12).fill('druzhok.jpg')} />
 
@@ -29,9 +32,12 @@ function Main() {
 
         <div className="main-last-posts main-last-posts-found">
           <div className="main-last-posts-wrapper">
-            <Typography variant="h4" gutterBottom component="div">
-              Ищут хозяев
-            </Typography>
+            <div className="main-last-posts-title-wrapper">
+              <Typography className="main-last-posts-title" variant="h4" gutterBottom component="div">
+                Ищут хозяев
+              </Typography>
+              <Button variant="text">Показать всех</Button>
+            </div>
             <Carousel id={2} imgArray={new Array(12).fill('druzhok.jpg')} />
           </div>
         </div>
