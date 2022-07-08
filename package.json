@@ -1,0 +1,24 @@
+{
+  "name": "hochu-domoi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd client && react-scripts start",
+    "start-server": "cd server && node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KatyaGap/hochu-domoi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KatyaGap/hochu-domoi/issues"
+  },
+  "homepage": "https://github.com/KatyaGap/hochu-domoi#readme",
+  "dependencies": {
+    "react-yandex-maps": "^4.6.0"
+  }
+}

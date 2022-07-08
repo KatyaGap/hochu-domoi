@@ -69,12 +69,9 @@
 
 /* НАВБАР */
 
-.App .navbar {
-}
-
 .nav-buttons {
   display: flex;
-  margin-right: 1.5rem;
+  justify-content: flex-end;
 }
 
 .nav-buttons button {
@@ -91,6 +88,11 @@
 
 .nav-menu {
   justify-content: center;
+}
+
+.logo,
+.nav-buttons {
+  width: 30%;
 }
 
 /* РЕГИСТРАЦИЯ */
@@ -207,5 +209,19 @@
 }
 
 .carousel-control-prev, .carousel-control-next {
-  width: 5%;
+  width: 7%;
+}
+
+.carousel-control-prev {
+  left: -30px;
+}
+
+.carousel-control-next {
+  right: -30px;
+}
+.toast-njksonkio{
+	font-size:0px
+}
+.MuiFormControl-root .MuiOutlinedInput-input{
+	width: 40vw;
 }

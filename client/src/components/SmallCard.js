@@ -5,7 +5,6 @@ import { PinDrop } from '@mui/icons-material';
 
 export default function SmallCard({ imgUrl }) {
   const navigate = useNavigate();
-  console.log(imgUrl);
 
   const petLink = () => { navigate('/pet'); };
 

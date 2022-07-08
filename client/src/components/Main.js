@@ -2,7 +2,6 @@ import { Button, ButtonGroup, Typography } from '@mui/material';
 import React from 'react';
 import '../App.scss';
 import Carousel from './Carousel';
-import SmallCard from './SmallCard';
 
 function Main() {
   return (

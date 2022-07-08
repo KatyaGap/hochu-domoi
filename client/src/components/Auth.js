@@ -3,7 +3,9 @@ import Button from '@mui/material/Button';
 import '../App.scss';
 import { TextField, Typography } from '@mui/material';
 import Switch from '@mui/material/Switch';
+import { toast } from 'react-toastify';
 import { UserContext } from '../context/user';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Auth({ isNewPost }) {
   const [regToggle, setRegToggle] = useState(false);
@@ -17,9 +19,11 @@ function Auth({ isNewPost }) {
 
   const sendForm = async (e) => {
     e.preventDefault();
-    const data = (Object.fromEntries(new FormData(e.target)));
+    const data = Object.fromEntries(new FormData(e.target));
     handleAuth(data, regToggle, isNewPost);
   };
+
+  // toast.configure();
 
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
   return (
@@ -67,10 +71,11 @@ function Auth({ isNewPost }) {
         </Button>
       </form>
       {message && (
-      <div>
-        {message}
-        {' '}
-      </div>
+        <div className="toast-njksonkio">
+          {toast.info(message, {
+            position: toast.POSITION.BOTTOM_CENTER,
+          })}
+        </div>
       )}
     </div>
   );
