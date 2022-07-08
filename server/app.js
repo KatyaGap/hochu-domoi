@@ -8,7 +8,7 @@ const FileStore = require('session-file-store')(session);
 // const upload = require('./middlewares/middlewares');
 const { User } = require('./db/models');
 const Bcrypt = require('./utils/bcrypt');
-const indexRouter = require('./routers/indexRouter');
+const advertsRouter = require('./routers/advertsRouter');
 const registerRouter = require('./routers/registerRouter');
 const mapRouter = require('./routers/mapRouter');
 
@@ -37,7 +37,7 @@ const sessionConfig = {
 
 app.use(session(sessionConfig));
 
-app.use('/adverts', indexRouter); // правим
+app.use('/adverts', advertsRouter); // правим
 app.use('/auth', registerRouter); // оставляем
 app.use('/map', mapRouter); // правим
 
