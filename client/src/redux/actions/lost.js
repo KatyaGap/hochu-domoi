@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import { GET_LOST } from "../constants/constants";
 
 export const yaAction = (value) => ({
@@ -7,8 +7,7 @@ export const yaAction = (value) => ({
 });
 
 export const yandexMap = (body) => (dispatch) => {
-  axios
-    .post('http://localhost:3000/map/lost', body)
+  axios.post('http://localhost:3002/map', body)
     .then((res) => dispatch(yaAction(res.data)))
     .catch((err) => console.log(err));
 };

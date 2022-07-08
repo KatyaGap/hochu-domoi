@@ -1,13 +1,14 @@
 import * as React from 'react';
-import { AppBar, Toolbar, Box, Menu, Avatar, Container, Button, Tooltip, MenuItem, IconButton, Typography } from '@mui/material';
+import { AppBar, Toolbar, Box, Menu, Avatar, Container, Button, Tooltip, MenuItem, IconButton, Typography, Stack } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
-import '../App.css';
+import { Message } from '@mui/icons-material';
+// import '../App.scss';
 
 import AdbIcon from '@mui/icons-material/Adb';
 
-const pages = ['Потеряшки', 'Найдёныши'];
-const pagesLinks = ['lost-map', 'found-map'];
+const pages = ['Потеряшки', 'Найдёныши', 'Каталог'];
+const pagesLinks = ['lost-map', 'found-map', 'catalog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const settingsLinks = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -50,8 +51,10 @@ function Navbar() {
   return (
     <AppBar className="navbar" position="static">
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <img src="/iconW24.png" alt="logo" width="24" height="24" style={{ marginRight: ".5rem" }} />
+        <Toolbar className="navbar-content" disableGutters>
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <img src="/iconW24.png" alt="logo" width="24" height="24" style={{ marginRight: ".5rem" }} />
+          </Box>
           <Typography variant="h6" noWrap component="a" href="/" sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none' }}>
             ХОТИМ ДОМОЙ
           </Typography>
@@ -70,12 +73,14 @@ function Navbar() {
             </Menu>
           </Box>
 
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <img src="/iconW24.png" alt="logo" width="24" height="24" style={{ marginRight: ".5rem" }} />
+          </Box>
           <Typography variant="h5" noWrap component="a" href="" sx={{ mr: 2, display: { xs: 'flex', md: 'none' }, flexGrow: 1, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none' }}>
             ХОТИМ ДОМОЙ
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box className="nav-menu" sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page, index) => (
               <Button key={page} onClick={(e) => navLink(index)} sx={{ my: 2, color: 'white', display: 'block' }}>
                 {page}
@@ -83,25 +88,34 @@ function Navbar() {
             ))}
           </Box>
 
-          <Box className="nav-buttons" sx={{ flexGrow: 0 }}>
-            <Button onClick={(e) => authLink(false)} variant="outlined" color="secondary">Авторизация</Button>
-            <Button onClick={(e) => authLink(true)} variant="contained" color="secondary">Подать объявление</Button>
-          </Box>
+          <Stack className="nav-buttons" sx={{ flexGrow: 0 }} direction="row" spacing={2}>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+            <Tooltip title="Мои сообщения">
+              <IconButton aria-label="delete">
+                <Message sx={{ color: "#fff" }} />
               </IconButton>
             </Tooltip>
-            <Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right' }} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>
-              {settings.map((setting, index) => (
-                <MenuItem key={setting} onClick={(e) => navSettings(index)}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+
+            <Button onClick={(e) => authLink(true)} variant="contained" color="secondary">Подать объявление</Button>
+            <Button onClick={(e) => authLink(false)} variant="text" className="auth-button" sx={{ color: 'white' }}>Войти</Button>
+
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+              <Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right' }} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>
+                {settings.map((setting, index) => (
+                  <MenuItem key={setting} onClick={(e) => navSettings(index)}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+
+          </Stack>
+
         </Toolbar>
       </Container>
     </AppBar>
