@@ -4,7 +4,6 @@ import { GET_LOST } from "../constants/constants";
 
 const initialState = [];
 
-
 const lostReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
