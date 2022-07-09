@@ -9,6 +9,8 @@ import AddLabel from './components/AddLabel';
 import Pet from './components/Pet';
 import Chat from './components/Chat';
 import Newpost from './components/Newpost';
+import PostList from './components/PostList';
+import Catalog from './components/Catalog';
 
 function App() {
   return (
@@ -18,10 +20,11 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/lost" element={<Maps />} />
         <Route path="/found" element={<Maps />} />
-        <Route path="/pet" element={<Pet />} />
+        <Route path="/pet/*" element={<Pet />} />
         <Route path="/chat" element={<Newpost />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/authnewpost" element={<Auth isNewPost />} />
+        <Route path="/catalog" element={<Catalog />} />
 
         {/* <Route path="/addlabel" element={<AddLabel />} /> */}
         <Route path="/newpost" element={<Newpost />} />

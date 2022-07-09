@@ -2,23 +2,22 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Breeds', [
       {
-        breed: 'Breed1',
+        breed: 'Чихуахуа',
       },
       {
-        breed: 'Breed2',
+        breed: 'Овчарка',
       },
       {
-        breed: 'Breed3',
+        breed: 'Чау-Чау',
       },
       {
-        breed: 'Breed4',
+        breed: 'Бультерьер',
       },
       {
-        breed: 'Breed5',
+        breed: 'Не знаю',
       },
     ], {});
   },
-
   async down(queryInterface, Sequelize) {
     await queryInterface.bulkDelete('Breeds', null, {});
   },

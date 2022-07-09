@@ -1,26 +1,18 @@
-import * as React from 'react';
+import { PinDrop } from '@mui/icons-material';
 import {
-  Button,
   Card,
-  CardMedia,
-  CardContent,
-  CardActions,
   CardActionArea,
+  CardContent,
+  CardMedia,
   Typography,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { PinDrop } from '@mui/icons-material';
+import React from 'react';
 
-export default function SmallCard({ post }) {
-  const navigate = useNavigate();
-
-  const petLink = () => {
-    navigate(`/pet/${post.id}`);
-  };
-
+function Post({ post }) {
   return (
     <Card sx={{ width: 216, minWidth: 216 }} className="small-card">
-      <CardActionArea onClick={petLink}>
+      {/* <CardActionArea onClick={petLink}> */}
+      <CardActionArea>
         <CardMedia
           component="img"
           height="180"
@@ -62,10 +54,12 @@ export default function SmallCard({ post }) {
         </CardContent>
 
         {/* <CardActions>
-          <Button size="small">Share</Button>
-          <Button size="small">Learn More</Button>
-        </CardActions> */}
+			<Button size="small">Share</Button>
+			<Button size="small">Learn More</Button>
+		</CardActions> */}
       </CardActionArea>
     </Card>
   );
 }
+
+export default Post;
