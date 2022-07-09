@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import axios from 'axios';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { GeolocationControl, Map, Placemark, RouteButton, SearchControl, YMaps } from 'react-yandex-maps';
+// import { GeolocationControl, Map, Placemark, RouteButton, SearchControl, YMaps } from 'react-yandex-maps';
 
 // потеряшки/найденыши
 
