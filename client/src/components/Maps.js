@@ -46,7 +46,9 @@ function Maps({ filter }) {
   // const instanceMap = init();
   // console.log(instanceMap);
   return (
-    <div id="map" style={{ width: "600px", height: "400px" }} />
+    <div className="map-container">
+      <div id="map" />
+    </div>
   );
 }
 
