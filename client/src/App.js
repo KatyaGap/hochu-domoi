@@ -6,9 +6,9 @@ import Main from './components/Main';
 import Auth from './components/Auth';
 import Maps from './components/Maps';
 import AddLabel from './components/AddLabel';
-import Form from './components/Form';
 import Pet from './components/Pet';
 import Chat from './components/Chat';
+import Newpost from './components/Newpost';
 
 function App() {
   return (
@@ -22,8 +22,9 @@ function App() {
         <Route path="/chat" element={<Chat />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/authnewpost" element={<Auth isNewPost />} />
-        <Route path="/addlabel" element={<AddLabel />} />
-        <Route path="/newpost" element={<Form />} />
+
+        {/* <Route path="/addlabel" element={<AddLabel />} /> */}
+        <Route path="/newpost" element={<Newpost />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <div>

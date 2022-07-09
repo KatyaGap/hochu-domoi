@@ -9,12 +9,14 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function Auth({ isNewPost }) {
   const [regToggle, setRegToggle] = useState(false);
-  const { handleAuth, handleLogout, message } = useContext(UserContext);
+  const { handleAuth, handleLogout, message, setMessage } = useContext(UserContext);
+  setMessage(''); // скрываем НОВОЕ сообщение с ошибкой при переходе на регистрацию/логин
 
   const regAuthToggle = () => {
     const titles = document.querySelectorAll('.auth-title-text');
     titles.forEach((el) => el.classList.toggle('auth-off'));
     setRegToggle(!regToggle);
+    toast.dismiss(); // УРА, теперь тост скрывается при переходе с регистрации на логин и обратно
   };
 
   const sendForm = async (e) => {
