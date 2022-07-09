@@ -16,8 +16,8 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/lost-map" element={<Maps filter="lost" />} />
-        <Route path="/found-map" element={<Maps filter="found" />} />
+        <Route path="/lost" element={<Maps />} />
+        <Route path="/found" element={<Maps />} />
         <Route path="/pet" element={<Pet />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/auth" element={<Auth />} />

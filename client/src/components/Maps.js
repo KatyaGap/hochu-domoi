@@ -1,19 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
-function Maps({ filter }) {
+function Maps() {
   const [arr, setArr] = useState([]);
-
+  const maaap = useRef();
+  const location = useLocation();
+  // console.log(location);
+  // maaap(maaap.current);
   useEffect(() => {
-    axios(`/map/${filter}`)
+    axios(`/map${location.pathname}`)
       .then((res) => {
         // console.log('res', res.data.map((el) => ([el.address_lattitude, el.address_longitude])));
         setArr(res.data);
       })
       .catch((err) => console.log(err));
-  }, [filter]);
+    return () => {
+      console.log('unmount');
+      setArr([]);
+    };
+  }, [location]);
 
   console.log('--->', arr);
 
@@ -45,14 +53,15 @@ function Maps({ filter }) {
         [arr[i].address_lattitude, arr[i].address_longitude],
         // console.log('obj', [arr[i].address_lattitude, arr[i].address_longitude]),
         {
+          iconContent: arr[i].text,
           hintContent: arr[i].text,
           balloonContent: arr[i].text,
         },
 
         {
-          iconLayout: 'default#image',
-          preset: 'islands#icon',
-          iconColor: '#0095b6',
+          // iconLayout: 'default#image',
+          preset: "islands#redStretchyIcon",
+          // iconColor: '#0095b6',
         },
       );
     }
@@ -72,17 +81,16 @@ function Maps({ filter }) {
     clusterer.add(geoObjects);
 
     myMap.geoObjects
-      .add(myGeoObject)
-      .add(geoObjects);
+      .add(myGeoObject);
+    // .add(geoObjects);
   }
 
   ymaps.ready(init);
 
   return (
-    <>
-      {arr ? <div id="map" style={{ width: "600px", height: "400px" }} /> : <div></div>}
-    </>
-
+    <div>
+      {arr.length > 0 && (<div id="map" style={{ width: "600px", height: "400px" }} />)}
+    </div>
   );
 }
 
