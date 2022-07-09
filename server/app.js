@@ -8,8 +8,10 @@ const FileStore = require('session-file-store')(session);
 // const upload = require('./middlewares/middlewares');
 const { User } = require('./db/models');
 const Bcrypt = require('./utils/bcrypt');
+const advertsRouter = require('./routers/advertsRouter');
 const registerRouter = require('./routers/registerRouter');
 const chatRouter = require('./routers/chatRouter');
+const mapRouter = require('./routers/mapRouter');
 
 const app = express();
 
@@ -19,6 +21,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(express.static(path.join(process.env.PWD, 'public')));
+
+const PORT = process.env.PORT || 3001;
 
 const sessionConfig = {
   name: 'pet',
@@ -35,16 +39,15 @@ const sessionConfig = {
 const sessionParser = session(sessionConfig);
 app.use(sessionParser); //  подключил session parser
 
-// app.use('/', indexRouter); // правим
+app.use('/adverts', advertsRouter); // правим
 app.use('/auth', registerRouter); // оставляем
-// app.use('/login', loginRouter); // оставляем
-// app.use('/logout', logoutRouter); // оставляем
-// app.use('/party', partyRouter); // правим
-app.use('/', chatRouter);
-app.use('/', chatRouter);
 
-app.listen(process.env.PORT, () => {
-  console.log('The Best Server in Elbrus', process.env.PORT);
+app.use('/get-messages', chatRouter);
+app.use('/new-messages', chatRouter);
+app.use('/map', mapRouter); // правим
+
+app.listen(PORT, () => {
+  console.log('The Best Server in Elbrus', PORT);
 });
 
 module.exports = {

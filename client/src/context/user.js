@@ -32,21 +32,25 @@ function UserContextProvider({ children }) {
     });
     if (response.ok) {
       const result = await response.json();
+      console.log('result', result);
       if (result.id) {
         setUser({ id: result.id, name: result.name, email: result.email });
+        if (newPost) {
+          navigate('/newpost');
+        } else {
+          navigate('/');
+        }
       } else {
+        console.log('message', result.message);
         setMessage(result.message);
       }
-    }
-    if (newPost) {
-      navigate('/newpost');
-    } else {
-      navigate('/');
     }
   };
 
   return (
-    <UserContext.Provider value={{ user, handleAuth, handleLogout, loading }}>
+    <UserContext.Provider
+      value={{ user, handleAuth, handleLogout, loading, message, setMessage }}
+    >
       {children}
     </UserContext.Provider>
   );

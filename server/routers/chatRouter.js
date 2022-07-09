@@ -4,13 +4,13 @@ const events = require('events');
 const router = express();
 const emitter = new events.EventEmitter();
 
-router.get('/get-messages', (req, res) => {
+router.get('/', (req, res) => {
   emitter.once('newMessage', (message) => {
     res.json(message);
   });
 });
 
-router.post('/new-messages', (req, res) => {
+router.post('/', (req, res) => {
   // res.locals.userId = req.session.userId;
   const message = req.body;
   emitter.emit('newMessage', message);

@@ -4,10 +4,11 @@ import fiveFoundReducer from "./fiveFound";
 import fiveLostReducer from "./fiveLost";
 import foundReducer from "./found";
 import lostReducer from "./lost";
+import mapReducer from "./map";
 
 const rootReducer = combineReducers({ adverts: advertsReducer,
   fivelosts: fiveLostReducer,
   fivefounds: fiveFoundReducer,
-  founds: foundReducer,
-  losts: lostReducer });
+  found: foundReducer,
+  lost: mapReducer });
 export default rootReducer;
