@@ -73,11 +73,18 @@ function Auth({ isNewPost }) {
         </Button>
       </form>
       {message && (
+<<<<<<< HEAD
+      <div>
+        {message}
+        {' '}
+      </div>
+=======
         <div className="toast-njksonkio">
           {toast.info(message, {
             position: toast.POSITION.BOTTOM_CENTER,
           })}
         </div>
+>>>>>>> f52723d65828630056fd9b64add49e2f949940d4
       )}
     </div>
   );

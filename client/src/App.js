@@ -4,18 +4,22 @@ import { Slide, ToastContainer } from 'react-toastify';
 import Navbar from './components/Navbar';
 import Main from './components/Main';
 import Auth from './components/Auth';
+import Map from './components/Map';
+import Chat from './components/Chat';
 import Maps from './components/Maps';
 import AddLabel from './components/AddLabel';
 import Pet from './components/Pet';
-import Chat from './components/Chat';
 import Newpost from './components/Newpost';
 
 function App() {
   return (
     <div className="App">
       <Navbar />
+      <Chat />
       <Routes>
         <Route path="/" element={<Main />} />
+        {/* <Route path="/lost-map" element={<Map filter="lost" />} /> */}
+        {/* <Route path="/found-map" element={<Map filter="found" />} /> */}
         <Route path="/lost" element={<Maps />} />
         <Route path="/found" element={<Maps />} />
         <Route path="/pet" element={<Pet />} />
