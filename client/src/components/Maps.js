@@ -1,53 +1,95 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import axios from 'axios';
-// eslint-disable-next-line import/no-extraneous-dependencies
-// import { GeolocationControl, Map, Placemark, RouteButton, SearchControl, YMaps } from 'react-yandex-maps';
+import { useLocation } from 'react-router-dom';
 
-// потеряшки/найденыши
+function Maps() {
+  const [arr, setArr] = useState([]);
+  const maaap = useRef();
+  const location = useLocation();
+  // console.log(location);
+  // maaap(maaap.current);
+  useEffect(() => {
+    axios(`/map${location.pathname}`)
+      .then((res) => {
+        // console.log('res', res.data.map((el) => ([el.address_lattitude, el.address_longitude])));
+        setArr(res.data);
+      })
+      .catch((err) => console.log(err));
+    return () => {
+      console.log('unmount');
+      setArr([]);
+    };
+  }, [location]);
 
-function Maps({ filter }) {
-  // const [arr, setArr] = useState([]);
-  // const [newArr, setNewArr] = useState([]);
-  // const [arrCoordinates, setArrCoordinates] = useState();
+  console.log('--->', arr);
 
-  // const dopCoord = (e) => {
-  //   setArrCoordinates(e.get('coords'));
-  // };
-
-  // useEffect(() => {
-  //   axios(`/map/${filter}`)
-  //     .then((res) => {
-  //       console.log('res', res.data);
-  //       setArr(res.data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, [filter]);
-
-  // console.log('--->', arr);
   const { ymaps } = window;
+  let myMap;
+  let myGeoObject;
+  let placemark;
+  const geoObjects = [];
+  let clusterer;
+
   function init() {
-    console.log('lll', ymaps);
-    const myMap = new ymaps.Map('map', {
-      center: [55.76, 37.64],
-      zoom: 5,
-      controls: [],
+    myMap = new ymaps.Map(
+      'map',
+      {
+        center: [55.76, 37.64],
+        zoom: 10,
+        controls: ['zoomControl'],
+        behaviors: ['drag'],
+      },
+      {
+        searchControlProvider: 'yandex#search',
+      },
+
+    );
+
+    for (let i = 0; i < arr.length; i += 1) {
+      geoObjects[i] = new ymaps.Placemark(
+
+        [arr[i].address_lattitude, arr[i].address_longitude],
+        // console.log('obj', [arr[i].address_lattitude, arr[i].address_longitude]),
+        {
+          iconContent: arr[i].text,
+          hintContent: arr[i].text,
+          balloonContent: arr[i].text,
+        },
+
+        {
+          // iconLayout: 'default#image',
+          preset: "islands#redStretchyIcon",
+          // iconColor: '#0095b6',
+        },
+      );
+    }
+
+    clusterer = new ymaps.Clusterer({
+      // clusterIcons: [
+      //   {
+      //     href: 'img/dogs.webp',
+      //     size: [100, 100],
+      //     offset: [-50, -50],
+      //   },
+      // ],
+      clusterIconContentLayout: null,
     });
-    return myMap;
+
+    myMap.geoObjects.add(clusterer);
+    clusterer.add(geoObjects);
+
+    myMap.geoObjects
+      .add(myGeoObject);
+    // .add(geoObjects);
   }
+
   ymaps.ready(init);
 
-  // const handleScriptLoad = () => {
-  //   const { ymaps } = window;
-  //   ymaps.ready(init);
-  // };
-  console.log('1111');
-  // const instanceMap = init();
-  // console.log(instanceMap);
   return (
-    <div className="map-container">
-      <div id="map" />
+    <div>
+      {arr.length > 0 && (<div id="map" style={{ width: "600px", height: "400px" }} />)}
     </div>
   );
 }

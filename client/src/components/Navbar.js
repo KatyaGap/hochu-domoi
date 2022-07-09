@@ -10,7 +10,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { UserContext } from '../context/user';
 
 const pages = ['Потеряшки', 'Найдёныши', 'Каталог'];
-const pagesLinks = ['lost-map', 'found-map', 'catalog'];
+const pagesLinks = ['lost', 'found', 'catalog'];
 const settings = ['Профиль', 'Выйти'];
 const settingsLinks = ['profile', 'logout'];
 

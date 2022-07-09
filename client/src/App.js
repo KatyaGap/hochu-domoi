@@ -16,15 +16,15 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/lost-map" element={<Maps filter="lost" />} />
-        <Route path="/found-map" element={<Maps filter="found" />} />
+        <Route path="/lost" element={<Maps />} />
+        <Route path="/found" element={<Maps />} />
         <Route path="/pet" element={<Pet />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/authnewpost" element={<Auth isNewPost />} />
 
         {/* <Route path="/addlabel" element={<AddLabel />} /> */}
-        <Route path="/newpost" element={<Form />} />
+        <Route path="/newpost" element={<Newpost />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <div>
@@ -40,6 +40,8 @@ function App() {
           pauseOnHover
         />
       </div>
+      {/* <div id="map" style={{ width: "600px", height: "400px" }} /> */}
+
     </div>
   );
 }
