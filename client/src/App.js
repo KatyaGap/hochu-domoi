@@ -19,7 +19,7 @@ function App() {
         <Route path="/lost" element={<Maps />} />
         <Route path="/found" element={<Maps />} />
         <Route path="/pet" element={<Pet />} />
-        <Route path="/chat" element={<Chat />} />
+        <Route path="/chat" element={<Newpost />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/authnewpost" element={<Auth isNewPost />} />
 
@@ -41,7 +41,6 @@ function App() {
         />
       </div>
       {/* <div id="map" style={{ width: "600px", height: "400px" }} /> */}
-
     </div>
   );
 }
