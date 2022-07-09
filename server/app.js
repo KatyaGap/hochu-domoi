@@ -9,10 +9,12 @@ const FileStore = require('session-file-store')(session);
 const { User } = require('./db/models');
 const Bcrypt = require('./utils/bcrypt');
 const registerRouter = require('./routers/registerRouter');
+const chatRouter = require('./routers/chatRouter');
 
 const app = express();
 
-app.use(cors());
+app.use(express.json());
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan('dev'));
@@ -30,15 +32,22 @@ const sessionConfig = {
   resave: true,
   saveUninitialized: false,
 };
-
-app.use(session(sessionConfig));
+const sessionParser = session(sessionConfig);
+app.use(sessionParser); //  подключил session parser
 
 // app.use('/', indexRouter); // правим
 app.use('/auth', registerRouter); // оставляем
 // app.use('/login', loginRouter); // оставляем
 // app.use('/logout', logoutRouter); // оставляем
 // app.use('/party', partyRouter); // правим
+app.use('/', chatRouter);
+app.use('/', chatRouter);
 
 app.listen(process.env.PORT, () => {
   console.log('The Best Server in Elbrus', process.env.PORT);
 });
+
+module.exports = {
+  app,
+  sessionParser,
+};
