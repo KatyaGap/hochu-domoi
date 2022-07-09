@@ -4,7 +4,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { IconButton, Input, Stack, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
@@ -12,14 +12,21 @@ import { PhotoCamera } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 
 export default function Newpost({ type }) {
+  function useQuery() {
+    const { search } = useLocation();
+    return React.useMemo(() => new URLSearchParams(search), [search]);
+  }
+  const query = useQuery();
+  console.log('query', query.get('type'));
+
   const location = useLocation();
   const [post, setPost] = React.useState({
-    type_id: type === 'found' ? 1 : 2,
+    type_id: query.get('type') === 'found' ? 1 : 2,
     pet_id: '',
     breed_id: 4,
     color_id: '',
     size: '',
-    status_id: '',
+    status_id: '1',
     text: '',
     date: '',
   });
@@ -119,6 +126,9 @@ export default function Newpost({ type }) {
             </Select>
           </FormControl>
         </div>
+        {/* <Button type="submit" variant="contained" endIcon={<SendIcon />}> onClick={() => useNavigate('/newpost/2')}
+        Отправить данные
+      </Button> */}
         <div className="select">
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Размер</InputLabel>
@@ -136,24 +146,28 @@ export default function Newpost({ type }) {
             </Select>
           </FormControl>
         </div>
-        <div className="select">
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Статус</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              name="status_id"
-              value={post.status_id}
-              label="Status"
-              onChange={handleChange}
-            >
-              <MenuItem value={1}>Замечен на улице</MenuItem>
-              <MenuItem value={2}>Ищу передержку</MenuItem>
-              <MenuItem value={3}>Животное на передержке. Ищу хозяина</MenuItem>
-              <MenuItem value={4}>Ищу только старого хозяина</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
+        {query.get('type') === 'found' && (
+          <div className="select">
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Статус</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                name="status_id"
+                value={post.status_id}
+                label="Status"
+                onChange={handleChange}
+              >
+                <MenuItem value={1}>Замечен на улице</MenuItem>
+                <MenuItem value={2}>Ищу передержку</MenuItem>
+                <MenuItem value={3}>
+                  Животное на передержке. Ищу хозяина
+                </MenuItem>
+                <MenuItem value={4}>Ищу только старого хозяина</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+        )}
       </Box>
       {post.type_id === 1 ? (
         <Typography variant="h6" component="div" gutterBottom>

@@ -8,7 +8,7 @@ function Main() {
   const navigate = useNavigate();
 
   const newpostLink = (type) => {
-    navigate(`/chat?type=${type}`);
+    navigate(`/chat?type=${type}&step=1`);
   };
 
   return (
