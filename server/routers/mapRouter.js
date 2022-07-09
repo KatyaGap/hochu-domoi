@@ -30,7 +30,7 @@ router.route('/:type')
         color_id: req.body.color_id,
         size: req.body.size,
         // lost_date: req.body.date || '2020-01-17T04:33:12.000Z',   ПОТОМ РАСКОММЕНТИТЬ
-        lost_date: '2020-01-17T04:33:12.000Z', // НУЖНА ФОРМА НА ФРОНТЕ С ДАТОЙ ПОТЕРИ
+        lost_date: req.body.date, // НУЖНА ФОРМА НА ФРОНТЕ С ДАТОЙ ПОТЕРИ
         address_string: req.body.address_string || 'Moscow', // ДАННЫЕ ДОЛЖНЫ ИЗ КАРТЫ ТЯНУТЬСЯ
         address_lattitude: req.body.address_lattitude || 55.683986493805385, // ДАННЫЕ ДОЛЖНЫ ИЗ КАРТЫ ТЯНУТЬСЯ
         address_longitude: req.body.address_longitude || 37.534586242675786, // ДАННЫЕ ДОЛЖНЫ ИЗ КАРТЫ ТЯНУТЬСЯ

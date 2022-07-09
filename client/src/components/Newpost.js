@@ -232,6 +232,3 @@ export default function Newpost({ type }) {
     </form>
   );
 }
-// {
-//   /* <input type="datetime-local" required class="form-control" name="date" placeholder="date and time" ></input> */
-// }

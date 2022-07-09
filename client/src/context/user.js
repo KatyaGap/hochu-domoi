@@ -49,7 +49,7 @@ function UserContextProvider({ children }) {
 
   return (
     <UserContext.Provider
-      value={{ user, handleAuth, handleLogout, loading, message }}
+      value={{ user, handleAuth, handleLogout, loading, message, setMessage }}
     >
       {children}
     </UserContext.Provider>
