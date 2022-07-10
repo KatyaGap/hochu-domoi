@@ -15,6 +15,7 @@ module.exports = {
         address_longitude: 37.424138,
         photo_url: '/images/чихуахуа1.jpeg',
         user_id: 1,
+        phone: '+79165826528',
       },
       {
         text: 'Потерялся чихуахуа, нужна помощь в поиске',
@@ -30,6 +31,7 @@ module.exports = {
         address_longitude: 37.617734,
         photo_url: '/images/чихуахуа2.jpeg',
         user_id: 2,
+        phone: '+79110000000',
       },
       {
         text: 'Помогите найти кроша',
@@ -45,6 +47,7 @@ module.exports = {
         address_longitude: 37.950668,
         photo_url: '/images/чихуахуа3.jpeg',
         user_id: 3,
+        phone: '+79110000001',
       },
       {
         text: 'Чих потерялся!!!!!',
@@ -60,6 +63,7 @@ module.exports = {
         address_longitude: 37.807315,
         photo_url: '/images/чихуахуа4.jpeg',
         user_id: 1,
+        phone: '+79110000002',
       },
       {
         text: 'Нашли чихуахуа, кличка Шарик! Хозяин, отзовись',
@@ -75,6 +79,7 @@ module.exports = {
         address_longitude: 37.774203,
         photo_url: '/images/чихуахуа5.jpeg',
         user_id: 2,
+        phone: '+79110000003',
       },
       {
         text: 'Потерялась буль, давай найдем!!',
@@ -90,6 +95,7 @@ module.exports = {
         address_longitude: 37.63535147094726,
         photo_url: '/images/бультерьер1.jpeg',
         user_id: 1,
+        phone: '+79110000004',
       },
       {
         text: 'Буль, найдись!!! Потеряли...',
@@ -105,6 +111,7 @@ module.exports = {
         address_longitude: 37.694917968749984,
         photo_url: '/images/бультерьер2.jpeg',
         user_id: 2,
+        phone: '+79110000005',
       },
       {
         text: 'Нашли бультерьера, помогите вернуть хозяину',
@@ -120,6 +127,7 @@ module.exports = {
         address_longitude: 37.39966040039061,
         photo_url: '/images/бультерьер3.jpeg',
         user_id: 3,
+        phone: '+79110000006',
       },
       {
         text: 'Нашли Чау-Чау, ищем хозяина',
@@ -135,6 +143,7 @@ module.exports = {
         address_longitude: 37.753969482421866,
         photo_url: '/images/чаучау1.jpeg',
         user_id: 1,
+        phone: '+79110000007',
       },
       {
         text: 'Чау ищет дом',
@@ -150,6 +159,7 @@ module.exports = {
         address_longitude: 37.62694006347655,
         photo_url: '/images/чаучау2.jpeg',
         user_id: 2,
+        phone: '+79110000008',
       },
       {
         text: 'Верну Чау-Чау в хорошие руки!!!!!',
@@ -165,6 +175,7 @@ module.exports = {
         address_longitude: 37.73405676269531,
         photo_url: '/images/чаучау3.jpeg',
         user_id: 1,
+        phone: '+79110000009',
       },
       {
         text: 'Чау ищет нового хозяина',
@@ -180,6 +191,7 @@ module.exports = {
         address_longitude: 37.68049841308592,
         photo_url: '/images/чаучау4.jpeg',
         user_id: 2,
+        phone: '+79110000010',
       },
     ], {});
   },
