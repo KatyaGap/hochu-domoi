@@ -50,7 +50,7 @@ router.route('/register').post(async (req, res) => {
   }
 });
 
-router.route('/login').post(async (req, res) => { // пока не прописал логику связанную с админом
+router.route('/login').post(async (req, res) => {
   try {
     const { email, password } = req.body;
     if (email && password) {
