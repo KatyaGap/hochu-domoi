@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -18,8 +18,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useLocation, useParams } from 'react-router-dom';
 import { useSelect } from '@mui/base';
 import { useDispatch, useSelector } from 'react-redux';
+import Chat from './Chat';
 import { getAdvertsThunk } from '../redux/actions/adverts';
-
 
 export default function Pet({ post }) {
   const dispatch = useDispatch();
@@ -42,28 +42,33 @@ export default function Pet({ post }) {
     setExpanded(!expanded);
   };
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardMedia
-        component="img"
-        alt="green iguana"
-        height="300"
-        image={pet.photo_url}
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {pet.user_id}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {pet.text}
-        </Typography>
-        <Typography gutterBottom variant="h5" component="div">
-          {pet.address_string}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Показать номер</Button>
-        <Button size="small">Отправить сообщение</Button>
-      </CardActions>
-    </Card>
+    <>
+      <div>
+        <Chat />
+      </div>
+      <Card sx={{ maxWidth: 345 }}>
+        <CardMedia
+          component="img"
+          alt="green iguana"
+          height="300"
+          image={pet.photo_url}
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            {pet.user_id}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {pet.text}
+          </Typography>
+          <Typography gutterBottom variant="h5" component="div">
+            {pet.address_string}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small">Показать номер</Button>
+          <Button size="small">Отправить сообщение</Button>
+        </CardActions>
+      </Card>
+    </>
   );
 }

@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { UserContext } from '../context/user';
 
 function Chat() {
   const [messages, setMessages] = useState([]);
   const [value, setValue] = useState('');
+  const { user } = useContext(UserContext);
 
   const subscribe = async () => {
     try {
-      const { data } = await axios.get('http://192.168.1.37:4000/get-messages');
+      const { data } = await axios.get('http://192.168.1.37:3001/get-messages');
       setMessages((prev) => [data, ...prev]);
       await subscribe();
     } catch (error) {
@@ -22,9 +24,10 @@ function Chat() {
   }, []);
 
   const sendMessage = async () => {
-    await axios.post(`http://192.168.1.37:4000/new-messages`, {
+    await axios.post(`http://192.168.1.37:3001/new-messages`, {
       message: value,
       id: Date.now(),
+      userName: user.name,
     });
   };
 
@@ -32,10 +35,18 @@ function Chat() {
     <div className="center">
       <div className="form">
         <input value={value} onChange={(e) => setValue(e.target.value)} type="text" />
-        <button onClick={sendMessage} type="button">Send</button>
+        <button onClick={sendMessage} type="submit">Send</button>
       </div>
       <div className="messages">
-        {messages.map((mess) => <div className="message" key={mess.id}>{mess.message}</div>)}
+        {messages.map((mess) => (
+          <div className="message" key={mess.id}>
+            <div>
+              {mess.userName}
+              :
+              {mess.message}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
