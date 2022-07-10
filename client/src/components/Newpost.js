@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import PhoneInput from 'react-phone-number-input';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdvertsThunk, getParamsThunk } from '../redux/actions/adverts';
+import filterReducer from '../redux/reducers/filter';
 
 export default function Newpost({ type }) {
   const dispatch = useDispatch();
@@ -44,7 +45,7 @@ export default function Newpost({ type }) {
     breed_id: '',
     color_id: '',
     size: '',
-    status_id: '1',
+    status_id: '',
     text: '',
     date: '',
     phone: '',
@@ -231,7 +232,7 @@ export default function Newpost({ type }) {
                 </div>
               )} */}
             </div>
-            {query.get('type') === 'found' && (
+            {(query.get('type') === 'found' || post.type_id === 1) && (
               <div className="select">
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label">Статус</InputLabel>
