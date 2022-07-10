@@ -92,7 +92,7 @@
 
 .logo,
 .nav-buttons {
-  width: 30%;
+  width: 35%;
 }
 
 /* РЕГИСТРАЦИЯ */
@@ -134,6 +134,7 @@
 .auth-title .auth-title-text {
   color: #222;
   font-weight: 300;
+  cursor: pointer;
 }
 
 .auth-title .auth-off {
@@ -146,6 +147,7 @@
 .main-last-posts-wrapper {
   width: 60rem;
   overflow: visible;
+  padding-bottom: 0.5rem;
 }
 
 .main-buttons-group button {
@@ -157,10 +159,36 @@
   display: flex;
 }
 
+.small-card,
+.small-card .MuiCardActionArea-root {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.card-content .card-description {
+  flex-grow: 1;
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-clamp: 3;
+  box-orient: vertical;
+}
 
 .card-content .card-address {
-  font-size: 1rem;
-  color: rgba(0, 0, 0, 0.6);
+  margin-top: .5rem;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -moz-box;
@@ -172,17 +200,9 @@
   box-orient: vertical;
 }
 
-.card-content .card-description {
-  color: rgba(0, 0, 0, 0.45);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -moz-box;
-  -moz-box-orient: vertical;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  line-clamp: 3;
-  box-orient: vertical;
+.card-content .card-timesincemissing,
+.card-content .card-address {
+  color:rgba(0, 0, 0, 0.45)
 }
 
 .main-last-posts .main-last-posts-title-wrapper {
@@ -201,8 +221,13 @@
 //   display: none;
 // }
 
-.carousel-inner .carousel-flex {
+.carousel-inner {
   display: flex;
+}
+
+.carousel-flex {
+  display: flex;
+  padding: 0.5rem 0;
 }
 
 .main-last-posts .small-card {
@@ -235,18 +260,19 @@
 	margin: 15px
 }
 
-
 .carouser-indicators button {
   background-color: #2776d2;
 }
 
+/* КАРТА */
+
 #map {
-  overflow: hidden;
   width: 100%;
   height: 100%;
 }
 
 .map-container {
+  position: relative;
   width: 100%;
   flex-grow: 1;
 }
@@ -256,6 +282,35 @@
 	flex-direction: column;
 }
 
-.navbar{
-	margin-bottom: 20px;
+.map-posts-overlay {
+  position: fixed;
+  top: 9rem;
+  bottom: 50px;
+  left: 70px;
+  z-index: 5;
+  overflow-y: scroll;
+}
+
+.map-card .card-photo {
+  aspect-ratio: 1/1;
+}
+
+.map-card .card-content {
+  max-width: 22rem;
+}
+
+/* СКРОЛЛБАР НА КАРТЕ */
+
+.map-posts-overlay::-webkit-scrollbar {
+	width: 10px;
+	background-color: #F5F5F5;
+}
+
+.map-posts-overlay::-webkit-scrollbar-track {
+	background-color: #F5F5F5;
+}
+
+.map-posts-overlay::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.4); 
 }

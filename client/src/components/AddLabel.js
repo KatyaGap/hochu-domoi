@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { yandexMap } from '../redux/actions/lost';
-import Map from './Map';
+import Maps from './Maps';
 
 function AddLabel() {
   const { ymaps } = window;
@@ -166,7 +166,7 @@ function AddLabel() {
   return (
     <>
       <div id="map" style={{ width: "600px", height: "400px" }} />
-      <Map inputs={inputs} setInputs={setInputs} inputCoord={inputCoord} setInputCoord={setInputCoord} changeLable={changeLable} setCangeLable={setCangeLable} addressСoordinates={addressСoordinates} />
+      <Maps inputs={inputs} setInputs={setInputs} inputCoord={inputCoord} setInputCoord={setInputCoord} changeLable={changeLable} setCangeLable={setCangeLable} addressСoordinates={addressСoordinates} />
     </>
   );
 }
