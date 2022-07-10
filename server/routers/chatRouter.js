@@ -11,10 +11,10 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  // res.locals.userId = req.session.userId;
+  // console.log('==========>', res.locals.userId);
   const message = req.body;
   emitter.emit('newMessage', message);
-  console.log('====>', message);
+  // console.log('====>', message);
   res.status(200);
 });
 

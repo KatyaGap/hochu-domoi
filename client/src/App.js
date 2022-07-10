@@ -15,7 +15,6 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <Chat />
       <Routes>
         <Route path="/" element={<Main />} />
         {/* <Route path="/lost-map" element={<Map filter="lost" />} /> */}

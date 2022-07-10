@@ -1,8 +1,11 @@
 import React from 'react';
+import Chat from './Chat';
 
 function Pet() {
   return (
-    <div>Pet</div>
+    <div>
+      <Chat />
+    </div>
   );
 }
 
