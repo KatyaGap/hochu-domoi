@@ -1,3 +1,4 @@
+import { PinDrop, Restore } from '@mui/icons-material';
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
@@ -5,19 +6,24 @@ import React from 'react';
 function CardMap({ post }) {
   console.log(post);
   return (
-    <Card>
+    <Card className="card map-card" variant="outlined">
       <CardActionArea sx={{ display: 'flex' }}>
-        <CardMedia component="img" sx={{ width: 151 }} image={post?.photo_url} alt="Live from space album cover" />
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <CardContent sx={{ flex: '1 0 auto' }}>
-            <Typography component="div" variant="h5">
-              Live From Space
+        <CardMedia className="card-photo" component="img" sx={{ width: 130 }} image={post?.photo_url} alt="Фото питомца" />
+        <CardContent className="card-content">
+          <Typography className="card-description small-card-description" variant="body2" color="text.secondary">
+            {post?.text}
+          </Typography>
+          <div className="card-bottom">
+            <Typography className="card-address small-card-address" variant="caption" color="text.secondary">
+              <PinDrop sx={{ width: '16px', height: '16px', position: 'relative', top: '3px', marginRight: '3px' }} />
+              {post?.address_string}
             </Typography>
-            <Typography className="card-description small-card-description" variant="body2" color="text.secondary">
-              {post?.text}
+            <Typography className="card-timesincemissing" variant="caption" color="text.secondary">
+              <Restore sx={{ width: '16px', height: '16px', position: 'relative', top: '3px', marginRight: '3px' }} />
+              {post?.timeSinceMissing}
             </Typography>
-          </CardContent>
-        </Box>
+          </div>
+        </CardContent>
       </CardActionArea>
     </Card>
   );

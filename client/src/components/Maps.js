@@ -91,12 +91,10 @@ function Maps({ filter }) {
 
   return (
     <div className="map-container">
-      <Paper className="map-posts-overlay" elevation={8}>
-        <CardMap post={posts[0]} />
-        <CardMap post={posts[0]} />
-        <CardMap post={posts[0]} />
-      </Paper>
       {posts.length > 0 && (<div id="map" />)}
+      <Paper className="map-posts-overlay" elevation={8}>
+        {posts.map((post) => <CardMap post={post} />)}
+      </Paper>
     </div>
   );
 }

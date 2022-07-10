@@ -13,7 +13,7 @@ export default function SmallCard({ post }) {
   console.log(post);
 
   return (
-    <Card sx={{ width: 216, minWidth: 216 }} className="small-card">
+    <Card sx={{ width: 216, minWidth: 216 }} className="card small-card">
       <CardActionArea onClick={petLink}>
         <CardMedia
           component="img"
@@ -24,16 +24,16 @@ export default function SmallCard({ post }) {
 
         <CardContent className="card-content small-card-content">
           <Typography className="card-description small-card-description" variant="subtitle2" color="text.secondary">
-            {post.text}
+            {post?.text}
           </Typography>
           <div className="card-bottom">
             <Typography className="card-address small-card-address" variant="caption" color="text.secondary">
               <PinDrop sx={{ width: '16px', height: '16px', position: 'relative', top: '3px', marginRight: '3px' }} />
-              {post.address_string}
+              {post?.address_string}
             </Typography>
             <Typography className="card-timesincemissing" variant="caption" color="text.secondary">
               <Restore sx={{ width: '16px', height: '16px', position: 'relative', top: '3px', marginRight: '3px' }} />
-              {post.timeSinceMissing}
+              {post?.timeSinceMissing}
             </Typography>
           </div>
         </CardContent>
