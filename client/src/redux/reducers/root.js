@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
   fivelosts: fiveLostReducer,
   fivefounds: fiveFoundReducer,
   found: foundReducer,
-  lost: mapReducer,
+  lost: lostReducer,
   filtered: filterReducer,
 });
 export default rootReducer;

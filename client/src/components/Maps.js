@@ -1,17 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { Paper } from '@mui/material';
 import CardMap from './elements/CardMap';
+import Map from './Map';
 
 function Maps({ filter }) {
   const [posts, setPosts] = useState([]);
   const maaap = useRef();
   const location = useLocation();
-  // console.log(location);
-  // maaap(maaap.current);
+
   useEffect(() => {
     axios(`/map${location.pathname}`)
       .then((res) => {
@@ -29,18 +28,17 @@ function Maps({ filter }) {
 
   const { ymaps } = window;
   let myMap;
-  let myGeoObject;
-  let placemark;
   const geoObjects = [];
   let clusterer;
 
   function init() {
+    // geolocation = ymaps.geolocation,
     myMap = new ymaps.Map(
       'map',
       {
         center: [55.76, 37.64],
         zoom: 10,
-        controls: ['zoomControl'],
+        controls: ['zoomControl', 'searchControl', 'typeSelector', 'fullscreenControl', 'geolocationControl'],
         behaviors: ['drag'],
       },
       {
@@ -61,29 +59,29 @@ function Maps({ filter }) {
         },
 
         {
-          // iconLayout: 'default#image',
-          preset: "islands#redStretchyIcon",
-          // iconColor: '#0095b6',
+          iconLayout: 'default#image',
+          iconImageHref: 'lable2.png',
+          iconImageSize: [35, 35],
         },
       );
     }
 
     clusterer = new ymaps.Clusterer({
-      // clusterIcons: [
-      //   {
-      //     href: 'img/dogs.webp',
-      //     size: [100, 100],
-      //     offset: [-50, -50],
-      //   },
-      // ],
+      clusterIcons: [
+        {
+          href: 'lable4.png',
+          size: [60, 60],
+          offset: [-50, -50],
+        },
+      ],
       clusterIconContentLayout: null,
     });
 
     myMap.geoObjects.add(clusterer);
     clusterer.add(geoObjects);
 
-    myMap.geoObjects
-      .add(myGeoObject);
+    // myMap.geoObjects
+    //   .add(placemark);
     // .add(geoObjects);
   }
 
