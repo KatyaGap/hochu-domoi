@@ -9,28 +9,14 @@ import PostList from './PostList';
 function Catalog() {
   const dispatch = useDispatch();
   const { adverts, filtered } = useSelector((state) => state);
+  console.log('adverts', adverts);
+  console.log('filtered', filtered);
   useEffect(() => {
     dispatch(getAdvertsThunk());
   }, []);
-
-  const [searchQuery, setSearchQuery] = useState('');
-  const searchedPosts = useMemo(
-    () => adverts.filter((el) => el.text.includes(searchQuery)),
-    [searchQuery],
-  );
-	console.log('=====', searchedPosts)
+	console.log('adverts', adverts)
   return (
     <div className="cont">
-      {/* <TextField
-        id="outlined-basic"
-        rows={4}
-        sx={{ m: 1 }}
-        variant="outlined"
-        name="text"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        placeholder="Введите текст объявления"
-      /> */}
       <div>
         <Filters adverts={adverts} />
       </div>
