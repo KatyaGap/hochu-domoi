@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const moment = require('moment');
-const { Post } = require('../db/models');
+const { User, Post, Breed, Pet, Color, Status, Type } = require('../db/models');
 
 require('moment/locale/ru');
 
@@ -21,75 +21,232 @@ router.route('/fiveLost').get(async (req, res) => {
     const postsLost = await Post.findAll({
       where: { type_id: 2 },
       order: [['lost_date', 'DESC']],
+      include: [
+        {
+          model: User,
+          attributes: ['name'],
+        },
+        {
+          model: Breed,
+          attributes: ['breed'],
+        },
+        {
+          model: Color,
+          attributes: ['color_name', 'hex'],
+        },
+        {
+          model: Status,
+          attributes: ['status'],
+        },
+        {
+          model: Type,
+          attributes: ['type'],
+        },
+        {
+          model: Pet,
+          attributes: ['pet'],
+        },
+      ],
       limit: 5,
       raw: true,
     });
-    const result = postsLost.map((post) => ({
-      ...post,
+    const result = postsLost.map((el) => ({
+      ...el,
+      name: el['User.name'],
+      breed: el['Breed.breed'],
+      color_name: el['Color.color_name'],
+      hex: el['Color.hex'],
+      status: el['Status.status'],
+      type: el['Type.type'],
+      pet: el['Pet.pet'],
       timeSinceMissing: moment(
-        post.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD',
+        el.lost_date?.toISOString().split('T')[0].split('-').join(''),
+        'YYYYMMDD'
       ).fromNow(),
     }));
-    console.log('POSTLOST', result);
     res.json(result);
   } catch (error) {
     console.log(error);
   }
 });
+
 router.route('/fiveFound').get(async (req, res) => {
   try {
-    const postsFind = await Post.findAll({
+    const postsFound = await Post.findAll({
       where: { type_id: 1 },
       order: [['lost_date', 'DESC']],
+      include: [
+        {
+          model: User,
+          attributes: ['name'],
+        },
+        {
+          model: Breed,
+          attributes: ['breed'],
+        },
+        {
+          model: Color,
+          attributes: ['color_name', 'hex'],
+        },
+        {
+          model: Status,
+          attributes: ['status'],
+        },
+        {
+          model: Type,
+          attributes: ['type'],
+        },
+        {
+          model: Pet,
+          attributes: ['pet'],
+        },
+      ],
       limit: 5,
       raw: true,
     });
-    const result = postsFind.map((post) => ({
-      ...post,
+    const result = postsFound.map((el) => ({
+      ...el,
+      name: el['User.name'],
+      breed: el['Breed.breed'],
+      color_name: el['Color.color_name'],
+      hex: el['Color.hex'],
+      status: el['Status.status'],
+      type: el['Type.type'],
+      pet: el['Pet.pet'],
       timeSinceMissing: moment(
-        post.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD',
+        el.lost_date?.toISOString().split('T')[0].split('-').join(''),
+        'YYYYMMDD'
       ).fromNow(),
     }));
-    console.log('POSTFIND', result);
     res.json(result);
   } catch (error) {
     console.log(error);
   }
 });
+
 router.route('/filter').post(async (req, res) => {
   try {
     console.log('reqbody', req.body);
     const postsFind = await Post.findAll({
       where: req.body,
       order: [['lost_date', 'DESC']],
+      include: [
+        {
+          model: User,
+          attributes: ['name'],
+        },
+        {
+          model: Breed,
+          attributes: ['breed'],
+        },
+        {
+          model: Color,
+          attributes: ['color_name', 'hex'],
+        },
+        {
+          model: Status,
+          attributes: ['status'],
+        },
+        {
+          model: Type,
+          attributes: ['type'],
+        },
+        {
+          model: Pet,
+          attributes: ['pet'],
+        },
+      ],
       raw: true,
     });
-    console.log('postFind', postsFind);
-    const result = postsFind.map((post) => ({
-      ...post,
+    const result = postsFind.map((el) => ({
+      ...el,
+      name: el['User.name'],
+      breed: el['Breed.breed'],
+      color_name: el['Color.color_name'],
+      hex: el['Color.hex'],
+      status: el['Status.status'],
+      type: el['Type.type'],
+      pet: el['Pet.pet'],
       timeSinceMissing: moment(
-        post.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD',
+        el.lost_date?.toISOString().split('T')[0].split('-').join(''),
+        'YYYYMMDD'
       ).fromNow(),
     }));
-    console.log('filter result', result);
     res.json(result);
   } catch (error) {
-    // console.log(error);
+    console.log(error);
   }
 });
+
+router.route('/params').get(async (req, res) => {
+  try {
+    console.log('я тут');
+    const types = await Type.findAll({ attributes: ['type'], raw: true });
+		const pets = await Pet.findAll({ attributes: ['pet'], raw: true });
+    const breeds = await Breed.findAll({ attributes: ['breed'], raw: true });
+    const colors = await Color.findAll({
+      attributes: ['color_name', 'hex'],
+      raw: true,
+    });
+    const statuses = await Status.findAll({
+      attributes: ['status'],
+      raw: true,
+    });
+    res.json({ types, pets, breeds, colors, statuses });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 router.route('/:id').get(async (req, res) => {
   try {
-    const { id } = req.params;
     // console.log(id);
-    const post = await Post.findOne({
+    let post = await Post.findOne({
       where: {
         id: req.params.id,
       },
+      include: [
+        {
+          model: User,
+          attributes: ['name'],
+        },
+        {
+          model: Breed,
+          attributes: ['breed'],
+        },
+        {
+          model: Color,
+          attributes: ['color_name', 'hex'],
+        },
+        {
+          model: Status,
+          attributes: ['status'],
+        },
+        {
+          model: Type,
+          attributes: ['type'],
+        },
+        {
+          model: Pet,
+          attributes: ['pet'],
+        },
+      ],
+      raw: true,
     });
-    // console.log('======', post);
+    post = {
+      ...post,
+      name: post['User.name'],
+      breed: post['Breed.breed'],
+      color_name: post['Color.color_name'],
+      hex: post['Color.hex'],
+      status: post['Status.status'],
+      type: post['Type.type'],
+      pet: post['Pet.pet'],
+      timeSinceMissing: moment(
+        post.lost_date?.toISOString().split('T')[0].split('-').join(''),
+        'YYYYMMDD'
+      ).fromNow(),
+    };
     res.json(post);
   } catch (error) {
     console.log(error);

@@ -4,15 +4,60 @@ const upload = require('../middlewares/upload');
 require('moment/locale/ru');
 
 moment.locale('ru');
-const { Post, Type } = require('../db/models');
+const {
+  Post, Type, User, Color, Breed, Status, Pet,
+} = require('../db/models');
 
-router.route('/:type')
+router
+  .route('/:type')
   .get(async (req, res) => {
     try {
       const type = await Type.findOne({ where: { type: req.params.type } });
-      const posts = await Post.findAll({ where: { type_id: type.id }, raw: true });
-      const result = posts.map((post) => ({ ...post, timeSinceMissing: moment(post.lost_date.toISOString().split('T')[0].split('-').join(''), 'YYYYMMDD').fromNow() }));
-      console.log(result);
+      const posts = await Post.findAll({
+        where: { type_id: type.id },
+        include: [
+          {
+            model: User,
+            attributes: ['name'],
+          },
+          {
+            model: Breed,
+            attributes: ['breed'],
+          },
+          {
+            model: Color,
+            attributes: ['color_name', 'hex'],
+          },
+          {
+            model: Status,
+            attributes: ['status'],
+          },
+          {
+            model: Type,
+            attributes: ['type'],
+          },
+          {
+            model: Pet,
+            attributes: ['pet'],
+          },
+        ],
+
+        raw: true,
+      });
+      const result = posts.map((post) => ({
+        ...post,
+        name: post['User.name'],
+        breed: post['Breed.breed'],
+        color_name: post['Color.color_name'],
+        hex: post['Color.hex'],
+        status: post['Status.status'],
+        type: post['Type.type'],
+        pet: post['Pet.pet'],
+        timeSinceMissing: moment(
+          post.lost_date.toISOString().split('T')[0].split('-').join(''),
+          'YYYYMMDD',
+        ).fromNow(),
+      }));
       res.json(result);
     } catch (error) {
       console.log(error);
