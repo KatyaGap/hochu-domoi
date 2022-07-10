@@ -51,14 +51,14 @@ router.route('/:id/edit')
       const message = 'Что-то не получилось. Попробуй еще раз';
       res.json({ message: `${message}` });
     }
-  })
-  // .put(async (req, res) => {
-  //   const updatedBook = await Book.findOne({ where: { id: req.params.id } });
-  //   updatedBook.title = req.body.title;
-  //   updatedBook.description = req.body.description;
-  //   await updatedBook.save();
-  //   res.json(updatedBook);
-  // });
+  });
+// .put(async (req, res) => {
+//   const updatedBook = await Book.findOne({ where: { id: req.params.id } });
+//   updatedBook.title = req.body.title;
+//   updatedBook.description = req.body.description;
+//   await updatedBook.save();
+//   res.json(updatedBook);
+// });
 // router.route('/')
 //   .get(async (req, res) => {
 //     const books = await Book.findAll({ where: { user_id: res.locals.userId } });

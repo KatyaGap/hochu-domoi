@@ -2,17 +2,22 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Statuses', [
       {
-        status: 'Status1',
+        status: 'Животное замечено на улице',
       },
       {
-        status: 'Status2',
+        status: 'Ищу передержку',
       },
       {
-        status: 'Status3',
+        status: 'Ищу нового хозяина',
+      },
+      {
+        status: 'Ищу только старого хозяина',
+      },
+      {
+        status: 'Потерялся',
       },
     ], {});
   },
-
   async down(queryInterface, Sequelize) {
     await queryInterface.bulkDelete('Statuses', null, {});
   },
