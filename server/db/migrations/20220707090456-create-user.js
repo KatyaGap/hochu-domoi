@@ -20,10 +20,16 @@ module.exports = {
         type: Sequelize.STRING,
         isNull: false,
       },
-      phone: {
+      role_id: {
         type: Sequelize.INTEGER,
-        unique: true,
-        isNull: false,
+        references: {
+          model: 'Roles',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
+      },
+      user_photo: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,

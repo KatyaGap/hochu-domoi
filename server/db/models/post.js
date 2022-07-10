@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     address_longitude: DataTypes.FLOAT,
     photo_url: DataTypes.STRING,
     user_id: DataTypes.INTEGER,
+    phone: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Post',
