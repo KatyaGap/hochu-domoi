@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { Paper } from '@mui/material';
 import CardMap from './elements/CardMap';
-import Map from './Map';
 
 function Maps({ filter }) {
   const [posts, setPosts] = useState([]);

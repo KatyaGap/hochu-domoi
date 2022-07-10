@@ -4,8 +4,6 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getAdvertsThunk } from '../redux/actions/adverts';
-import Post from './Post';
-import SmallCard from './elements/SmallCard';
 
 function PostList({ adverts }) {
   const dispatch = useDispatch();

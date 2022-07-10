@@ -9,9 +9,8 @@ import Maps from './components/Maps';
 import AddLabel from './components/AddLabel';
 import Pet from './components/Pet';
 import Newpost from './components/Newpost';
-import PostList from './components/PostList';
 import Catalog from './components/Catalog';
-import CardMap from './components/elements/CardMap';
+import Profile from './components/Profile';
 
 function App() {
   return (
@@ -28,8 +27,8 @@ function App() {
         <Route path="/catalog" element={<Catalog />} />
         <Route path="/addlabel" element={<AddLabel />} />
         <Route path="/newpost" element={<Newpost />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<Navigate to="/" />} />
-        <Route path="/cardmap" element={<CardMap />} />
       </Routes>
       <div className="toastify">
         <ToastContainer

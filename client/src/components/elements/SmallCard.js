@@ -13,7 +13,7 @@ export default function SmallCard({ post }) {
   console.log(post);
 
   return (
-    <Card sx={{ width: 216, minWidth: 216 }} className="card small-card">
+    <Card sx={{ minWidth: 216, maxWidth: 216 }} className="card small-card">
       <CardActionArea onClick={petLink}>
         <CardMedia
           component="img"
