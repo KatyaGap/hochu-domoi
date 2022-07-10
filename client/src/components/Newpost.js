@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import PhoneInput from 'react-phone-number-input';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdvertsThunk, getParamsThunk } from '../redux/actions/adverts';
+import filterReducer from '../redux/reducers/filter';
 
 export default function Newpost({ type }) {
   const dispatch = useDispatch();
@@ -44,7 +45,7 @@ export default function Newpost({ type }) {
     breed_id: '',
     color_id: '',
     size: '',
-    status_id: '1',
+    status_id: '',
     text: '',
     date: '',
     phone: '',
@@ -71,19 +72,17 @@ export default function Newpost({ type }) {
         console.log(result, posts);
         return setPosts((prev) => [...prev, result]);
       })
-      .finally(() =>
-        setPost({
-          type_id: '',
-          pet_id: '',
-          breed_id: 4,
-          color_id: '',
-          size: '',
-          status_id: '1',
-          text: '',
-          date: '',
-          phone: '',
-        })
-      );
+      .finally(() => setPost({
+        type_id: '',
+        pet_id: '',
+        breed_id: '',
+        color_id: '',
+        size: '',
+        status_id: '',
+        text: '',
+        date: '',
+        phone: '',
+      }));
   };
 
   const handleChange = React.useCallback((e) => {
@@ -120,11 +119,11 @@ export default function Newpost({ type }) {
                     label="Pet"
                     onChange={handleChange}
                   >
-                   {types?.map((item, ind) => (
-                    <MenuItem key={ind + 1} value={ind + 1}>
-                      {item.type}
-                    </MenuItem>
-                  ))}
+                    {types?.map((item, ind) => (
+                      <MenuItem key={ind + 1} value={ind + 1}>
+                        {item.type}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </div>
@@ -163,10 +162,10 @@ export default function Newpost({ type }) {
                     onChange={handleChange}
                   >
                     {breeds?.map((item, ind) => (
-                    <MenuItem key={ind + 1} value={ind + 1}>
-                      {item.breed}
-                    </MenuItem>
-                  ))}
+                      <MenuItem key={ind + 1} value={ind + 1}>
+                        {item.breed}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </div>
@@ -215,7 +214,11 @@ export default function Newpost({ type }) {
                   label="Size"
                   onChange={handleChange}
                 >
-                  {sizes?.map((item, ind) => <MenuItem key={ind + 1} value={ind + 1}>{item.size}</MenuItem>)}
+                  {sizes?.map((item, ind) => (
+                    <MenuItem key={ind + 1} value={ind + 1}>
+                      {item.size}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               {/* <Button
@@ -231,27 +234,25 @@ export default function Newpost({ type }) {
                 </div>
               )} */}
             </div>
-            {query.get('type') === 'found' && (
-              <div className="select">
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">Статус</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    name="status_id"
-                    value={post.status_id}
-                    label="Status"
-                    onChange={handleChange}
-                  >
-                    {statuses?.map((item, ind) => (
-                      <MenuItem key={ind + 1} value={ind + 1}>
-                        {item.status}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </div>
-            )}
+            <div className="select">
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Статус</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="status_id"
+                  value={post.status_id}
+                  label="Status"
+                  onChange={handleChange}
+                >
+                  {statuses?.map((item, ind) => (
+                    <MenuItem key={ind + 1} value={ind + 1}>
+                      {item.status}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </div>
           </Box>
           {post.type_id === 1 ? (
             <Typography variant="h6" component="div" gutterBottom>

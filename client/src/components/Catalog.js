@@ -14,7 +14,6 @@ function Catalog() {
   useEffect(() => {
     dispatch(getAdvertsThunk());
   }, []);
-	console.log('adverts', adverts)
   return (
     <div className="cont">
       <div>
