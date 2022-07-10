@@ -19,7 +19,7 @@ export default function Newpost({ type }) {
   const [posts, setPosts] = useState([]);
   const [flag, setFlag] = React.useState(false);
   const { params } = useSelector((state) => state);
-  const { types, pets, colors, breeds, statuses } = params;
+  const { sizes, types, pets, colors, breeds, statuses } = params;
   console.log('params', params);
   console.log('pets', pets);
   useEffect(() => {
@@ -215,7 +215,7 @@ export default function Newpost({ type }) {
                   label="Size"
                   onChange={handleChange}
                 >
-                  {/* {sizes?.map((item, ind) => <MenuItem key={ind + 1} value={ind + 1}>{item.size}</MenuItem>)} */}
+                  {sizes?.map((item, ind) => <MenuItem key={ind + 1} value={ind + 1}>{item.size}</MenuItem>)}
                 </Select>
               </FormControl>
               {/* <Button

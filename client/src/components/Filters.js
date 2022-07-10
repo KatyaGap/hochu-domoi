@@ -14,39 +14,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import PostList from './PostList';
 import { getFilteredThunk, getParamsThunk } from '../redux/actions/adverts';
 
-export default function Filters({ adverts, setSearchedPosts }) {
+export default function Filters({ adverts }) {
   const dispatch = useDispatch();
-  const { params } = useSelector((store) => store);
-  const { types, pets, colors, breeds, statuses } = params;
-	const sizes=['мелкий', 'средний', 'крупный']
-  const [filter, setFilter] = React.useState({
-    type_id: '',
-    pet_id: '',
-    breed_id: '',
-    color_id: '',
-    size: '',
-    status_id: '',
-  });
+  const { params, filtered } = useSelector((state) => state);
+  const { sizes, types, pets, colors, breeds, statuses } = params;
+  const [filter, setFilter] = React.useState({});
   React.useEffect(() => {
     dispatch(getParamsThunk());
   }, []);
+
   const handleChange = React.useCallback((e) => {
     setFilter((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   });
-
+  console.log('filter', filter);
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(getFilteredThunk(filter));
-    setFilter({
-      type_id: '',
-      pet_id: '',
-      breed_id: '',
-      color_id: '',
-      size: '',
-      status_id: '',
-    });
+    setFilter({});
   };
-  console.log(filter);
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -58,7 +43,7 @@ export default function Filters({ adverts, setSearchedPosts }) {
             <div className="select">
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">
-                  Какие животные вас интересуют?
+                  Какая у вас ситуация?
                 </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
@@ -154,14 +139,14 @@ export default function Filters({ adverts, setSearchedPosts }) {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  name="size"
-                  value={filter.size}
+                  name="size_id"
+                  value={filter.size_id}
                   label="Size"
                   onChange={handleChange}
                 >
                   {sizes?.map((item, ind) => (
                     <MenuItem key={ind + 1} value={ind + 1}>
-                      {item}
+                      {item.size}
                     </MenuItem>
                   ))}
                 </Select>
