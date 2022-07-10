@@ -1,8 +1,11 @@
 import React from 'react';
+import CardBig from './elements/CardBig';
 
 function Profile() {
   return (
-    <div>Profile</div>
+    <div className="container">
+      <CardBig />
+    </div>
   );
 }
 

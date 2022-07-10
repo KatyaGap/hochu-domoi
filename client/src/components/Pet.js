@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Chat from './Chat';
 import { getAdvertsThunk } from '../redux/actions/adverts';
 import { UserContext } from '../context/user';
-import BasicModal from './ModalForChat';
+import BasicModal from './elements/ModalForChat';
 
 export default function Pet({ post }) {
   const dispatch = useDispatch();
