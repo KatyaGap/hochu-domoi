@@ -29,7 +29,7 @@ function App() {
         <Route path="/authnewpost" element={<Auth isNewPost />} />
         <Route path="/catalog" element={<Catalog />} />
 
-        {/* <Route path="/addlabel" element={<AddLabel />} /> */}
+        <Route path="/addlabel" element={<AddLabel />} />
         <Route path="/newpost" element={<Newpost />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
