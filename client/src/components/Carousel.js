@@ -15,9 +15,9 @@ function Carousel({ imgArray, id }) {
       <div className="carousel-inner">
         <div className="carousel-item active">
           <div className="carousel-flex">
-            {imgArray.map((img, index) => {
+            {imgArray.map((post, index) => {
               if (index < 4) {
-                return <SmallCard key={index} imgUrl={imgArray[index]} />;
+                return <SmallCard key={index} post={post} />;
               }
               return null;
             })}
@@ -25,9 +25,9 @@ function Carousel({ imgArray, id }) {
         </div>
         <div className="carousel-item">
           <div className="carousel-flex">
-            {imgArray.map((img, index) => {
+            {imgArray.map((post, index) => {
               if (index >= 4 && index < 8) {
-                return <SmallCard key={index} imgUrl={imgArray[index]} />;
+                return <SmallCard key={index} post={post} />;
               }
               return null;
             })}
@@ -35,9 +35,9 @@ function Carousel({ imgArray, id }) {
         </div>
         <div className="carousel-item">
           <div className="carousel-flex">
-            {imgArray.map((img, index) => {
+            {imgArray.map((post, index) => {
               if (index >= 8 && index <= 12) {
-                return <SmallCard key={index} imgUrl={imgArray[index]} />;
+                return <SmallCard key={index} post={post} />;
               }
               return null;
             })}

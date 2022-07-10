@@ -4,3 +4,4 @@ export const GET_FIVEFOUND = 'GET_FIVEFOUND';
 export const GET_LOST = 'GET_LOST';
 export const GET_LOST1 = 'GET_LOST1';
 export const GET_FOUND = 'GET_FOUND';
+export const GET_FILTERED = 'GET_FILTERED';
