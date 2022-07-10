@@ -54,9 +54,9 @@ function Post({ post }) {
         </CardContent>
 
         {/* <CardActions>
-			<Button size="small">Share</Button>
-			<Button size="small">Learn More</Button>
-		</CardActions> */}
+          <Button size="small">Share</Button>
+          <Button size="small">Learn More</Button>
+        </CardActions> */}
       </CardActionArea>
     </Card>
   );

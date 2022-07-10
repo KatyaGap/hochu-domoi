@@ -7,7 +7,7 @@ import { Message } from '@mui/icons-material';
 // import '../App.scss';
 
 import AdbIcon from '@mui/icons-material/Adb';
-import { UserContext } from '../context/user';
+import { UserContext } from '../../context/user';
 
 const pages = ['Потеряшки', 'Найдёныши', 'Каталог'];
 const pagesLinks = ['lost', 'found', 'catalog'];

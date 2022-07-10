@@ -5,11 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getAdvertsThunk } from '../redux/actions/adverts';
 import Post from './Post';
-import SmallCard from './SmallCard';
+import SmallCard from './elements/SmallCard';
 
 function PostList({ adverts }) {
   const dispatch = useDispatch();
-	const navigate = useNavigate();
+  const navigate = useNavigate();
   // const handleDelete = useCallback((id) => {
   //   dispatch(deletePostThunk(id));
   // }, []);
