@@ -10,5 +10,5 @@ const rootReducer = combineReducers({ adverts: advertsReducer,
   fivelosts: fiveLostReducer,
   fivefounds: fiveFoundReducer,
   found: foundReducer,
-  lost: mapReducer });
+  lost: lostReducer });
 export default rootReducer;
