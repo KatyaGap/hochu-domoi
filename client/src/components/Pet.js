@@ -16,7 +16,6 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useLocation, useParams } from 'react-router-dom';
-import { useSelect } from '@mui/base';
 import { useDispatch, useSelector } from 'react-redux';
 import Chat from './Chat';
 import { getAdvertsThunk } from '../redux/actions/adverts';
@@ -35,18 +34,27 @@ export default function Pet({ post }) {
       .then((res) => res.json())
       .then((res) => setPet(res));
   }, []);
-  console.log('pet', pet);
-  console.log(adverts);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
   return (
     <>
       <div>
         <Chat />
       </div>
       <Card sx={{ maxWidth: 345 }}>
+        <Typography gutterBottom variant="h6" component="div">
+          {pet.name}
+        </Typography>
+        <Typography gutterBottom variant="h8" color="text.secondary" component="div">
+          {pet.timeSinceMissing}
+        </Typography>
+        <Typography
+          gutterBottom
+          color="text.secondary"
+          variant="h8"
+          component="div"
+        >
+          {pet.address_string}
+        </Typography>
         <CardMedia
           component="img"
           alt="green iguana"
@@ -54,14 +62,14 @@ export default function Pet({ post }) {
           image={pet.photo_url}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {pet.user_id}
+          <Typography gutterBottom variant="h8" color="text.secondary" component="div">
+            Порода: {pet.breed}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography gutterBottom variant="h8" color="text.secondary" component="div">
+            Статус: {pet.status}
+          </Typography>
+					<Typography variant="body2" variant="h6">
             {pet.text}
-          </Typography>
-          <Typography gutterBottom variant="h5" component="div">
-            {pet.address_string}
           </Typography>
         </CardContent>
         <CardActions>
