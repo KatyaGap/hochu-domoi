@@ -31,6 +31,8 @@ router.route('/register').post(async (req, res) => {
         email,
         password: await Bcrypt.hash(password),
         name,
+        role_id: 2, // по умолчанию создаем НЕ АДМИНА
+        user_photo: null, // по умолчанию аватарки не будет, ее потом можно будет добавить в личном кабинете
       });
       req.session.userId = user.id;
       req.session.userName = user.name;

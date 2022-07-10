@@ -4,13 +4,13 @@ module.exports = {
       'Pets',
       [
         {
-          pet: 'dog',
+          pet: 'Собака',
         },
         {
-          pet: 'cat',
+          pet: 'Кошка',
         },
       ],
-      {}
+      {},
     );
   },
   async down(queryInterface, Sequelize) {

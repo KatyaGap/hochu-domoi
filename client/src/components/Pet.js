@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -15,10 +15,12 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Chat from './Chat';
 import { getAdvertsThunk } from '../redux/actions/adverts';
+import { UserContext } from '../context/user';
+import BasicModal from './ModalForChat';
 
 export default function Pet({ post }) {
   const dispatch = useDispatch();
@@ -29,6 +31,9 @@ export default function Pet({ post }) {
   console.log(id);
   const [pet, setPet] = React.useState({});
   const [expanded, setExpanded] = React.useState(true);
+  const navigate = useNavigate();
+  const { user } = useContext(UserContext);
+  const [state, setState] = useState(false);
   React.useEffect(() => {
     fetch(`/adverts/${id}`)
       .then((res) => res.json())

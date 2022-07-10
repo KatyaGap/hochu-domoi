@@ -12,13 +12,16 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.hasMany(models.Favorite, { foreignKey: 'user_id' });
       this.hasMany(models.Post, { foreignKey: 'user_id' });
+      this.belongsTo(models.Role, { foreignKey: 'role_id' });
+      this.hasMany(models.Message, { foreignKey: 'user_id' });
     }
   }
   User.init({
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    phone: DataTypes.INTEGER,
+    role_id: DataTypes.INTEGER,
+    user_photo: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'User',

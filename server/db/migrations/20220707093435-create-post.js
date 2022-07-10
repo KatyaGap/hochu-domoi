@@ -56,9 +56,14 @@ module.exports = {
         },
         onDelete: 'CASCADE',
       },
-      size: {
+      size_id: {
         type: Sequelize.INTEGER,
         isNull: false,
+        references: {
+          model: 'Sizes',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
       },
       lost_date: {
         type: Sequelize.DATE,
@@ -87,6 +92,9 @@ module.exports = {
           key: 'id',
         },
         onDelete: 'CASCADE',
+      },
+      phone: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,

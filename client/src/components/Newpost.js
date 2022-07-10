@@ -139,7 +139,7 @@ export default function Newpost({ type }) {
                   id="demo-simple-select"
                   name="pet_id"
                   value={post.pet_id}
-                  label="Pet"
+                  label="Вид животного"
                   onChange={handleChange}
                 >
                   {pets?.map((item, ind) => (
@@ -159,7 +159,7 @@ export default function Newpost({ type }) {
                     id="demo-simple-select"
                     name="breed_id"
                     value={post.breed_id}
-                    label="Breed"
+                    label="Порода"
                     onChange={handleChange}
                   >
                     {breeds?.map((item, ind) => (
