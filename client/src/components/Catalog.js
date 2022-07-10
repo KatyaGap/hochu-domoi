@@ -7,20 +7,19 @@ import PostList from './PostList';
 
 function Catalog() {
   const dispatch = useDispatch();
-  const { adverts } = useSelector((state) => state);
-  const [filteredPosts, setFilteredPosts] = React.useState([...adverts]);
+  const { adverts, filtered } = useSelector((state) => state);
   console.log('adverts', adverts);
-  console.log('filtered', filteredPosts);
+  console.log('filtered', filtered);
   useEffect(() => {
     dispatch(getAdvertsThunk());
   }, []);
   return (
     <div className="cont">
       <div>
-        <Filters adverts={adverts} setFilteredPosts={setFilteredPosts} />
+        <Filters adverts={adverts} />
       </div>
       <div>
-        <PostList adverts={adverts} />
+        <PostList adverts={filtered.length ? filtered : adverts} />
       </div>
     </div>
   );

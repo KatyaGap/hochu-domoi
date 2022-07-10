@@ -10,28 +10,25 @@ import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import { PhotoCamera } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
-import UserContextProvider, { UserContext } from '../context/user';
+import { useDispatch } from 'react-redux';
 import PostList from './PostList';
+import { getFilteredThunk } from '../redux/actions/adverts';
 
 export default function Filters({ adverts, setFilteredPosts }) {
+  const dispatch = useDispatch();
   const [filter, setFilter] = React.useState({});
   const handleChange = React.useCallback((e) => {
     setFilter((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   });
-  function handleFilter() {
-    setFilteredPosts(
-      adverts.filter(
-        (post) =>
-          filter.type_id === post.type_id &&
-          filter.pet_id === post.pet_id &&
-          filter.color_id === post.color_id &&
-          filter.size === post.size
-      )
-    );
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(getFilteredThunk(filter));
+    setFilter({});
+    e.target.reset();
+  };
   console.log(filter);
   return (
-    <div className="filters">
+    <form onSubmit={handleSubmit}>
       <div>
         <Typography variant="h4" component="div" gutterBottom>
           Пожалуйста, выберите данные
@@ -45,7 +42,7 @@ export default function Filters({ adverts, setFilteredPosts }) {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="pet_id"
+                name="type_id"
                 value={filter.type_id}
                 label="Pet"
                 onChange={handleChange}
@@ -73,7 +70,7 @@ export default function Filters({ adverts, setFilteredPosts }) {
               </Select>
             </FormControl>
           </div>
-          {filter.pet_id === '1' && (
+          {filter.pet_id === 1 && (
             <div className="select">
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Порода</InputLabel>
@@ -152,9 +149,9 @@ export default function Filters({ adverts, setFilteredPosts }) {
           )}
         </Box>
       </div>
-      <Button type="button" variant="contained">
+      <Button type="submit" variant="contained">
         Выбрать объявления
       </Button>
-    </div>
+    </form>
   );
 }

@@ -16,8 +16,8 @@ function PostList({ adverts }) {
 
   return (
     <ImageList sx={{ width: 600 }} cols={4} gap={8}>
-      {adverts.map((item) => (
-        <ImageListItem key={item.img} onClick={() => navigate(`/pet/${item.id}`)}>
+      {adverts.map((item, ind) => (
+        <ImageListItem key={ind + 1} onClick={() => navigate(`/pet/${item.id}`)}>
           <img
             src={`${item.photo_url}?w=248&fit=crop&auto=format`}
             srcSet={`${item.photo_url}?w=248&fit=crop&auto=format&dpr=2 2x`}
