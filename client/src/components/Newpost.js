@@ -21,7 +21,7 @@ export default function Newpost({ type }) {
   const [flag, setFlag] = React.useState(false);
   const { params } = useSelector((state) => state);
   const { sizes, types, pets, colors, breeds, statuses } = params;
-	const ref = useRef();
+  const ref = useRef();
   // console.log('params', params);
   // console.log('pets', pets);
   useEffect(() => {
@@ -59,12 +59,17 @@ export default function Newpost({ type }) {
     formData.append('color_id', Number(post.color_id));
     formData.append('size', Number(post.size));
     formData.append('status_id', Number(post.status_id));
-    formData.append('files', ref.current.files);
+    post.files.map((el, i) => {
+      formData.append('files', post.files[i]);
+    });
     formData.append('date', post.date);
     formData.append('text', post.text);
     formData.append('phone', post.phone);
-
-    fetch(`/map/${type}`, { method: 'Post', body: formData })
+    console.log(post);
+    fetch(`/map/${type}`, {
+      method: 'Post',
+      body: formData,
+    })
       .then((response) => response.json())
       .then((result) => setPosts((prev) => [...prev, result]))
       .finally(() => {
@@ -85,10 +90,13 @@ export default function Newpost({ type }) {
 
   const handleChange = React.useCallback((e) => {
     if (e.target.type === 'file') {
+      console.log(e.target.files.length);
       setPost((prev) => ({
         ...prev,
         [e.target.name]: e.target.value,
-        file: e.target.files[0],
+        files: new Array(e.target.files.length)
+          .fill('')
+          .map((el, i) => e.target.files[i]),
       }));
     } else {
       setPost((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -96,7 +104,7 @@ export default function Newpost({ type }) {
   }, []);
 
   return (
-    <form encType="multipart/form-data" onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       {flag === false ? (
         <div>
           <Typography variant="h4" component="div" gutterBottom>
@@ -325,10 +333,9 @@ export default function Newpost({ type }) {
                 id="icon-button-file"
                 type="file"
                 multiple
-								ref={ref}
-                // onChange={() => {
-								// 	console.log('ref', ref.current.files)
-								// }}
+                onChange={handleChange}
+                // 	console.log('ref', ref.current.files)
+                // }}
                 placeholder="Фото"
                 name="files"
               />
