@@ -11,9 +11,9 @@ import SendIcon from '@mui/icons-material/Send';
 import { PhotoCamera } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { getAdvertsThunk, getParamsThunk } from '../redux/actions/adverts';
 import filterReducer from '../redux/reducers/filter';
-import { toast } from 'react-toastify';
 
 export default function Newpost({ type }) {
   const navigate = useNavigate();
@@ -52,15 +52,14 @@ export default function Newpost({ type }) {
   });
   function makeBool1() {
     if (
-      post.type_id &&
-      post.pet_id &&
-      post.breed_id &&
-      post.color_id &&
-      post.size &&
-      post.status_id &&
-      post.text
-    )
-      return true;
+      post.type_id
+      && post.pet_id
+      && post.breed_id
+      && post.color_id
+      && post.size
+      && post.status_id
+      && post.text
+    ) { return true; }
     return false;
   }
   function makeBool2() {
@@ -338,9 +337,7 @@ export default function Newpost({ type }) {
           <Button
             type="submit"
             variant="contained"
-            onClick={() =>
-              makeBool1() ? setFlag((prev) => !prev) : makeToast()
-            }
+            onClick={() => (makeBool1() ? setFlag((prev) => !prev) : makeToast())}
           >
             Далее
           </Button>
