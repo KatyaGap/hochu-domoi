@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdvertsThunk, getParamsThunk } from '../redux/actions/adverts';
 import filterReducer from '../redux/reducers/filter';
+import { toast } from 'react-toastify';
 
 export default function Newpost({ type }) {
   const navigate = useNavigate();
@@ -49,8 +50,35 @@ export default function Newpost({ type }) {
     date: '',
     phone: '',
   });
+  function makeBool1() {
+    if (
+      post.type_id &&
+      post.pet_id &&
+      post.breed_id &&
+      post.color_id &&
+      post.size &&
+      post.status_id &&
+      post.text
+    )
+      return true;
+    return false;
+  }
+  function makeBool2() {
+    if (post.files && post.phone) return true;
+    return false;
+  }
+  function makeToast() {
+    return (
+      <div className="toast-njksonkio">
+        {toast.info('Вы заполнили не все поля!', {
+          position: toast.POSITION.BOTTOM_CENTER,
+        })}
+      </div>
+    );
+  }
   console.log(query.get('type'));
   const handleSubmit = (e) => {
+    if (!makeBool2()) makeToast();
     e.preventDefault();
     const formData = new FormData();
     formData.append('type_id', Number(post.type_id));
@@ -65,7 +93,7 @@ export default function Newpost({ type }) {
     formData.append('date', post.date);
     formData.append('text', post.text);
     formData.append('phone', post.phone);
-    console.log('post', post);
+    // console.log('post', post);
     fetch(`/map/${type}`, {
       method: 'Post',
       body: formData,
@@ -87,7 +115,6 @@ export default function Newpost({ type }) {
         navigate('/');
       });
   };
-
   const handleChange = React.useCallback((e) => {
     if (e.target.type === 'file') {
       console.log(e.target.files.length);
@@ -240,25 +267,27 @@ export default function Newpost({ type }) {
                 </div>
               )} */}
             </div>
-            <div className="select">
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Статус</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  name="status_id"
-                  value={post.status_id}
-                  label="Status"
-                  onChange={handleChange}
-                >
-                  {statuses?.map((item, ind) => (
-                    <MenuItem key={ind + 1} value={ind + 1}>
-                      {item.status}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </div>
+            {post.type_id === 1 && (
+              <div className="select">
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Статус</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    name="status_id"
+                    value={post.status_id}
+                    label="Status"
+                    onChange={handleChange}
+                  >
+                    {statuses?.map((item, ind) => (
+                      <MenuItem key={ind + 1} value={ind + 1}>
+                        {item.status}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+            )}
           </Box>
           {post.type_id === 1 ? (
             <Typography variant="h6" component="div" gutterBottom>
@@ -311,7 +340,9 @@ export default function Newpost({ type }) {
           <Button
             type="submit"
             variant="contained"
-            onClick={() => setFlag((prev) => !prev)}
+            onClick={() =>
+              makeBool1() ? setFlag((prev) => !prev) : makeToast()
+            }
           >
             Далее
           </Button>
@@ -364,7 +395,10 @@ export default function Newpost({ type }) {
           <Button
             type="submit"
             variant="contained"
-            onClick={() => setFlag((prev) => !prev)}
+            onClick={() => {
+              setFlag((prev) => !prev);
+              toast.dismiss();
+            }}
           >
             Назад
           </Button>
