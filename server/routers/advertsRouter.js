@@ -1,7 +1,15 @@
 const router = require('express').Router();
 const moment = require('moment');
 const {
-  User, Post, Breed, Pet, Color, Status, Type, Size, Image,
+  User,
+  Post,
+  Breed,
+  Pet,
+  Color,
+  Status,
+  Type,
+  Size,
+  Image,
 } = require('../db/models');
 
 require('moment/locale/ru');
@@ -18,11 +26,10 @@ router.route('/').get(async (req, res) => {
         },
       ],
     });
-    const result = posts.map(
-      (el) => ({
-        ...el.dataValues, photo_url: el.Images[0]?.image,
-      }),
-    );
+    const result = posts.map((el) => ({
+      ...el.dataValues,
+      photo_url: el.Images[0]?.image,
+    }));
     res.json(result);
   } catch (error) {
     console.log(error);
@@ -83,12 +90,10 @@ router.route('/fiveLost').get(async (req, res) => {
       size: el.Size.dataValues.size,
       timeSinceMissing: moment(
         el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD',
+        'YYYYMMDD'
       ).fromNow(),
       photo_url: el.Images[0]?.image,
-    }
-    ));
-    console.log('RESULT', result);
+    }));
     res.json(result);
   } catch (error) {
     console.log(error);
@@ -149,7 +154,7 @@ router.route('/fiveFound').get(async (req, res) => {
       size: el.Size.dataValues.size,
       timeSinceMissing: moment(
         el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD',
+        'YYYYMMDD'
       ).fromNow(),
       photo_url: el.Images[0]?.image,
     }));
@@ -160,6 +165,7 @@ router.route('/fiveFound').get(async (req, res) => {
 });
 
 router.route('/filter').post(async (req, res) => {
+  console.log('REQ BODY FILTER', req.body);
   try {
     const postsFind = await Post.findAll({
       where: req.body,
@@ -199,13 +205,13 @@ router.route('/filter').post(async (req, res) => {
           limit: 1,
         },
       ],
-      raw: true,
     });
+    console.log('POSTS FIND FILTER', postsFind);
     const result = postsFind.map((el) => ({
       ...el.dataValues,
       name: el.User.dataValues.name,
       breed: el.Breed.dataValues.breed,
-      color_name: el.Сolor.dataValues.color_name,
+      color_name: el.Color.dataValues.color_name,
       hex: el.Color.dataValues.hex,
       status: el.Status.dataValues.status,
       type: el.Type.dataValues.type,
@@ -213,9 +219,11 @@ router.route('/filter').post(async (req, res) => {
       size: el.Size.dataValues.size,
       timeSinceMissing: moment(
         el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD',
+        'YYYYMMDD'
       ).fromNow(),
+      photo_url: el.Images[0]?.image,
     }));
+    console.log('FILTERED', result);
     res.json(result);
   } catch (error) {
     console.log(error);
@@ -240,7 +248,12 @@ router.route('/params').get(async (req, res) => {
       raw: true,
     });
     res.json({
-      sizes, types, pets, breeds, colors, statuses,
+      sizes,
+      types,
+      pets,
+      breeds,
+      colors,
+      statuses,
     });
   } catch (error) {
     console.log(error);
@@ -297,11 +310,12 @@ router.route('/:id').get(async (req, res) => {
       size: post['Size.size'],
       timeSinceMissing: moment(
         post.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD',
+        'YYYYMMDD'
       ).fromNow(),
     };
     const images = await Image.findAll({ where: { post_id: req.params.id } });
-    res.json({ post, images });
+    images.forEach((el, ind) => (post[`image${ind}`] = el.image));
+    res.json(post);
   } catch (error) {
     console.log(error);
   }
