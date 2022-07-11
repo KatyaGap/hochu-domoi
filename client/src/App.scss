@@ -338,19 +338,23 @@
 
  /* ПРОФИЛЬ */
 
- .profile-container {
+.profile-container {
+}
+
+.profile-wrapper {
   display: flex;
   flex-direction: column;
   padding: 2rem 0px 40px;
- }
+  width: 60rem;
+}
+
+.my-posts-container {
+  width: 100%;
+}
  
- .profile-container > * {
+.profile-wrapper > * {
    margin-top: 2rem;
    margin-bottom: 2rem;
- }
-
- .my-posts-container {
-  width: 60rem;
  }
 
 .card-wide .card-photo {

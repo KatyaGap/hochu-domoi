@@ -59,9 +59,7 @@ export default function Newpost({ type }) {
     formData.append('color_id', Number(post.color_id));
     formData.append('size', Number(post.size));
     formData.append('status_id', Number(post.status_id));
-    post.files.map((el, i) => {
-      formData.append('files', post.files[i]);
-    });
+    post.files.map((el, i) => formData.append('files', post.files[i]));
     formData.append('date', post.date);
     formData.append('text', post.text);
     formData.append('phone', post.phone);
@@ -334,7 +332,7 @@ export default function Newpost({ type }) {
                 type="file"
                 multiple
                 onChange={handleChange}
-                // 	console.log('ref', ref.current.files)
+                // console.log('ref', ref.current.files)
                 // }}
                 placeholder="Фото"
                 name="files"
