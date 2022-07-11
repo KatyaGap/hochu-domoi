@@ -81,9 +81,6 @@ module.exports = {
         type: Sequelize.FLOAT,
         isNull: false,
       },
-      photo_url: {
-        type: Sequelize.STRING,
-      },
       user_id: {
         type: Sequelize.INTEGER,
         isNull: false,
