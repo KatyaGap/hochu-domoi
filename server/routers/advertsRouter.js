@@ -1,7 +1,15 @@
 const router = require('express').Router();
 const moment = require('moment');
 const {
-  User, Post, Breed, Pet, Color, Status, Type, Size, Image,
+  User,
+  Post,
+  Breed,
+  Pet,
+  Color,
+  Status,
+  Type,
+  Size,
+  Image,
 } = require('../db/models');
 
 require('moment/locale/ru');
@@ -18,11 +26,10 @@ router.route('/').get(async (req, res) => {
         },
       ],
     });
-    const result = posts.map(
-      (el) => ({
-        ...el.dataValues, photo_url: el.Images[0]?.image,
-      }),
-    );
+    const result = posts.map((el) => ({
+      ...el.dataValues,
+      photo_url: el.Images[0]?.image,
+    }));
     res.json(result);
   } catch (error) {
     console.log(error);
@@ -83,11 +90,10 @@ router.route('/fiveLost').get(async (req, res) => {
       size: el.Size.dataValues.size,
       timeSinceMissing: moment(
         el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD',
+        'YYYYMMDD'
       ).fromNow(),
       photo_url: el.Images[0]?.image,
-    }
-    ));
+    }));
     res.json(result);
   } catch (error) {
     console.log(error);
@@ -148,7 +154,7 @@ router.route('/fiveFound').get(async (req, res) => {
       size: el.Size.dataValues.size,
       timeSinceMissing: moment(
         el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD',
+        'YYYYMMDD'
       ).fromNow(),
       photo_url: el.Images[0]?.image,
     }));
@@ -213,7 +219,7 @@ router.route('/filter').post(async (req, res) => {
       size: el.Size.dataValues.size,
       timeSinceMissing: moment(
         el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD',
+        'YYYYMMDD'
       ).fromNow(),
       photo_url: el.Images[0]?.image,
     }));
@@ -242,7 +248,12 @@ router.route('/params').get(async (req, res) => {
       raw: true,
     });
     res.json({
-      sizes, types, pets, breeds, colors, statuses,
+      sizes,
+      types,
+      pets,
+      breeds,
+      colors,
+      statuses,
     });
   } catch (error) {
     console.log(error);
@@ -299,11 +310,12 @@ router.route('/:id').get(async (req, res) => {
       size: post['Size.size'],
       timeSinceMissing: moment(
         post.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD',
+        'YYYYMMDD'
       ).fromNow(),
     };
     const images = await Image.findAll({ where: { post_id: req.params.id } });
-    res.json({ post, images });
+    images.forEach((el, ind) => (post[`image${ind}`] = el.image));
+    res.json(post);
   } catch (error) {
     console.log(error);
   }
