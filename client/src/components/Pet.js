@@ -49,7 +49,12 @@ export default function Pet({ post }) {
         <Typography gutterBottom variant="h6" component="div">
           {pet.name}
         </Typography>
-        <Typography gutterBottom variant="h8" color="text.secondary" component="div">
+        <Typography
+          gutterBottom
+          variant="h8"
+          color="text.secondary"
+          component="div"
+        >
           {pet.timeSinceMissing}
         </Typography>
         <Typography
@@ -67,13 +72,23 @@ export default function Pet({ post }) {
           image={pet.photo_url}
         />
         <CardContent>
-          <Typography gutterBottom variant="h8" color="text.secondary" component="div">
+          <Typography
+            gutterBottom
+            variant="h8"
+            color="text.secondary"
+            component="div"
+          >
             Порода: {pet.breed}
           </Typography>
-          <Typography gutterBottom variant="h8" color="text.secondary" component="div">
+          <Typography
+            gutterBottom
+            variant="h8"
+            color="text.secondary"
+            component="div"
+          >
             Статус: {pet.status}
           </Typography>
-					<Typography variant="body2" variant="h6">
+          <Typography variant="body2" variant="h6">
             {pet.text}
           </Typography>
         </CardContent>

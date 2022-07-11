@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -21,6 +21,7 @@ export default function Newpost({ type }) {
   const [flag, setFlag] = React.useState(false);
   const { params } = useSelector((state) => state);
   const { sizes, types, pets, colors, breeds, statuses } = params;
+	const ref = useRef();
   // console.log('params', params);
   // console.log('pets', pets);
   useEffect(() => {
@@ -30,7 +31,6 @@ export default function Newpost({ type }) {
     const { search } = useLocation();
     return React.useMemo(() => new URLSearchParams(search), [search]);
   }
-
   const query = useQuery();
   console.log('query', query.get('type'));
   function getType() {
@@ -53,13 +53,13 @@ export default function Newpost({ type }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
-		formData.append('type_id', Number(post.type_id));
+    formData.append('type_id', Number(post.type_id));
     formData.append('pet_id', Number(post.pet_id));
     formData.append('breed_id', Number(post.breed_id));
     formData.append('color_id', Number(post.color_id));
     formData.append('size', Number(post.size));
     formData.append('status_id', Number(post.status_id));
-    formData.append('file', post.file);
+    formData.append('files', ref.current.files);
     formData.append('date', post.date);
     formData.append('text', post.text);
     formData.append('phone', post.phone);
@@ -96,7 +96,7 @@ export default function Newpost({ type }) {
   }, []);
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form encType="multipart/form-data" onSubmit={handleSubmit}>
       {flag === false ? (
         <div>
           <Typography variant="h4" component="div" gutterBottom>
@@ -320,14 +320,17 @@ export default function Newpost({ type }) {
             spacing={2}
           >
             <label htmlFor="icon-button-file">
-              <Input
+              <input
                 accept="image/*"
                 id="icon-button-file"
                 type="file"
-                onChange={handleChange}
+                multiple
+								ref={ref}
+                // onChange={() => {
+								// 	console.log('ref', ref.current.files)
+								// }}
                 placeholder="Фото"
-                name="photo_url"
-                value={post.photo_url}
+                name="files"
               />
               <IconButton
                 color="primary"
