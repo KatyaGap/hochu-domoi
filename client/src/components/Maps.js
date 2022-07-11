@@ -5,9 +5,9 @@ import { useLocation } from 'react-router-dom';
 import { Paper } from '@mui/material';
 import CardMap from './elements/CardMap';
 
-function Maps({ filter }) {
+function Maps() {
+  console.log('MAP');
   const [posts, setPosts] = useState([]);
-  const maaap = useRef();
   const location = useLocation();
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function Maps({ filter }) {
       {
         center: [55.76, 37.64],
         zoom: 10,
-        controls: ['zoomControl', 'searchControl', 'typeSelector', 'fullscreenControl', 'geolocationControl'],
+        controls: ['searchControl', 'typeSelector', 'fullscreenControl', 'geolocationControl'],
         behaviors: ['drag'],
       },
       {
@@ -45,6 +45,13 @@ function Maps({ filter }) {
       },
 
     );
+    myMap.controls.add('zoomControl', {
+      float: 'none',
+      position: {
+        right: 20,
+        top: 100,
+      },
+    });
 
     for (let i = 0; i < posts.length; i += 1) {
       geoObjects[i] = new ymaps.Placemark(
@@ -52,9 +59,10 @@ function Maps({ filter }) {
         [posts[i].address_lattitude, posts[i].address_longitude],
         // console.log('obj', [arr[i].address_lattitude, arr[i].address_longitude]),
         {
-          iconContent: posts[i].text,
-          hintContent: posts[i].text,
-          balloonContent: posts[i].text,
+          // iconContent: arr[i].text,
+          balloonContentHeader: posts[i].text,
+          // balloonContentBody: arr[i].text,
+          balloonContentBody: `<img src=${posts[i].photo_url} height="150" width="200">`,
         },
 
         {
@@ -78,10 +86,6 @@ function Maps({ filter }) {
 
     myMap.geoObjects.add(clusterer);
     clusterer.add(geoObjects);
-
-    // myMap.geoObjects
-    //   .add(placemark);
-    // .add(geoObjects);
   }
 
   ymaps.ready(init);
@@ -91,9 +95,9 @@ function Maps({ filter }) {
       {posts.length > 0 && (<div id="map" />)}
       {/* <div id="map" /> */}
       {posts.length > 0 && (
-      <Paper className="map-posts-overlay" elevation={8}>
-        {posts.map((post) => <CardMap post={post} />)}
-      </Paper>
+        <Paper className="map-posts-overlay" elevation={8}>
+          {posts.map((post) => <CardMap post={post} />)}
+        </Paper>
       )}
     </div>
   );

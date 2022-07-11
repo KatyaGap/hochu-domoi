@@ -16,6 +16,9 @@ module.exports = {
       {
         breed: 'Не знаю',
       },
+      {
+        breed: 'Кошка',
+      },
     ], {});
   },
   async down(queryInterface, Sequelize) {
