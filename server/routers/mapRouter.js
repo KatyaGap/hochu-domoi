@@ -2,13 +2,12 @@ const moment = require('moment');
 const router = require('express').Router();
 const multer = require('multer');
 
-const upload = multer({ dest: './public/images' });
-// const { upload, uploadMultiple } = require('../middlewares/upload');
+const { upload, uploadMultiple } = require('../middlewares/upload');
 require('moment/locale/ru');
 
 moment.locale('ru');
 const {
-  Post, Type, User, Color, Breed, Status, Pet, Image,
+  User, Post, Breed, Pet, Color, Status, Type, Size, Image,
 } = require('../db/models');
 
 router
@@ -49,24 +48,34 @@ router
             model: Pet,
             attributes: ['pet'],
           },
+          {
+            model: Size,
+            attributes: ['size'],
+          },
+          {
+            model: Image,
+            attributes: ['image'],
+            limit: 1,
+          },
         ],
-
-        raw: true,
       });
-      const result = posts.map((post) => ({
-        ...post,
-        name: post['User.name'],
-        breed: post['Breed.breed'],
-        color_name: post['Color.color_name'],
-        hex: post['Color.hex'],
-        status: post['Status.status'],
-        type: post['Type.type'],
-        pet: post['Pet.pet'],
+      const result = posts.map((el) => ({
+        ...el.dataValues,
+        name: el.User.dataValues.name,
+        breed: el.Breed.dataValues.breed,
+        color_name: el.Color.dataValues.color_name,
+        hex: el.Color.dataValues.hex,
+        status: el.Status.dataValues.status,
+        type: el.Type.dataValues.type,
+        pet: el.Pet.dataValues.pet,
+        size: el.Size.dataValues.size,
         timeSinceMissing: moment(
-          post.lost_date.toISOString().split('T')[0].split('-').join(''),
+          el.lost_date?.toISOString().split('T')[0].split('-').join(''),
           'YYYYMMDD',
         ).fromNow(),
-      }));
+        photo_url: el.Images[0]?.image,
+      }
+      ));
       res.json(result);
     } catch (error) {
       console.log(error);
@@ -74,6 +83,7 @@ router
   })
   .post(upload.array('files'), async (req, res) => {
     try {
+      console.log('POST CREATE', req.files);
       // const type = await Type.findOne({ where: { type: req.params.type } });
       const { userId } = req.session;
       const arr = req.files;
@@ -91,6 +101,12 @@ router
         address_longitude: req.body.address_longitude || 37.534586242675786, // ДАННЫЕ ДОЛЖНЫ ИЗ КАРТЫ ТЯНУТЬСЯ
         user_id: userId,
       });
+      // arr.map(
+      //   await ((img, i) => Image.create({
+      //     image: arr[i].path.replace('public', ''),
+      //     post_id: post.id,
+      //   })),
+      // );
       arr.map(
         await ((img, i) => Image.create({
           image: arr[i].path.replace('public', ''),

@@ -88,7 +88,6 @@ router.route('/fiveLost').get(async (req, res) => {
       photo_url: el.Images[0]?.image,
     }
     ));
-    console.log('RESULT', result);
     res.json(result);
   } catch (error) {
     console.log(error);
@@ -160,6 +159,7 @@ router.route('/fiveFound').get(async (req, res) => {
 });
 
 router.route('/filter').post(async (req, res) => {
+  console.log('REQ BODY FILTER', req.body);
   try {
     const postsFind = await Post.findAll({
       where: req.body,
@@ -199,13 +199,13 @@ router.route('/filter').post(async (req, res) => {
           limit: 1,
         },
       ],
-      raw: true,
     });
+    console.log('POSTS FIND FILTER', postsFind);
     const result = postsFind.map((el) => ({
       ...el.dataValues,
       name: el.User.dataValues.name,
       breed: el.Breed.dataValues.breed,
-      color_name: el.Сolor.dataValues.color_name,
+      color_name: el.Color.dataValues.color_name,
       hex: el.Color.dataValues.hex,
       status: el.Status.dataValues.status,
       type: el.Type.dataValues.type,
@@ -215,7 +215,9 @@ router.route('/filter').post(async (req, res) => {
         el.lost_date?.toISOString().split('T')[0].split('-').join(''),
         'YYYYMMDD',
       ).fromNow(),
+      photo_url: el.Images[0]?.image,
     }));
+    console.log('FILTERED', result);
     res.json(result);
   } catch (error) {
     console.log(error);
