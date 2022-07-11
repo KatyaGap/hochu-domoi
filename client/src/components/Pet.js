@@ -68,12 +68,16 @@ export default function Pet({ post }) {
         />
         <CardContent>
           <Typography gutterBottom variant="h8" color="text.secondary" component="div">
-            Порода: {pet.breed}
+            Порода:
+            {' '}
+            {pet.breed}
           </Typography>
           <Typography gutterBottom variant="h8" color="text.secondary" component="div">
-            Статус: {pet.status}
+            Статус:
+            {' '}
+            {pet.status}
           </Typography>
-					<Typography variant="body2" variant="h6">
+          <Typography variant="body2">
             {pet.text}
           </Typography>
         </CardContent>
