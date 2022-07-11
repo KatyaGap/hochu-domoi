@@ -53,7 +53,7 @@ export default function Newpost({ type }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
-		formData.append('type_id', Number(post.type_id));
+    formData.append('type_id', Number(post.type_id));
     formData.append('pet_id', Number(post.pet_id));
     formData.append('breed_id', Number(post.breed_id));
     formData.append('color_id', Number(post.color_id));
