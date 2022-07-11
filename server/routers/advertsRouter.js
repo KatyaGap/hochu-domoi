@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const moment = require('moment');
 const {
-  User, Post, Breed, Pet, Color, Status, Type, Size,
+  User, Post, Breed, Pet, Color, Status, Type, Size, Image,
 } = require('../db/models');
 
 require('moment/locale/ru');
@@ -10,9 +10,20 @@ router.route('/').get(async (req, res) => {
   try {
     const posts = await Post.findAll({
       order: [['lost_date', 'DESC']],
-      raw: true,
+      include: [
+        {
+          model: Image,
+          attributes: ['image'],
+          limit: 1,
+        },
+      ],
     });
-    res.json(posts);
+    const result = posts.map(
+      (el) => ({
+        ...el.dataValues, photo_url: el.Images[0]?.image,
+      }),
+    );
+    res.json(result);
   } catch (error) {
     console.log(error);
   }
@@ -52,25 +63,32 @@ router.route('/fiveLost').get(async (req, res) => {
           model: Size,
           attributes: ['size'],
         },
+        {
+          model: Image,
+          attributes: ['image'],
+          limit: 1,
+        },
       ],
       limit: 5,
-      raw: true,
     });
     const result = postsLost.map((el) => ({
-      ...el,
-      name: el['User.name'],
-      breed: el['Breed.breed'],
-      color_name: el['Color.color_name'],
-      hex: el['Color.hex'],
-      status: el['Status.status'],
-      type: el['Type.type'],
-      pet: el['Pet.pet'],
-      size: el['Size.size'],
+      ...el.dataValues,
+      name: el.User.dataValues.name,
+      breed: el.Breed.dataValues.breed,
+      color_name: el.Color.dataValues.color_name,
+      hex: el.Color.dataValues.hex,
+      status: el.Status.dataValues.status,
+      type: el.Type.dataValues.type,
+      pet: el.Pet.dataValues.pet,
+      size: el.Size.dataValues.size,
       timeSinceMissing: moment(
         el.lost_date?.toISOString().split('T')[0].split('-').join(''),
         'YYYYMMDD',
       ).fromNow(),
-    }));
+      photo_url: el.Images[0]?.image,
+    }
+    ));
+    console.log('RESULT', result);
     res.json(result);
   } catch (error) {
     console.log(error);
@@ -111,24 +129,29 @@ router.route('/fiveFound').get(async (req, res) => {
           model: Size,
           attributes: ['size'],
         },
+        {
+          model: Image,
+          attributes: ['image'],
+          limit: 1,
+        },
       ],
       limit: 5,
-      raw: true,
     });
     const result = postsFound.map((el) => ({
-      ...el,
-      name: el['User.name'],
-      breed: el['Breed.breed'],
-      color_name: el['Color.color_name'],
-      hex: el['Color.hex'],
-      status: el['Status.status'],
-      type: el['Type.type'],
-      pet: el['Pet.pet'],
-      size: el['Size.size'],
+      ...el.dataValues,
+      name: el.User.dataValues.name,
+      breed: el.Breed.dataValues.breed,
+      color_name: el.Color.dataValues.color_name,
+      hex: el.Color.dataValues.hex,
+      status: el.Status.dataValues.status,
+      type: el.Type.dataValues.type,
+      pet: el.Pet.dataValues.pet,
+      size: el.Size.dataValues.size,
       timeSinceMissing: moment(
         el.lost_date?.toISOString().split('T')[0].split('-').join(''),
         'YYYYMMDD',
       ).fromNow(),
+      photo_url: el.Images[0]?.image,
     }));
     res.json(result);
   } catch (error) {
@@ -170,19 +193,24 @@ router.route('/filter').post(async (req, res) => {
           model: Size,
           attributes: ['size'],
         },
+        {
+          model: Image,
+          attributes: ['image'],
+          limit: 1,
+        },
       ],
       raw: true,
     });
     const result = postsFind.map((el) => ({
-      ...el,
-      name: el['User.name'],
-      breed: el['Breed.breed'],
-      color_name: el['Color.color_name'],
-      hex: el['Color.hex'],
-      status: el['Status.status'],
-      type: el['Type.type'],
-      pet: el['Pet.pet'],
-      size: el['Size.size'],
+      ...el.dataValues,
+      name: el.User.dataValues.name,
+      breed: el.Breed.dataValues.breed,
+      color_name: el.Сolor.dataValues.color_name,
+      hex: el.Color.dataValues.hex,
+      status: el.Status.dataValues.status,
+      type: el.Type.dataValues.type,
+      pet: el.Pet.dataValues.pet,
+      size: el.Size.dataValues.size,
       timeSinceMissing: moment(
         el.lost_date?.toISOString().split('T')[0].split('-').join(''),
         'YYYYMMDD',
@@ -272,7 +300,8 @@ router.route('/:id').get(async (req, res) => {
         'YYYYMMDD',
       ).fromNow(),
     };
-    res.json(post);
+    const images = await Image.findAll({ where: { post_id: req.params.id } });
+    res.json({ post, images });
   } catch (error) {
     console.log(error);
   }

@@ -10,7 +10,7 @@ export default function SmallCard({ post }) {
     navigate(`/pet/${post.id}`);
   };
 
-  console.log(post);
+  console.log('PPOOOOOOSSSSYTTTTT', post);
 
   return (
     <Card sx={{ minWidth: 216, maxWidth: 216 }} className="card small-card">
