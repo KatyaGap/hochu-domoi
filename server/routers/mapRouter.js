@@ -2,21 +2,12 @@ const moment = require('moment');
 const router = require('express').Router();
 const multer = require('multer');
 
-const upload = multer({ dest: './public/images' });
-// const { upload, uploadMultiple } = require('../middlewares/upload');
+const { upload, uploadMultiple } = require('../middlewares/upload');
 require('moment/locale/ru');
 
 moment.locale('ru');
 const {
-  Post,
-  Type,
-  User,
-  Color,
-  Breed,
-  Status,
-  Pet,
-  Image,
-  Size,
+  User, Post, Breed, Pet, Color, Status, Type, Size, Image,
 } = require('../db/models');
 
 router
@@ -62,6 +53,10 @@ router
             attributes: ['pet'],
           },
           {
+            model: Size,
+            attributes: ['size'],
+          },
+          {
             model: Image,
             attributes: ['image'],
             limit: 1,
@@ -91,6 +86,7 @@ router
   })
   .post(upload.array('files'), async (req, res) => {
     try {
+      console.log('POST CREATE', req.files);
       // const type = await Type.findOne({ where: { type: req.params.type } });
       const { userId } = req.session;
       const arr = req.files;
@@ -108,6 +104,12 @@ router
         address_longitude: req.body.address_longitude || 37.534586242675786, // ДАННЫЕ ДОЛЖНЫ ИЗ КАРТЫ ТЯНУТЬСЯ
         user_id: userId,
       });
+      // arr.map(
+      //   await ((img, i) => Image.create({
+      //     image: arr[i].path.replace('public', ''),
+      //     post_id: post.id,
+      //   })),
+      // );
       arr.map(
         await ((img, i) =>
           Image.create({
