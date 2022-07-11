@@ -39,44 +39,35 @@ export default function Pet({ post }) {
         <Typography gutterBottom variant="h6" component="div">
           {pet.name}
         </Typography>
-        <Typography
-          gutterBottom
-          variant="h8"
-          color="text.secondary"
-          component="div"
-        >
+
+        <Typography gutterBottom variant="h8" color="text.secondary" component="div">
           {pet.timeSinceMissing}
         </Typography>
-        <Typography
-          gutterBottom
-          color="text.secondary"
-          variant="h8"
-          component="div"
-        >
+
+        <Typography gutterBottom color="text.secondary" variant="h8" component="div">
           {pet.address_string}
         </Typography>
-        <CardMedia
-          component="img"
-          alt="green iguana"
-          height="300"
-          image={pet.photo_url}
-        />
-        <CardContent>
 
+        <CardMedia component="img" alt="green iguana" height="300" image={pet.photo_url} />
+
+        <CardContent>
           <Typography gutterBottom variant="h8" color="text.secondary" component="div">
             Порода:
             {' '}
             {pet.breed}
           </Typography>
+
           <Typography gutterBottom variant="h8" color="text.secondary" component="div">
             Статус:
             {' '}
             {pet.status}
           </Typography>
+
           <Typography variant="body2">
             {pet.text}
           </Typography>
         </CardContent>
+
         <CardActions>
           <Button size="small">Показать номер</Button>
           <Button size="small">Отправить сообщение</Button>
