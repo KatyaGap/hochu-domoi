@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const moment = require('moment');
 const { Post } = require('../db/models');
-
 require('moment/locale/ru');
+
 router.route('/').get(async (req, res) => {
   try {
     const posts = await Post.findAll({
@@ -27,7 +27,7 @@ router.route('/fiveLost').get(async (req, res) => {
       ...post,
       timeSinceMissing: moment(
         post.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD'
+        'YYYYMMDD',
       ).fromNow(),
     }));
     console.log('POSTLOST', result);
@@ -48,7 +48,7 @@ router.route('/fiveFound').get(async (req, res) => {
       ...post,
       timeSinceMissing: moment(
         post.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD'
+        'YYYYMMDD',
       ).fromNow(),
     }));
     console.log('POSTFIND', result);
@@ -70,7 +70,7 @@ router.route('/filter').post(async (req, res) => {
       ...post,
       timeSinceMissing: moment(
         post.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD'
+        'YYYYMMDD',
       ).fromNow(),
     }));
     console.log('filter result', result);

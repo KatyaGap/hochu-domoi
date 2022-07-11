@@ -4,7 +4,6 @@ import { Box } from '@mui/system';
 import React from 'react';
 
 function CardMap({ post }) {
-  console.log(post);
   return (
     <Card className="card map-card" variant="outlined">
       <CardActionArea sx={{ display: 'flex' }}>
