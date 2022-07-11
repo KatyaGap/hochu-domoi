@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Breed, { foreignKey: 'breed_id' });
       this.belongsTo(models.Size, { foreignKey: 'size_id' });
       this.belongsTo(models.Color, { foreignKey: 'color_id' });
+      this.hasMany(models.Image, { foreignKey: 'post_id' });
     }
   }
   Post.init({
@@ -32,7 +33,6 @@ module.exports = (sequelize, DataTypes) => {
     address_string: DataTypes.STRING,
     address_lattitude: DataTypes.FLOAT,
     address_longitude: DataTypes.FLOAT,
-    photo_url: DataTypes.STRING,
     user_id: DataTypes.INTEGER,
     phone: DataTypes.STRING,
   }, {

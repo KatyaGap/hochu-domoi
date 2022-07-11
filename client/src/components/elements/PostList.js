@@ -14,7 +14,7 @@ function PostList({ adverts }) {
 
   return (
     <ImageList sx={{ width: 600 }} cols={4} gap={8}>
-      {adverts.map((item, ind) => (
+      {adverts?.map((item, ind) => (
         <ImageListItem key={ind + 1} onClick={() => navigate(`/pet/${item.id}`)}>
           <img
             src={`${item.photo_url}?w=248&fit=crop&auto=format`}
@@ -24,7 +24,7 @@ function PostList({ adverts }) {
           />
 
           <ImageListItemBar
-            title={`${item.text.slice(0, 25)}...`}
+            title={`${item.text?.slice(0, 25)}...`}
             // subtitle={<span>{item.text}</span>}
             position="below"
           />

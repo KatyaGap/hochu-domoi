@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const fs = require('fs').promises;
 const moment = require('moment');
-const {upload} = require('../middlewares/upload');
+const { upload } = require('../middlewares/upload');
 const {
-  User, Post, Breed, Pet, Color, Status, Type,
+  User, Post, Breed, Pet, Color, Status, Type, Size, Image,
 } = require('../db/models');
 require('moment/locale/ru');
 
@@ -42,20 +42,38 @@ router.route('/')
               model: Pet,
               attributes: ['pet'],
             },
+            {
+              model: Size,
+              attributes: ['size'],
+            },
+            {
+              model: Image,
+              attributes: ['image'],
+              limit: 1,
+            },
           ],
-          raw: true,
         });
-        const result = posts.map((post) => ({
-          ...post,
+        const result = posts.map((el) => ({
+          ...el.dataValues,
+          name: el.User.dataValues.name,
+          breed: el.Breed.dataValues.breed,
+          color_name: el.Color.dataValues.color_name,
+          hex: el.Color.dataValues.hex,
+          status: el.Status.dataValues.status,
+          type: el.Type.dataValues.type,
+          pet: el.Pet.dataValues.pet,
+          size: el.Size.dataValues.size,
           timeSinceMissing: moment(
-            post.lost_date?.toISOString().split('T')[0].split('-').join(''),
+            el.lost_date?.toISOString().split('T')[0].split('-').join(''),
             'YYYYMMDD',
           ).fromNow(),
-        }));
+          photo_url: el.Images[0]?.image,
+        }
+        ));
         res.json(result);
       } else {
         const posts = await Post.findAll({
-          // where: { user_id: user.id }, // РАСКОММЕНТИТЬ
+          where: { user_id: user.id },
           order: [['lost_date', 'DESC']],
           include: [
             {
@@ -82,16 +100,34 @@ router.route('/')
               model: Pet,
               attributes: ['pet'],
             },
+            {
+              model: Size,
+              attributes: ['size'],
+            },
+            {
+              model: Image,
+              attributes: ['image'],
+              limit: 1,
+            },
           ],
-          raw: true,
         });
-        const result = posts.map((post) => ({
-          ...post,
+        const result = posts.map((el) => ({
+          ...el.dataValues,
+          name: el.User.dataValues.name,
+          breed: el.Breed.dataValues.breed,
+          color_name: el.Color.dataValues.color_name,
+          hex: el.Color.dataValues.hex,
+          status: el.Status.dataValues.status,
+          type: el.Type.dataValues.type,
+          pet: el.Pet.dataValues.pet,
+          size: el.Size.dataValues.size,
           timeSinceMissing: moment(
-            post.lost_date?.toISOString().split('T')[0].split('-').join(''),
+            el.lost_date?.toISOString().split('T')[0].split('-').join(''),
             'YYYYMMDD',
           ).fromNow(),
-        }));
+          photo_url: el.Images[0]?.image,
+        }
+        ));
         res.json(result);
       }
     } catch (error) {
@@ -108,8 +144,6 @@ router.route('/:id')
     res.json({ message: `${message}` });
   })
   .put(upload.single('file'), async (req, res) => {
-    console.log('Я ПОПАЛ В РЕДАКТИРОВАНИЕ');
-    console.log('USER ID', res.locals.userId);
     try {
       const updatePost = await Post.findOne({ where: { id: req.params.id } });
       if (updatePost.user_id === res.locals.userId) {

@@ -7,7 +7,9 @@ const upload = multer({ dest: './public/images' });
 require('moment/locale/ru');
 
 moment.locale('ru');
-const { Post, Type, User, Color, Breed, Status, Pet } = require('../db/models');
+const {
+  Post, Type, User, Color, Breed, Status, Pet, Image,
+} = require('../db/models');
 
 router
   .route('/:type')
@@ -62,7 +64,7 @@ router
         pet: post['Pet.pet'],
         timeSinceMissing: moment(
           post.lost_date.toISOString().split('T')[0].split('-').join(''),
-          'YYYYMMDD'
+          'YYYYMMDD',
         ).fromNow(),
       }));
       res.json(result);
@@ -71,27 +73,31 @@ router
     }
   })
   .post(upload.array('files'), async (req, res) => {
-    console.log('REQ FILE------------------------', req.files);
     try {
       // const type = await Type.findOne({ where: { type: req.params.type } });
-
       const { userId } = req.session;
-      await Post.create({
+      const arr = req.files;
+      const post = await Post.create({
         text: req.body.text,
         pet_id: req.body.pet_id,
         type_id: req.body.type_id,
-        status_id: req.body.status_id,
-        breed_id: req.body.breed_id || 1,
+        status_id: req.body.status_id || 5,
+        breed_id: req.body.breed_id || 6,
         color_id: req.body.color_id,
         size_id: req.body.size,
-        // lost_date: req.body.date || '2020-01-17T04:33:12.000Z',   ПОТОМ РАСКОММЕНТИТЬ
-        lost_date: req.body.date, // НУЖНА ФОРМА НА ФРОНТЕ С ДАТОЙ ПОТЕРИ
+        lost_date: req.body.date,
         address_string: req.body.address_string || 'Moscow', // ДАННЫЕ ДОЛЖНЫ ИЗ КАРТЫ ТЯНУТЬСЯ
         address_lattitude: req.body.address_lattitude || 55.683986493805385, // ДАННЫЕ ДОЛЖНЫ ИЗ КАРТЫ ТЯНУТЬСЯ
         address_longitude: req.body.address_longitude || 37.534586242675786, // ДАННЫЕ ДОЛЖНЫ ИЗ КАРТЫ ТЯНУТЬСЯ
-        // photo_url: req.file.path.replace('public', ''),
         user_id: userId,
       });
+      arr.map(
+        await ((img, i) => Image.create({
+          image: arr[i].path.replace('public', ''),
+          post_id: post.id,
+        })),
+      );
+
       res.json({ text: 'Круто!' }); // тупо строка для теста. Потом поменять на что-то правильное
     } catch (error) {
       console.log(error);
