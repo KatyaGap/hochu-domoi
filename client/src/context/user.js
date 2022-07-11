@@ -47,16 +47,30 @@ function UserContextProvider({ children }) {
     }
   };
 
+  const handleUpdate = async (data) => {
+    let result;
+    const fetchUrl = '/auth/update';
+    const response = await fetch(fetchUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json;charset=utf-8' },
+      body: JSON.stringify(data),
+    });
+    console.log('data: ', data);
+    if (response.ok) {
+      result = await response.json();
+      if (result.id) {
+        setUser({ id: result.id, name: result.name, email: result.email });
+        setMessage(result.message);
+        return result;
+      }
+      setMessage(result.message);
+    }
+    return result;
+  };
+
   return (
     <UserContext.Provider
-      value={{
-        user,
-        handleAuth,
-        handleLogout,
-        loading,
-        message,
-        setMessage,
-      }}
+      value={{ user, handleAuth, handleLogout, handleUpdate, loading, message, setMessage }}
     >
       {children}
     </UserContext.Provider>

@@ -23,8 +23,6 @@ function Maps() {
     };
   }, [location]);
 
-  console.log('--->', posts);
-
   const { ymaps } = window;
   let myMap;
   const geoObjects = [];
@@ -84,11 +82,15 @@ function Maps() {
       clusterIconContentLayout: null,
     });
 
-    myMap.geoObjects.add(clusterer);
-    clusterer.add(geoObjects);
+    myMap?.geoObjects.add(clusterer);
+    clusterer?.add(geoObjects);
+
+    // myMap.geoObjects
+    //   .add(placemark);
+    // .add(geoObjects);
   }
 
-  ymaps.ready(init);
+  ymaps?.ready(init);
 
   return (
     <div className="map-container">
