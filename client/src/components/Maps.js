@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-import Map from './Map';
 
 function Maps() {
   const [arr, setArr] = useState([]);
@@ -35,7 +34,7 @@ function Maps() {
       {
         center: [55.76, 37.64],
         zoom: 10,
-        controls: ['zoomControl', 'searchControl', 'typeSelector', 'fullscreenControl', 'geolocationControl'],
+        controls: ['searchControl', 'typeSelector', 'fullscreenControl', 'geolocationControl'],
         behaviors: ['drag'],
       },
       {
@@ -43,6 +42,13 @@ function Maps() {
       },
 
     );
+    myMap.controls.add('zoomControl', {
+      float: 'none',
+      position: {
+        right: 20,
+        top: 100,
+      },
+    });
 
     for (let i = 0; i < arr.length; i += 1) {
       geoObjects[i] = new ymaps.Placemark(
@@ -51,9 +57,9 @@ function Maps() {
 
         {
           // iconContent: arr[i].text,
-          hintContent: arr[i].text,
-          balloonContent: arr[i].text,
-
+          balloonContentHeader: arr[i].text,
+          // balloonContentBody: arr[i].text,
+          balloonContentBody: `<img src=${arr[i].photo_url} height="150" width="200">`,
         },
 
         {
