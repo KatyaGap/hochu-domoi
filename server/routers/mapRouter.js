@@ -12,9 +12,15 @@ router
   .route('/:type')
   .get(async (req, res) => {
     try {
-      const type = await Type.findOne({ where: { type: req.params.type } });
+      let type_id = 0;
+      if (req.params.type === 'found') {
+        type_id = 1;
+      } else if (req.params.type === 'lost') {
+        type_id = 2;
+      }
+
       const posts = await Post.findAll({
-        where: { type_id: type.id },
+        where: { type_id },
         include: [
           {
             model: User,
