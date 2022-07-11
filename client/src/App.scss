@@ -166,16 +166,31 @@
   flex-grow: 1;
 }
 
-.card-content {
+.map-card .card-action-area,
+.card-wide .card-action-area {
+  display: flex;
+  align-items: stretch;
+}
+
+.small-card .card-content,
+.map-card .card-content,
+.card-wide .card-content {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   justify-content: space-between;
 }
 
+.small-card .card-description {
+  font-size: 0.9rem;
+}
+
+.card-content .card-bottom {
+  margin-top: .5rem;
+}
+
 .card-content .card-description {
   flex-grow: 1;
-  font-size: 0.9rem;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -moz-box;
@@ -188,7 +203,6 @@
 }
 
 .card-content .card-address {
-  margin-top: .5rem;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -moz-box;
@@ -209,6 +223,13 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+}
+
+.main-last-posts .card-status {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.4rem;
+  background-color: rgba(255, 255, 255, 0.85);
 }
 
 /* КАРУСЕЛЬ НА ГЛАВНОЙ */
@@ -314,3 +335,38 @@
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.4); 
 }
+
+ /* ПРОФИЛЬ */
+
+ .profile-container {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 0px 40px;
+ }
+ 
+ .profile-container > * {
+   margin-top: 2rem;
+   margin-bottom: 2rem;
+ }
+
+ .my-posts-container {
+  width: 60rem;
+ }
+
+.card-wide .card-photo {
+  aspect-ratio: 5/4;
+}
+
+.card-wide .card-bottom,
+.card-wide .card-top {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.card-wide .card-address,
+.card-wide .card-timesincemissing {
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+}
+

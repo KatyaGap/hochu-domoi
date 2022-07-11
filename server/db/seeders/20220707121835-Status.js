@@ -2,7 +2,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Statuses', [
       {
-        status: 'Животное замечено на улице',
+        status: 'Замечен на улице',
       },
       {
         status: 'Ищу передержку',
@@ -11,7 +11,7 @@ module.exports = {
         status: 'Ищу нового хозяина',
       },
       {
-        status: 'Ищу только старого хозяина',
+        status: 'Ищу своего хозяина',
       },
       {
         status: 'Потерялся',

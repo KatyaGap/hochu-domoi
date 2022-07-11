@@ -17,7 +17,7 @@ function Main() {
   }, []);
   const navigate = useNavigate();
   const newpostLink = (type) => {
-    navigate(`/chat?type=${type}`);
+    navigate(`/newpost?type=${type}`);
   };
   console.log('fivelosts', fivelosts);
   console.log('fivefounds', fivefounds);

@@ -55,7 +55,7 @@ router.route('/')
         res.json(result);
       } else {
         const posts = await Post.findAll({
-          where: { user_id: user.id },
+          // where: { user_id: user.id }, // РАСКОММЕНТИТЬ
           order: [['lost_date', 'DESC']],
           include: [
             {
