@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import React, { useState } from 'react';
 // import { addressСoordinates } from './AddLabel';
 // import { addressСoordinates } from './AddLabel';
@@ -27,8 +28,8 @@ export default function Map({ addressСoordinates, save, setCoord, inputs, setIn
         <div><input type="text" id="suggest" value={inputs.adress} onChange={inputHandler} name="adress" placeholder="Введите адрес" style={{ width: "400px", height: "40px" }} /></div>
         <div id="adr">
 
-          <button onClick={addressСoordinates} id="button" type="button">Добавить метку на карту</button>
-          <button onClick={save} id="button" type="submit">Сохранить метку</button>
+          <Button variant="outlined" onClick={addressСoordinates} id="button" type="button">Добавить метку на карту</Button>
+          <Button variant="outlined" onClick={(e) => save(e.preventDefault())} id="button" type="submit">Сохранить метку</Button>
         </div>
 
       </div>

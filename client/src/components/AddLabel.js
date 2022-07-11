@@ -3,11 +3,10 @@ import { useDispatch } from 'react-redux';
 import { yandexMap } from '../redux/actions/lost';
 import Map from './trash/Map';
 
-function AddLabel() {
+function AddLabel({coord, setCoord}) {
   console.log('AddLabel');
   const { ymaps } = window;
   const dispatch = useDispatch();
-  const [coord, setCoord] = useState({});
   const [inputs, setInputs] = useState({});
   const [inputCoord, setInputCoord] = useState('');
   const [changeLable, setCangeLable] = useState({});

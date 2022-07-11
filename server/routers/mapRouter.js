@@ -8,7 +8,15 @@ require('moment/locale/ru');
 
 moment.locale('ru');
 const {
-  Post, Type, User, Color, Breed, Status, Pet, Image,
+  Post,
+  Type,
+  User,
+  Color,
+  Breed,
+  Status,
+  Pet,
+  Image,
+  Size,
 } = require('../db/models');
 
 router
@@ -42,6 +50,10 @@ router
             attributes: ['status'],
           },
           {
+            model: Size,
+            attributes: ['size'],
+          },
+          {
             model: Type,
             attributes: ['type'],
           },
@@ -49,23 +61,28 @@ router
             model: Pet,
             attributes: ['pet'],
           },
+          {
+            model: Image,
+            attributes: ['image'],
+            limit: 1,
+          },
         ],
-
-        raw: true,
       });
-      const result = posts.map((post) => ({
-        ...post,
-        name: post['User.name'],
-        breed: post['Breed.breed'],
-        color_name: post['Color.color_name'],
-        hex: post['Color.hex'],
-        status: post['Status.status'],
-        type: post['Type.type'],
-        pet: post['Pet.pet'],
+      const result = posts.map((el) => ({
+        ...el.dataValues,
+        name: el.User.dataValues.name,
+        breed: el.Breed.dataValues.breed,
+        color_name: el.Color.dataValues.color_name,
+        hex: el.Color.dataValues.hex,
+        status: el.Status.dataValues.status,
+        type: el.Type.dataValues.type,
+        pet: el.Pet.dataValues.pet,
+        size: el.Size.dataValues.size,
         timeSinceMissing: moment(
-          post.lost_date.toISOString().split('T')[0].split('-').join(''),
-          'YYYYMMDD',
+          el.lost_date?.toISOString().split('T')[0].split('-').join(''),
+          'YYYYMMDD'
         ).fromNow(),
+        photo_url: el.Images[0]?.image,
       }));
       res.json(result);
     } catch (error) {
@@ -92,10 +109,11 @@ router
         user_id: userId,
       });
       arr.map(
-        await ((img, i) => Image.create({
-          image: arr[i].path.replace('public', ''),
-          post_id: post.id,
-        })),
+        await ((img, i) =>
+          Image.create({
+            image: arr[i].path.replace('public', ''),
+            post_id: post.id,
+          }))
       );
 
       res.json({ text: 'Круто!' }); // тупо строка для теста. Потом поменять на что-то правильное

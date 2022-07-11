@@ -42,7 +42,7 @@ export default function Filters({ adverts }) {
             <div className="select">
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">
-                  Какая у вас ситуация?
+                  Какие животные вас интересуют?
                 </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
@@ -52,11 +52,8 @@ export default function Filters({ adverts }) {
                   label="Pet"
                   onChange={handleChange}
                 >
-                  {types?.map((item, ind) => (
-                    <MenuItem key={ind + 1} value={ind + 1}>
-                      {item.type}
-                    </MenuItem>
-                  ))}
+                  <MenuItem value={1}>Найденыши</MenuItem>
+                  <MenuItem value={2}>Потеряшки</MenuItem>
                 </Select>
               </FormControl>
             </div>
