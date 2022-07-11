@@ -1,6 +1,6 @@
 const moment = require('moment');
 const router = require('express').Router();
-const upload = require('../middlewares/upload');
+const { upload, uploadMultiple } = require('../middlewares/upload');
 require('moment/locale/ru');
 
 moment.locale('ru');
@@ -69,15 +69,15 @@ router
       console.log(error);
     }
   })
-  .post(upload.single('file'), async (req, res) => {
+  .post(uploadMultiple('files'), async (req, res) => {
     try {
       // const type = await Type.findOne({ where: { type: req.params.type } });
-      console.log('reqbody', req.body);
-			const { userId } = req.session;
+      console.log('REQBODY', req.body);
+      console.log('REQ FILE', req.files);
+      const { userId } = req.session;
       await Post.create({
         text: req.body.text,
         pet_id: req.body.pet_id,
-        // type_id: type.dataValues.id || 1,  ПОТОМ РАСКОММЕНТИТЬ, КОГДА БУДУТ ДАННЫЕ С ФРОНТА
         type_id: req.body.type_id,
         status_id: req.body.status_id,
         breed_id: req.body.breed_id || 1,
