@@ -2,14 +2,7 @@ const router = require('express').Router();
 const express = require('express');
 const moment = require('moment');
 const {
-  User,
-  Post,
-  Breed,
-  Pet,
-  Color,
-  Status,
-  Type,
-  Size,
+  User, Post, Breed, Pet, Color, Status, Type, Size,
 } = require('../db/models');
 
 require('moment/locale/ru');
@@ -76,7 +69,7 @@ router.route('/fiveLost').get(async (req, res) => {
       size: el['Size.size'],
       timeSinceMissing: moment(
         el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD'
+        'YYYYMMDD',
       ).fromNow(),
     }));
     console.log('result', result);
@@ -124,7 +117,7 @@ router.route('/fiveFound').get(async (req, res) => {
       limit: 5,
       raw: true,
     });
-		console.log(postsFound)
+    console.log(postsFound);
     const result = postsFound.map((el) => ({
       ...el,
       name: el['User.name'],
@@ -137,10 +130,10 @@ router.route('/fiveFound').get(async (req, res) => {
       size: el['Size.size'],
       timeSinceMissing: moment(
         el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD'
+        'YYYYMMDD',
       ).fromNow(),
     }));
-		console.log('result', result)
+    console.log('result', result);
     res.json(result);
   } catch (error) {
     console.log(error);
@@ -197,7 +190,7 @@ router.route('/filter').post(async (req, res) => {
       // size: el['Size.size'],
       timeSinceMissing: moment(
         el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD'
+        'YYYYMMDD',
       ).fromNow(),
     }));
     console.log('======>', result);
@@ -225,7 +218,9 @@ router.route('/params').get(async (req, res) => {
       attributes: ['size'],
       raw: true,
     });
-    res.json({ sizes, types, pets, breeds, colors, statuses });
+    res.json({
+      sizes, types, pets, breeds, colors, statuses,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -282,7 +277,7 @@ router.route('/:id').get(async (req, res) => {
       size: post['Size.size'],
       timeSinceMissing: moment(
         post.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD'
+        'YYYYMMDD',
       ).fromNow(),
     };
     res.json(post);

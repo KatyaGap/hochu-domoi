@@ -3,7 +3,8 @@ import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/m
 import { Box } from '@mui/system';
 import React from 'react';
 
-function CardMap({ post }) {
+function CardBig({ post }) {
+  console.log(post);
   return (
     <Card className="card map-card" variant="outlined">
       <CardActionArea sx={{ display: 'flex' }}>
@@ -28,4 +29,4 @@ function CardMap({ post }) {
   );
 }
 
-export default CardMap;
+export default CardBig;
