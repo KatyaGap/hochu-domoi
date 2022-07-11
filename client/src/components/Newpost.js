@@ -51,16 +51,15 @@ export default function Newpost({ type }) {
     phone: '',
   });
   console.log(query.get('type'));
-
   const handleSubmit = (e) => {
-    console.log('я тут');
     e.preventDefault();
     const formData = new FormData();
+		formData.append('type_id', Number(post.type_id));
     formData.append('pet_id', Number(post.pet_id));
     formData.append('breed_id', Number(post.breed_id));
     formData.append('color_id', Number(post.color_id));
     formData.append('size', Number(post.size));
-    formData.append('status_id', Number(post.status));
+    formData.append('status_id', Number(post.status_id));
     formData.append('file', post.file);
     formData.append('date', post.date);
     formData.append('text', post.text);

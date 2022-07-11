@@ -19,8 +19,6 @@ function Main() {
   const newpostLink = (type) => {
     navigate(`/chat?type=${type}`);
   };
-  console.log('fivelosts', fivelosts);
-  console.log('fivefounds', fivefounds);
 
   return (
     <div className="container">
