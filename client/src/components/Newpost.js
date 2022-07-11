@@ -14,6 +14,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { getAdvertsThunk, getParamsThunk } from '../redux/actions/adverts';
 import filterReducer from '../redux/reducers/filter';
+import AddLabel from './AddLabel';
+import Map from './trash/Map';
 
 export default function Newpost({ type }) {
   const navigate = useNavigate();
@@ -22,6 +24,7 @@ export default function Newpost({ type }) {
   const [flag, setFlag] = React.useState(false);
   const { params } = useSelector((state) => state);
   const { sizes, types, pets, colors, breeds, statuses } = params;
+  const [coord, setCoord] = useState({});
   const ref = useRef();
   // console.log('params', params);
   // console.log('pets', pets);
@@ -49,7 +52,11 @@ export default function Newpost({ type }) {
     text: '',
     date: '',
     phone: '',
+    address_lattitude: '',
+    address_longtitude: '',
+    address_string: '',
   });
+
   function makeBool1() {
     if (
       post.type_id
@@ -60,12 +67,15 @@ export default function Newpost({ type }) {
       && post.status_id
       && post.text
     ) { return true; }
+    if (post.type_id && post.pet_id && post.breed_id && post.color_id && post.size && post.status_id && post.text) return true;
     return false;
   }
+
   function makeBool2() {
     if (post.files && post.phone) return true;
     return false;
   }
+
   function makeToast() {
     return (
       <div className="toast-njksonkio">
@@ -77,7 +87,6 @@ export default function Newpost({ type }) {
   }
   console.log(query.get('type'));
   const handleSubmit = (e) => {
-    if (!makeBool2()) makeToast();
     e.preventDefault();
     const formData = new FormData();
     formData.append('type_id', Number(post.type_id));
@@ -86,10 +95,14 @@ export default function Newpost({ type }) {
     formData.append('color_id', Number(post.color_id));
     formData.append('size', Number(post.size));
     formData.append('status_id', Number(post.status_id));
-    post.files.map((el, i) => formData.append('files', post.files[i]));
+    post.files?.map((el, i) => formData.append('files', post.files[i]));
     formData.append('date', post.date);
     formData.append('text', post.text);
     formData.append('phone', post.phone);
+    formData.append('address_lattitude', coord?.coordinates[0]);
+    formData.append('address_longtitude', coord?.coordinates[1]);
+    formData.append('address_string', coord?.adress);
+    console.log('formData', formData);
     // console.log('post', post);
     fetch(`/map/${type}`, {
       method: 'Post',
@@ -108,8 +121,11 @@ export default function Newpost({ type }) {
           text: '',
           date: '',
           phone: '',
+          address_lattitude: '',
+          address_longtitude: '',
+          address_string: '',
         });
-        navigate('/');
+        // navigate('/');
       });
   };
   const handleChange = React.useCallback((e) => {
@@ -337,7 +353,8 @@ export default function Newpost({ type }) {
           <Button
             type="submit"
             variant="contained"
-            onClick={() => (makeBool1() ? setFlag((prev) => !prev) : makeToast())}
+            // onClick={() => (makeBool1() ? setFlag((prev) => !prev) : makeToast())}
+            onClick={() => setFlag((prev) => !prev)}
           >
             Далее
           </Button>
@@ -360,8 +377,6 @@ export default function Newpost({ type }) {
                 type="file"
                 multiple
                 onChange={handleChange}
-                // console.log('ref', ref.current.files)
-                // }}
                 placeholder="Фото"
                 name="files"
               />
@@ -387,13 +402,11 @@ export default function Newpost({ type }) {
               onChange={handleChange}
             />
           </div>
+          <AddLabel coord={coord} setCoord={setCoord} />
           <Button
             type="submit"
             variant="contained"
-            onClick={() => {
-              setFlag((prev) => !prev);
-              toast.dismiss();
-            }}
+            onClick={() => setFlag((prev) => !prev)}
           >
             Назад
           </Button>
