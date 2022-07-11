@@ -138,7 +138,6 @@ router.route('/fiveFound').get(async (req, res) => {
 
 router.route('/filter').post(async (req, res) => {
   try {
-    console.log('reqbody', req.body);
     const postsFind = await Post.findAll({
       where: req.body,
       order: [['lost_date', 'DESC']],
@@ -189,8 +188,6 @@ router.route('/filter').post(async (req, res) => {
         'YYYYMMDD',
       ).fromNow(),
     }));
-    // console.log('result', result);
-    // console.log('======>', result);
     res.json(result);
   } catch (error) {
     console.log(error);
@@ -199,7 +196,6 @@ router.route('/filter').post(async (req, res) => {
 
 router.route('/params').get(async (req, res) => {
   try {
-    console.log('я тут');
     const types = await Type.findAll({ attributes: ['type'], raw: true });
     const pets = await Pet.findAll({ attributes: ['pet'], raw: true });
     const breeds = await Breed.findAll({ attributes: ['breed'], raw: true });
