@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Card, CardMedia, CardContent, CardActions, CardActionArea, Typography } from '@mui/material';
+import { Button, Card, CardMedia, CardContent, CardActions, CardActionArea, Typography, Chip } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { PinDrop, Restore } from '@mui/icons-material';
 
@@ -37,6 +37,9 @@ export default function SmallCard({ post }) {
             </Typography>
           </div>
         </CardContent>
+
+        <Chip label={post?.status} size="small" className="card-status" variant="outlined" color="primary" />
+
       </CardActionArea>
     </Card>
   );

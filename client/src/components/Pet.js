@@ -72,23 +72,18 @@ export default function Pet({ post }) {
           image={pet.photo_url}
         />
         <CardContent>
-          <Typography
-            gutterBottom
-            variant="h8"
-            color="text.secondary"
-            component="div"
-          >
-            Порода: {pet.breed}
+
+          <Typography gutterBottom variant="h8" color="text.secondary" component="div">
+            Порода:
+            {' '}
+            {pet.breed}
           </Typography>
-          <Typography
-            gutterBottom
-            variant="h8"
-            color="text.secondary"
-            component="div"
-          >
-            Статус: {pet.status}
+          <Typography gutterBottom variant="h8" color="text.secondary" component="div">
+            Статус:
+            {' '}
+            {pet.status}
           </Typography>
-          <Typography variant="body2" variant="h6">
+          <Typography variant="body2">
             {pet.text}
           </Typography>
         </CardContent>

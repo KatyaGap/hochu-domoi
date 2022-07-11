@@ -7,6 +7,7 @@ import foundReducer from './found';
 import lostReducer from './lost';
 import mapReducer from './map';
 import paramsReducer from './params';
+import profileReducer from './profile';
 
 const rootReducer = combineReducers({
   adverts: advertsReducer,
@@ -16,5 +17,6 @@ const rootReducer = combineReducers({
   lost: lostReducer,
   filtered: filterReducer,
   params: paramsReducer,
+  profile: profileReducer,
 });
 export default rootReducer;
