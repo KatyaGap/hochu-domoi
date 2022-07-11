@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const fs = require('fs').promises;
 const moment = require('moment');
-const upload = require('../middlewares/upload');
+const {upload} = require('../middlewares/upload');
 const {
   User, Post, Breed, Pet, Color, Status, Type,
 } = require('../db/models');

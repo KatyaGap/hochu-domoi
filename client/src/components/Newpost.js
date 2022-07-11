@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -21,6 +21,7 @@ export default function Newpost({ type }) {
   const [flag, setFlag] = React.useState(false);
   const { params } = useSelector((state) => state);
   const { sizes, types, pets, colors, breeds, statuses } = params;
+  const ref = useRef();
   // console.log('params', params);
   // console.log('pets', pets);
   useEffect(() => {
@@ -30,7 +31,6 @@ export default function Newpost({ type }) {
     const { search } = useLocation();
     return React.useMemo(() => new URLSearchParams(search), [search]);
   }
-
   const query = useQuery();
   console.log('query', query.get('type'));
   function getType() {
@@ -59,12 +59,17 @@ export default function Newpost({ type }) {
     formData.append('color_id', Number(post.color_id));
     formData.append('size', Number(post.size));
     formData.append('status_id', Number(post.status_id));
-    formData.append('file', post.file);
+    post.files.map((el, i) => {
+      formData.append('files', post.files[i]);
+    });
     formData.append('date', post.date);
     formData.append('text', post.text);
     formData.append('phone', post.phone);
-
-    fetch(`/map/${type}`, { method: 'Post', body: formData })
+    console.log(post);
+    fetch(`/map/${type}`, {
+      method: 'Post',
+      body: formData,
+    })
       .then((response) => response.json())
       .then((result) => setPosts((prev) => [...prev, result]))
       .finally(() => {
@@ -85,10 +90,13 @@ export default function Newpost({ type }) {
 
   const handleChange = React.useCallback((e) => {
     if (e.target.type === 'file') {
+      console.log(e.target.files.length);
       setPost((prev) => ({
         ...prev,
         [e.target.name]: e.target.value,
-        file: e.target.files[0],
+        files: new Array(e.target.files.length)
+          .fill('')
+          .map((el, i) => e.target.files[i]),
       }));
     } else {
       setPost((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -320,14 +328,16 @@ export default function Newpost({ type }) {
             spacing={2}
           >
             <label htmlFor="icon-button-file">
-              <Input
+              <input
                 accept="image/*"
                 id="icon-button-file"
                 type="file"
+                multiple
                 onChange={handleChange}
+                // 	console.log('ref', ref.current.files)
+                // }}
                 placeholder="Фото"
-                name="photo_url"
-                value={post.photo_url}
+                name="files"
               />
               <IconButton
                 color="primary"
