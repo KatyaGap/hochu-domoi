@@ -88,7 +88,7 @@ export default function Newpost({ type }) {
                   id="demo-simple-select"
                   name="pet_id"
                   value={post.pet_id}
-                  label="Pet"
+                  label="Вид животного"
                   onChange={handleChange}
                 >
                   <MenuItem value={1}>Собака</MenuItem>
@@ -105,7 +105,7 @@ export default function Newpost({ type }) {
                     id="demo-simple-select"
                     name="breed_id"
                     value={post.breed_id}
-                    label="Breed"
+                    label="Порода"
                     onChange={handleChange}
                   >
                     <MenuItem value={1}>Такса</MenuItem>

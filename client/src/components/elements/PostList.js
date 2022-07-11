@@ -3,9 +3,7 @@ import { Box } from '@mui/system';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getAdvertsThunk } from '../redux/actions/adverts';
-import Post from './Post';
-import SmallCard from './elements/SmallCard';
+import { getAdvertsThunk } from '../../redux/actions/adverts';
 
 function PostList({ adverts }) {
   const dispatch = useDispatch();

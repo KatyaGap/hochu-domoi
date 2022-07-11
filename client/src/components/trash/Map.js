@@ -1,80 +1,34 @@
-// import React, { useEffect, useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import {
-//   YMaps,
-//   Map,
-//   Placemark,
-//   RouteButton,
-//   SearchControl,
-//   GeolocationControl,
-//   GeoObject,
-//   Circle,
-// } from 'react-yandex-maps';
-// import axios from 'axios';
+import React, { useState } from 'react';
 
-// // потеряшки/найденыши
+export default function Map({ inputs, setInputs, changeLable, setCangeLable, addressСoordinates, inputCoord, setInputCoord }) {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+  const inputHandler = (e) => {
+    setInputCoord((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+  const changeLableHandler = (e) => {
+    setCangeLable({ [e.target.name]: e.target.value });
+  };
+  // console.log('changeLable', changeLable);
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        {/* <input type="text" id="suggest" class="input" placeholder="Введите адрес"> */}
+        <div><input type="text" id="suggest" value={inputs.adress} onChange={inputHandler} name="adress" placeholder="Введите адрес" style={{ width: "400px", height: "40px" }} /></div>
+        <div>
+          {/* <button type="button" name="lable1"><img src="lable1.png" alt="label1" style={{ width: "30px", height: "30px" }} /></button>
+          <button type="button" name="lable2"><img src="lable2.png" alt="label2" style={{ width: "30px", height: "30px" }} /></button>
+          <div>выбор метки</div> */}
+          <button onClick={addressСoordinates} id="button" type="submit">Добавить метку на карту</button>
+        </div>
 
-// function MapYandex({ filter }) {
-//   const [arr, setArr] = useState([]);
-//   const [newArr, setNewArr] = useState([]);
-//   const [arrCoordinates, setArrCoordinates] = useState();
-
-//   // const dopCoord = (e) => {
-//   //   setArrCoordinates(e.get('coords'));
-//   // };
-
-//   useEffect(() => {
-//     axios(`http://localhost:3000/map/${filter}`)
-//       .then((res) => {
-//         console.log('res', res.data);
-//         setArr(res.data);
-//       })
-//       .catch((err) => console.log(err));
-//   }, [filter]);
-
-//   console.log('--->', arr);
-
-//   return (
-//     <YMaps
-//       className="map"
-//       query={{
-//         apikey: 'ee7ed649-e248-4853-96e6-be2aa79824a9',
-//         ns: 'use-load-option',
-//         load: 'Map,Placemark,control.ZoomControl,control.FullscreenControl,geoObject.addon.balloon',
-//       }}
-//     >
-//       <Map className="map" defaultState={{ center: [55.75, 37.57], zoom: 9 }}>
-//         <GeolocationControl
-//           options={{
-//             float: 'left',
-//           }}
-//         />
-//         {arr
-//             && arr.map((el, ind) => (
-//               <Placemark
-//                 geometry={[el.address_lattitude, el.address_longitude]}
-//                 properties={{
-//                   balloonContentHeader: 'что-то там из масива',
-//                   balloonContentBody: 'описание чего-то там из массива',
-//                 }}
-//                 key={ind + 1}
-//                 options={{
-//                   iconLayout: 'default#image',
-//                   iconImageHref:
-//                      'https://avatars.mds.yandex.net/i?id=66193d0fc93ff6d89b1483bb731930d3-5332098-images-thumbs&n=13',
-//                 }}
-//               />
-//             ))}
-//         <RouteButton options={{ float: 'right' }} />
-//         <SearchControl
-//           options={{
-//             float: 'left',
-//             provider: 'yandex#search',
-//           }}
-//         />
-//       </Map>
-//     </YMaps>
-//   );
-// }
-
-// export default MapYandex;
+        {/* <div><input type="text" name="description" placeholder="Описание" /></div> */}
+        {/* <div><input type="file" value={form.url} name="file" onChange={handleChange} placeholder="файл" /></div> */}
+      </div>
+    </form>
+  );
+}

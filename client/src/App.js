@@ -9,9 +9,8 @@ import Maps from './components/Maps';
 import AddLabel from './components/AddLabel';
 import Pet from './components/Pet';
 import Newpost from './components/Newpost';
-import PostList from './components/PostList';
 import Catalog from './components/Catalog';
-import CardMap from './components/elements/CardMap';
+import Profile from './components/Profile';
 
 function App() {
   return (
@@ -22,14 +21,14 @@ function App() {
         <Route path="/lost" element={<Maps filter="lost" />} />
         <Route path="/found" element={<Maps filter="found" />} />
         <Route path="/pet/*" element={<Pet />} />
-        <Route path="/chat" element={<Newpost />} />
+        <Route path="/chat" element={<Chat />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/authnewpost" element={<Auth isNewPost />} />
         <Route path="/catalog" element={<Catalog />} />
-        {/* <Route path="/addlabel" element={<AddLabel />} /> */}
+        <Route path="/addlabel" element={<AddLabel />} />
         <Route path="/newpost" element={<Newpost />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<Navigate to="/" />} />
-        <Route path="/cardmap" element={<CardMap />} />
       </Routes>
       <div className="toastify">
         <ToastContainer
