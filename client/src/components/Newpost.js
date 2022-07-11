@@ -58,6 +58,15 @@ export default function Newpost({ type }) {
   });
 
   function makeBool1() {
+    if (
+      post.type_id
+      && post.pet_id
+      && post.breed_id
+      && post.color_id
+      && post.size
+      && post.status_id
+      && post.text
+    ) { return true; }
     if (post.type_id && post.pet_id && post.breed_id && post.color_id && post.size && post.status_id && post.text) return true;
     return false;
   }
@@ -344,6 +353,7 @@ export default function Newpost({ type }) {
           <Button
             type="submit"
             variant="contained"
+            // onClick={() => (makeBool1() ? setFlag((prev) => !prev) : makeToast())}
             onClick={() => setFlag((prev) => !prev)}
           >
             Далее

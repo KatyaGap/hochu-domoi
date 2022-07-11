@@ -31,6 +31,14 @@ function Profile() {
     setEdit(false);
   };
 
+  const updateAvatar = () => {
+    // тут обновление аватара
+  };
+
+  const deleteAvatar = () => {
+    // тут удаление аватара
+  };
+
   const editToggle = () => {
     setEdit(!edit);
   };
@@ -55,6 +63,18 @@ function Profile() {
           </div>
 
           <div className="profile-my-data-content">
+
+            <div className="avatar-flex">
+              <div className="avatar-container" sx={{ mt: 4, width: 180, height: 180 }}>
+                <Avatar className="avatar" alt={user?.name} src={user?.user_photo} sx={{ width: 180, height: 180 }} />
+                {edit
+                  ? <div onClick={updateAvatar} className="avatar-fade">Выбрать новую</div>
+                  : null}
+              </div>
+              {edit
+                ? <Typography onClick={deleteAvatar} className="delete-button" variant="caption" gutterBottom component="div">Удалить</Typography>
+                : null}
+            </div>
             <div className="profile-my-data-text">
               <form onSubmit={sendForm} id="user-update-form">
 
@@ -93,13 +113,6 @@ function Profile() {
                 </div>
 
               </form>
-            </div>
-
-            <div className="avatar-flex">
-              <div className="avatar-container" sx={{ mt: 3, width: 180, height: 180 }}>
-                <Avatar className="avatar" alt={user?.name} src={user?.user_photo} sx={{ width: 180, height: 180 }} />
-                <div className="avatar-fade">изменить</div>
-              </div>
             </div>
 
           </div>
