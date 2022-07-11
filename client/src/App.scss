@@ -219,10 +219,12 @@
   color:rgba(0, 0, 0, 0.45)
 }
 
-.main-last-posts .main-last-posts-title-wrapper {
+.main-last-posts .main-last-posts-title-wrapper,
+.profile-my-data-title {
   display: flex;
   justify-content: space-between;
   width: 100%;
+  align-items: center;
 }
 
 .main-last-posts .card-status {
@@ -317,7 +319,7 @@
 }
 
 .map-card .card-content {
-  max-width: 22rem;
+  max-width: 18rem;
 }
 
 /* СКРОЛЛБАР НА КАРТЕ */
@@ -338,23 +340,102 @@
 
  /* ПРОФИЛЬ */
 
- .profile-container {
+.profile-my-data-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile-my-data-text {
+  width: 70%;
+}
+
+.profile-my-data-data {
+  display: flex;
+  height: 56px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.profile-textfield.read-only {
+  color: #222;
+}
+
+.profile-my-data-data.send-form {
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.profile-my-data-data.send-form button {
+  width: 50%;
+}
+
+.profile-my-data-data .profile-textfield {
+  width: 70%;
+}
+
+.profile-my-data-data .MuiTypography-h6 {
+  margin: 0;
+}
+
+.profile-container .avatar-container {
+  position: relative;
+  
+}
+
+.avatar-flex {
+  margin-top: 1rem;
+  display: flex;
+  align-items: flex-start;
+  overflow: hidden;
+}
+
+.profile-container .avatar-fade {
+  display: flex;
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  color:rgba(255, 255, 255, 0.91);
+  opacity: 0;
+  transition: all 0.25s;
+}
+
+.avatar-container:hover .avatar-fade {
+  opacity: 1;
+  transition: all 0.25s;
+  cursor: pointer;
+}
+
+.profile-wrapper {
   display: flex;
   flex-direction: column;
   padding: 2rem 0px 40px;
- }
+  width: 60rem;
+}
+
+.my-posts-container {
+  width: 100%;
+}
  
- .profile-container > * {
+.profile-wrapper > * {
    margin-top: 2rem;
    margin-bottom: 2rem;
  }
 
- .my-posts-container {
-  width: 60rem;
- }
-
 .card-wide .card-photo {
   aspect-ratio: 5/4;
+  object-fit: cover;
 }
 
 .card-wide .card-bottom,
