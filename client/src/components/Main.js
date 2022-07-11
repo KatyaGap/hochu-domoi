@@ -36,12 +36,7 @@ function Main() {
         <div className="main-last-posts main-last-posts-lost">
           <div className="main-last-posts-wrapper">
             <div className="main-last-posts-title-wrapper">
-              <Typography
-                className="main-last-posts-title"
-                variant="h4"
-                gutterBottom
-                component="div"
-              >
+              <Typography className="main-last-posts-title" variant="h4" gutterBottom component="div">
                 Потерялись недавно
               </Typography>
               <Button variant="text">Показать всех</Button>
@@ -58,12 +53,7 @@ function Main() {
         <div className="main-last-posts main-last-posts-found">
           <div className="main-last-posts-wrapper">
             <div className="main-last-posts-title-wrapper">
-              <Typography
-                className="main-last-posts-title"
-                variant="h4"
-                gutterBottom
-                component="div"
-              >
+              <Typography className="main-last-posts-title" variant="h4" gutterBottom component="div">
                 Ищут хозяев
               </Typography>
               <Button variant="text">Показать всех</Button>
