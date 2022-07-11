@@ -79,7 +79,6 @@ router.route('/fiveLost').get(async (req, res) => {
         'YYYYMMDD'
       ).fromNow(),
     }));
-    console.log('result', result);
     res.json(result);
   } catch (error) {
     console.log(error);
@@ -124,7 +123,6 @@ router.route('/fiveFound').get(async (req, res) => {
       limit: 5,
       raw: true,
     });
-		console.log(postsFound)
     const result = postsFound.map((el) => ({
       ...el,
       name: el['User.name'],
@@ -140,7 +138,6 @@ router.route('/fiveFound').get(async (req, res) => {
         'YYYYMMDD'
       ).fromNow(),
     }));
-		console.log('result', result)
     res.json(result);
   } catch (error) {
     console.log(error);
@@ -200,6 +197,7 @@ router.route('/filter').post(async (req, res) => {
         'YYYYMMDD'
       ).fromNow(),
     }));
+    console.log('result', result);
     console.log('======>', result);
     res.json(result);
   } catch (error) {

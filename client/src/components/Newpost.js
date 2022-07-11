@@ -16,17 +16,17 @@ import { getAdvertsThunk, getParamsThunk } from '../redux/actions/adverts';
 import filterReducer from '../redux/reducers/filter';
 
 export default function Newpost({ type }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [posts, setPosts] = useState([]);
   const [flag, setFlag] = React.useState(false);
   const { params } = useSelector((state) => state);
   const { sizes, types, pets, colors, breeds, statuses } = params;
-  console.log('params', params);
-  console.log('pets', pets);
+  // console.log('params', params);
+  // console.log('pets', pets);
   useEffect(() => {
     dispatch(getParamsThunk());
   }, []);
-  console.log('params', params);
   function useQuery() {
     const { search } = useLocation();
     return React.useMemo(() => new URLSearchParams(search), [search]);
@@ -68,21 +68,21 @@ export default function Newpost({ type }) {
 
     fetch(`/map/${type}`, { method: 'Post', body: formData })
       .then((response) => response.json())
-      .then((result) => {
-        console.log(result, posts);
-        return setPosts((prev) => [...prev, result]);
-      })
-      .finally(() => setPost({
-        type_id: '',
-        pet_id: '',
-        breed_id: '',
-        color_id: '',
-        size: '',
-        status_id: '',
-        text: '',
-        date: '',
-        phone: '',
-      }));
+      .then((result) => setPosts((prev) => [...prev, result]))
+      .finally(() => {
+        setPost({
+          type_id: '',
+          pet_id: '',
+          breed_id: '',
+          color_id: '',
+          size: '',
+          status_id: '',
+          text: '',
+          date: '',
+          phone: '',
+        });
+        navigate('/');
+      });
   };
 
   const handleChange = React.useCallback((e) => {
