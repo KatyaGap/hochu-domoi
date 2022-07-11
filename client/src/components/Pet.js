@@ -69,7 +69,7 @@ export default function Pet({ post }) {
           component="img"
           alt="green iguana"
           height="300"
-          image={pet.photo_url}
+          image={pet.image0}
         />
         <CardContent>
 
