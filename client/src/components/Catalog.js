@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import { TextField } from '@mui/material';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getAdvertsThunk } from '../redux/actions/adverts';
-import Filters from './Filters';
-import PostList from './PostList';
+import Filters from './elements/Filters';
+import PostList from './elements/PostList';
 
 function Catalog() {
   const dispatch = useDispatch();

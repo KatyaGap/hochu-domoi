@@ -1,26 +1,22 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import { yandexMap } from '../redux/actions/lost';
-import Map from './Map';
+import Map from './trash/Map';
 
 function AddLabel() {
+  console.log('AddLabel');
   const { ymaps } = window;
   const dispatch = useDispatch();
   const [coord, setCoord] = useState({});
   const [inputs, setInputs] = useState({});
   const [inputCoord, setInputCoord] = useState('');
   const [changeLable, setCangeLable] = useState({});
-  // const { lost } = useSelector((state) => state);
-  // const [inputs, setInputs] = useState();
-  let myMap;
+
+  const myMap = useRef(null);
+
   let myPlacemark;
   let myGeocoder;
-  let getCoordinates;
-  let mySearchControl;
-  let myPlacemark2;
-  // console.log('coord', coord);
-  // console.log('inputs', inputs);
-  // console.log('inputCoord', inputCoord);
+
   const bek = async (coor) => {
     if (Object.keys(coor).length > 1) {
       dispatch(
@@ -37,74 +33,50 @@ function AddLabel() {
     return new ymaps.Placemark(coords, {
       iconCaption: 'поиск...',
     }, {
-      preset: 'islands#violetDotIconWithCaption',
-      draggable: true,
+      iconLayout: 'default#image',
+      iconImageHref: 'lable1.png',
+      iconImageSize: [35, 35],
     });
   }
   const addressСoordinates = () => {
-    console.log('inputCoord.adress');
-    // ymaps.geocode(inputCoord.adress).then((res) => {
-    //   const coo = res.geoObjects.get(0).geometry.getCoordinates();
-    //   setCoord((prev) => ({ ...prev, coordinates: (coo), adress: inputCoord.adress }));
-    //   myPlacemark2 = new ymaps.Placemark(coo, null, {
-    //     preset: 'islands#blueDotIcon',
-    //   });
-    //   myMap.geoObjects.add(myPlacemark2);
-    // }).catch((err) => {
-    //   console.log('Ошибка');
-    ymaps.ready(async () => {
-      const res = await ymaps.geocode(inputCoord.adress);
-      console.log('res', res);
-      const coo = res.geoObjects.get(0).geometry.getCoordinates();
-      console.log('coo', res);
-      setCoord((prev) => ({ ...prev, coordinates: (coo), adress: inputCoord.adress }));
-      const nextPlacemark = new ymaps.Placemark(coo, {
-        iconContent: 'address',
+    myGeocoder = ymaps.geocode(inputCoord.adress);
+    myGeocoder.then((res) => {
+      setCoord((prev) => ({ ...prev, coordinates: ((res.geoObjects.get(0).geometry.getCoordinates())), adress: inputCoord.adress }));
+      const coords = res.geoObjects.get(0).geometry.getCoordinates();
+      myMap.current.geoObjects.add(new ymaps.Placemark(coords, {
+        iconCaption: 'поиск...',
       }, {
-        preset: 'islands#greenStretchyIcon',
+        iconLayout: 'default#image',
+        iconImageHref: 'lable2.png',
+        iconImageSize: [35, 35],
+      }));
+      console.log(myMap.current);
+    })
+      .catch((err) => {
+        console.log(err);
       });
-      myMap.geoObjects.add(nextPlacemark);
-    });
-    // myGeocoder = ymaps.geocode(inputCoord.adress);
-    // myGeocoder.then((res) => {
-    //   setCoord((prev) => ({ ...prev, coordinates: ((res.geoObjects.get(0).geometry.getCoordinates())), adress: inputCoord.adress }));
-    //   getCoordinates = (res.geoObjects.get(0).geometry.getCoordinates());
-    //   myPlacemark2 = createPlacemark(getCoordinates);
-    //   // myMap.geoObjects
-    //   //   .add(myPlacemark2);
-    //   console.log('getCoordinates', myPlacemark2);
-    // })
-    //   .catch((err) => {
-    //     console.log('Ошибка');
-    //   });
   };
 
   const save = () => {
     bek(coord);
   };
 
-  /// ///////////
-  /// //////////         init
   function init() {
-    myMap = new ymaps.Map('map', {
+    myMap.current = (new ymaps.Map('map2', {
 
       center: [55.76, 37.64],
       zoom: 10,
       controls: ['searchControl', 'typeSelector', 'fullscreenControl', 'geolocationControl'],
-      behaviors: ['drag'],
+      behaviors: ['drag', 'multiTouch'],
     }, {
       searchControlProvider: 'yandex#search',
-    });
-    myMap.controls.add('zoomControl', {
+    }));
+
+    myMap.current.controls.add('zoomControl', {
       float: 'none',
       position: {
         right: 20,
         top: 100,
-      },
-    });
-    mySearchControl = new ymaps.control.SearchControl({
-      options: {
-        noPlacemark: true,
       },
     });
 
@@ -123,54 +95,39 @@ function AddLabel() {
             ].filter(Boolean).join(', '),
             // В качестве контента балуна задаем строку с адресом объекта.
             balloonContent: setCoord((prev) => ({ ...prev, adress: firstGeoObject.getAddressLine() })),
-            // balloonContent: setCoord(coord.adress = firstGeoObject.getAddressLine()),
           });
       });
     }
-    // addressСoordinates = function saveLable () {
-    //   console.log('inputCoord.adress');
-    //   myGeocoder = ymaps.geocode(inputCoord.adress);
-    //   myGeocoder.then((res) => {
-    //     setCoord((prev) => ({ ...prev, coordinates: ((res.geoObjects.get(0).geometry.getCoordinates())), adress: inputCoord.adress }));
-    //     getCoordinates = (res.geoObjects.get(0).geometry.getCoordinates());
-    //     console.log('getCoordinates', getCoordinates);
-    //   })
-    //     .catch((err) => {
-    //       console.log('Ошибка');
-    //     });
-    //     myPieChart = createPlacemark(getCoordinates);
-    // };
 
-    myMap.events.add('click', (e) => {
-      // Если метка уже создана – просто передвигаем ее.
+    myMap.current.events.add('click', (e) => {
       const coords = e.get('coords');
       setCoord({ coordinates: e.get('coords') });
       if (myPlacemark) {
-        // setCoord((prev) => ({ ...prev, coordinates: e.get('coords') }));
         myPlacemark.geometry.setCoordinates(coords);
       } else {
       // Если нет – создаем.
 
         myPlacemark = createPlacemark(coords);
 
-        myMap.geoObjects
-          .add(myPlacemark);
+        myMap.current.geoObjects.add(myPlacemark);
 
         // Слушаем событие окончания перетаскивания на метке.
-        myPlacemark.events.add('dragend', () => {
-          getAddress(myPlacemark.geometry.getCoordinates());
-        });
       }
       getAddress(coords);
     });
   }
-  ymaps.ready(init);
+
+  useEffect(() => {
+    ymaps.ready(init);
+  }, []);
 
   return (
-    <>
-      <div id="map" style={{ width: "600px", height: "400px" }} />
+    <div>
+      <div id="map2" style={{ width: "600px", height: "400px" }} />
+
       <Map save={save} setCoord={setCoord} inputs={inputs} setInputs={setInputs} inputCoord={inputCoord} setInputCoord={setInputCoord} changeLable={changeLable} setCangeLable={setCangeLable} addressСoordinates={addressСoordinates} />
-    </>
+      {/* <Maps inputs={inputs} setInputs={setInputs} inputCoord={inputCoord} setInputCoord={setInputCoord} changeLable={changeLable} setCangeLable={setCangeLable} addressСoordinates={addressСoordinates} /> */}
+    </div>
   );
 }
 

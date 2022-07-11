@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 // import { addressСoordinates } from './AddLabel';
 // import { addressСoordinates } from './AddLabel';
 
-export default function Map({ save, setCoord, inputs, setInputs, changeLable, setCangeLable, inputCoord, setInputCoord }) {
+export default function Map({ addressСoordinates, save, setCoord, inputs, setInputs, changeLable, setCangeLable, inputCoord, setInputCoord }) {
   const handleSubmit = (e) => {
     e.preventDefault();
   };

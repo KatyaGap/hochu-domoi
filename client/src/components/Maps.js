@@ -1,26 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import { Paper } from '@mui/material';
+import CardMap from './elements/CardMap';
 
 function Maps() {
-  const [arr, setArr] = useState([]);
-
+  console.log('MAP');
+  const [posts, setPosts] = useState([]);
   const location = useLocation();
 
   useEffect(() => {
     axios(`/map${location.pathname}`)
       .then((res) => {
-        setArr(res.data);
+        // console.log('res', res.data.map((el) => ([el.address_lattitude, el.address_longitude])));
+        setPosts(res.data);
       })
       .catch((err) => console.log(err));
     return () => {
-      setArr([]);
+      console.log('unmount');
+      setPosts([]);
     };
   }, [location]);
 
-  console.log('--->', arr);
+  console.log('--->', posts);
 
   const { ymaps } = window;
   let myMap;
@@ -50,16 +53,16 @@ function Maps() {
       },
     });
 
-    for (let i = 0; i < arr.length; i += 1) {
+    for (let i = 0; i < posts.length; i += 1) {
       geoObjects[i] = new ymaps.Placemark(
 
-        [arr[i].address_lattitude, arr[i].address_longitude],
-
+        [posts[i].address_lattitude, posts[i].address_longitude],
+        // console.log('obj', [arr[i].address_lattitude, arr[i].address_longitude]),
         {
           // iconContent: arr[i].text,
-          balloonContentHeader: arr[i].text,
+          balloonContentHeader: posts[i].text,
           // balloonContentBody: arr[i].text,
-          balloonContentBody: `<img src=${arr[i].photo_url} height="150" width="200">`,
+          balloonContentBody: `<img src=${posts[i].photo_url} height="150" width="200">`,
         },
 
         {
@@ -83,18 +86,19 @@ function Maps() {
 
     myMap.geoObjects.add(clusterer);
     clusterer.add(geoObjects);
-
-    // myMap.geoObjects
-    //   .add(placemark);
-    // .add(geoObjects);
   }
 
   ymaps.ready(init);
 
   return (
-    <div>
-      {arr.length > 0 && (<div id="map" style={{ width: "600px", height: "400px" }} />)}
-
+    <div className="map-container">
+      {posts.length > 0 && (<div id="map" />)}
+      {/* <div id="map" /> */}
+      {posts.length > 0 && (
+        <Paper className="map-posts-overlay" elevation={8}>
+          {posts.map((post) => <CardMap post={post} />)}
+        </Paper>
+      )}
     </div>
   );
 }

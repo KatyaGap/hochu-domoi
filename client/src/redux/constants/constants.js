@@ -7,3 +7,5 @@ export const EDIT_LOST = 'GET_LOST';
 export const GET_LOST1 = 'GET_LOST1';
 export const GET_FOUND = 'GET_FOUND';
 export const GET_FILTERED = 'GET_FILTERED';
+export const GET_PARAMS = 'GET_PARAMS';
+export const GET_PROFILE = 'GET_PROFILE';
