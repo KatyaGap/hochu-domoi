@@ -41,6 +41,10 @@ router
             attributes: ['status'],
           },
           {
+            model: Size,
+            attributes: ['size'],
+          },
+          {
             model: Type,
             attributes: ['type'],
           },
@@ -71,11 +75,10 @@ router
         size: el.Size.dataValues.size,
         timeSinceMissing: moment(
           el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-          'YYYYMMDD',
+          'YYYYMMDD'
         ).fromNow(),
         photo_url: el.Images[0]?.image,
-      }
-      ));
+      }));
       res.json(result);
     } catch (error) {
       console.log(error);
@@ -108,10 +111,11 @@ router
       //   })),
       // );
       arr.map(
-        await ((img, i) => Image.create({
-          image: arr[i].path.replace('public', ''),
-          post_id: post.id,
-        })),
+        await ((img, i) =>
+          Image.create({
+            image: arr[i].path.replace('public', ''),
+            post_id: post.id,
+          }))
       );
 
       res.json({ text: 'Круто!' }); // тупо строка для теста. Потом поменять на что-то правильное

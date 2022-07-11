@@ -7,6 +7,7 @@ import { Message, AddCircle } from '@mui/icons-material';
 // import '../App.scss';
 
 import AdbIcon from '@mui/icons-material/Adb';
+import { useDispatch, useSelector } from 'react-redux';
 import { UserContext } from '../../context/user';
 
 const pages = ['Потеряшки', 'Найдёныши', 'Каталог'];
@@ -134,7 +135,7 @@ function Navbar() {
                       <Box className="navbar=avatar" sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                            <Avatar alt="Remy Sharp" src="/doge.jpg" width="40" height="40" />
+                            <Avatar alt="Remy Sharp" src={user?.user_photo} width="40" height="40" />
                           </IconButton>
                         </Tooltip>
                         <Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right' }} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>
