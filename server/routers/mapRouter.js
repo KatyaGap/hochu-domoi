@@ -12,9 +12,15 @@ router
   .route('/:type')
   .get(async (req, res) => {
     try {
-      const type = await Type.findOne({ where: { type: req.params.type } });
+      let type_id = 0;
+      if (req.params.type === 'found') {
+        type_id = 1;
+      } else if (req.params.type === 'lost') {
+        type_id = 2;
+      }
+
       const posts = await Post.findAll({
-        where: { type_id: type.id },
+        where: { type_id },
         include: [
           {
             model: User,
@@ -76,7 +82,7 @@ router
         status_id: req.body.status_id,
         breed_id: req.body.breed_id || 1,
         color_id: req.body.color_id,
-        size: req.body.size,
+        size_id: req.body.size,
         // lost_date: req.body.date || '2020-01-17T04:33:12.000Z',   ПОТОМ РАСКОММЕНТИТЬ
         lost_date: req.body.date, // НУЖНА ФОРМА НА ФРОНТЕ С ДАТОЙ ПОТЕРИ
         address_string: req.body.address_string || 'Moscow', // ДАННЫЕ ДОЛЖНЫ ИЗ КАРТЫ ТЯНУТЬСЯ

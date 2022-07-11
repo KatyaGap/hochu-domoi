@@ -120,7 +120,7 @@ router.route('/:id')
         updatePost.status_id = req.body.status_id;
         updatePost.breed_id = req.body.breed_id || 1;
         updatePost.color_id = req.body.color_id;
-        updatePost.size = req.body.size;
+        updatePost.size_id = req.body.size;
         updatePost.lost_date = req.body.date;
         updatePost.address_string = req.body.address_string || 'Moscow';
         updatePost.address_lattitude = req.body.address_lattitude || 55.683986493805385;

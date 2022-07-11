@@ -12,7 +12,7 @@ import { PhotoCamera } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import PostList from './PostList';
-import { getFilteredThunk, getParamsThunk } from '../redux/actions/adverts';
+import { getFilteredThunk, getParamsThunk } from '../../redux/actions/adverts';
 
 export default function Filters({ adverts }) {
   const dispatch = useDispatch();

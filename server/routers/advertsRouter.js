@@ -1,14 +1,7 @@
 const router = require('express').Router();
 const moment = require('moment');
 const {
-  User,
-  Post,
-  Breed,
-  Pet,
-  Color,
-  Status,
-  Type,
-  Size,
+  User, Post, Breed, Pet, Color, Status, Type, Size,
 } = require('../db/models');
 
 require('moment/locale/ru');
@@ -75,7 +68,7 @@ router.route('/fiveLost').get(async (req, res) => {
       size: el['Size.size'],
       timeSinceMissing: moment(
         el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD'
+        'YYYYMMDD',
       ).fromNow(),
     }));
     res.json(result);
@@ -134,7 +127,7 @@ router.route('/fiveFound').get(async (req, res) => {
       size: el['Size.size'],
       timeSinceMissing: moment(
         el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD'
+        'YYYYMMDD',
       ).fromNow(),
     }));
     res.json(result);
@@ -193,7 +186,7 @@ router.route('/filter').post(async (req, res) => {
       size: el['Size.size'],
       timeSinceMissing: moment(
         el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD'
+        'YYYYMMDD',
       ).fromNow(),
     }));
     // console.log('result', result);
@@ -222,7 +215,9 @@ router.route('/params').get(async (req, res) => {
       attributes: ['size'],
       raw: true,
     });
-    res.json({ sizes, types, pets, breeds, colors, statuses });
+    res.json({
+      sizes, types, pets, breeds, colors, statuses,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -278,7 +273,7 @@ router.route('/:id').get(async (req, res) => {
       size: post['Size.size'],
       timeSinceMissing: moment(
         post.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD'
+        'YYYYMMDD',
       ).fromNow(),
     };
     res.json(post);

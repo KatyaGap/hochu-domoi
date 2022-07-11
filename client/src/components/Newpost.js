@@ -10,7 +10,6 @@ import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import { PhotoCamera } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
-import PhoneInput from 'react-phone-number-input';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdvertsThunk, getParamsThunk } from '../redux/actions/adverts';
 import filterReducer from '../redux/reducers/filter';

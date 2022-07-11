@@ -21,7 +21,7 @@ function App() {
         <Route path="/lost" element={<Maps filter="lost" />} />
         <Route path="/found" element={<Maps filter="found" />} />
         <Route path="/pet/*" element={<Pet />} />
-        <Route path="/chat" element={<Newpost />} />
+        <Route path="/chat" element={<Chat />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/authnewpost" element={<Auth isNewPost />} />
         <Route path="/catalog" element={<Catalog />} />
