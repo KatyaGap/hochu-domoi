@@ -65,7 +65,7 @@ export default function Newpost({ type }) {
     formData.append('date', post.date);
     formData.append('text', post.text);
     formData.append('phone', post.phone);
-    console.log(post);
+    console.log('post', post);
     fetch(`/map/${type}`, {
       method: 'Post',
       body: formData,
