@@ -3,9 +3,9 @@
 //   const [newArr, setNewArr] = useState([]);
 //   const [arrCoordinates, setArrCoordinates] = useState();
 
-  // const dopCoord = (e) => {
-  //   setArrCoordinates(e.get('coords'));
-  // };
+// const dopCoord = (e) => {
+//   setArrCoordinates(e.get('coords'));
+// };
 
 //   useEffect(() => {
 //     axios(`http://localhost:3000/map/${filter}`)
@@ -63,7 +63,7 @@
 
 // export default MapYandex;
 
-////// ОБЪЯВЛЕНИЯ
+/// /// ОБЪЯВЛЕНИЯ
 
 // import React, { useEffect, useState } from 'react';
 // import { useDispatch, useSelector } from 'react-redux';
@@ -143,4 +143,57 @@
 //       </Map>
 //     </YMaps>
 //   );
+// }
+// setAll({ coord, adress });
+// console.log('+++>', inputCoor.coordinates);
+// console.log('--->', coor, Object.keys(coor).length);
+// if (Object.keys(coor).length > 1 || Object.keys(inputCoor).length > 1) {
+//   dispatch(
+//     yandexMap({
+//       address_lattitude: (Array.isArray(coor?.coordinates) ?? coor?.coordinates[0]) || (Array.isArray(inputCoor?.coordinates) ?? inputCoor?.coordinates[0]),
+//       address_longitude: (Array.isArray(coor?.coordinates) ?? coor?.coordinates[1]) || (Array.isArray(inputCoor?.coordinates) ?? inputCoor?.coordinates[1]),
+//       address_string: coor?.adress || inputCoor?.adress,
+// pet: inputs.pet,
+// color_name: inputs.color_name,
+// text: inputs.text,
+// user_id: inputs.id,
+// c 87 cnhjrb
+
+// function getAddress(adress) {
+//   console.log('dddd', adress);
+//   myPlacemark.properties.set('iconCaption', 'поиск...');
+// ymaps.geocode(adress).then((ress) => {
+//   const firstGeoObject = ress.geoObjects.get(0);
+
+//   myPlacemark.properties
+//     .set({
+//       // Формируем строку с данными об объекте.
+//       iconCaption: [
+//         // Название населенного пункта или вышестоящее административно-территориальное образование.
+//         firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas(),
+//         // Получаем путь до топонима, если метод вернул null, запрашиваем наименование здания.
+//         firstGeoObject.getThoroughfare() || firstGeoObject.getPremise(),
+//       ].filter(Boolean).join(', '),
+//       // В качестве контента балуна задаем строку с адресом объекта.
+//       balloonContent: setCoord((prev) => ({ ...prev, adress: firstGeoObject.getAddressLine() })),
+//       // balloonContent: setCoord(coord.adress = firstGeoObject.getAddressLine()),
+//     });
+// });
+// ymaps.ready(async () => {
+//   const res = await ymaps.geocode(adress);
+//   const coo = res.geoObjects.get(0).geometry.getCoordinates();
+//   const nextPlacemark = new ymaps.Placemark(coo, {
+//     iconContent: adress,
+//     // balloonContentHeader: 'Самоделка',
+//     // balloonContentBody: 'контент',
+//     // balloonContentFooter: 'https://www.leningrad.ru',
+//     // hintContent: 'Проба пера'
+//   }, {
+//     preset: 'islands#greenStretchyIcon',
+//   });
+//   myMap.geoObjects.add(nextPlacemark);
+//   myMap.panTo(coo, {
+//     duration: 3000,
+//   });
+// });
 // }
