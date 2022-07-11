@@ -15,17 +15,17 @@ import { getAdvertsThunk, getParamsThunk } from '../redux/actions/adverts';
 import filterReducer from '../redux/reducers/filter';
 
 export default function Newpost({ type }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [posts, setPosts] = useState([]);
   const [flag, setFlag] = React.useState(false);
   const { params } = useSelector((state) => state);
   const { sizes, types, pets, colors, breeds, statuses } = params;
-  console.log('params', params);
-  console.log('pets', pets);
+  // console.log('params', params);
+  // console.log('pets', pets);
   useEffect(() => {
     dispatch(getParamsThunk());
   }, []);
-  console.log('params', params);
   function useQuery() {
     const { search } = useLocation();
     return React.useMemo(() => new URLSearchParams(search), [search]);
@@ -50,16 +50,15 @@ export default function Newpost({ type }) {
     phone: '',
   });
   console.log(query.get('type'));
-
   const handleSubmit = (e) => {
-    console.log('я тут');
     e.preventDefault();
     const formData = new FormData();
+		formData.append('type_id', Number(post.type_id));
     formData.append('pet_id', Number(post.pet_id));
     formData.append('breed_id', Number(post.breed_id));
     formData.append('color_id', Number(post.color_id));
     formData.append('size', Number(post.size));
-    formData.append('status_id', Number(post.status));
+    formData.append('status_id', Number(post.status_id));
     formData.append('file', post.file);
     formData.append('date', post.date);
     formData.append('text', post.text);
@@ -67,21 +66,21 @@ export default function Newpost({ type }) {
 
     fetch(`/map/${type}`, { method: 'Post', body: formData })
       .then((response) => response.json())
-      .then((result) => {
-        console.log(result, posts);
-        return setPosts((prev) => [...prev, result]);
-      })
-      .finally(() => setPost({
-        type_id: '',
-        pet_id: '',
-        breed_id: '',
-        color_id: '',
-        size: '',
-        status_id: '',
-        text: '',
-        date: '',
-        phone: '',
-      }));
+      .then((result) => setPosts((prev) => [...prev, result]))
+      .finally(() => {
+        setPost({
+          type_id: '',
+          pet_id: '',
+          breed_id: '',
+          color_id: '',
+          size: '',
+          status_id: '',
+          text: '',
+          date: '',
+          phone: '',
+        });
+        navigate('/');
+      });
   };
 
   const handleChange = React.useCallback((e) => {

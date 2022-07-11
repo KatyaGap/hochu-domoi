@@ -30,7 +30,6 @@ export default function Filters({ adverts }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(getFilteredThunk(filter));
-    setFilter({});
   };
   return (
     <div>

@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const express = require('express');
 const moment = require('moment');
 const {
   User, Post, Breed, Pet, Color, Status, Type, Size,
@@ -72,7 +71,6 @@ router.route('/fiveLost').get(async (req, res) => {
         'YYYYMMDD',
       ).fromNow(),
     }));
-    console.log('result', result);
     res.json(result);
   } catch (error) {
     console.log(error);
@@ -117,7 +115,6 @@ router.route('/fiveFound').get(async (req, res) => {
       limit: 5,
       raw: true,
     });
-    console.log(postsFound);
     const result = postsFound.map((el) => ({
       ...el,
       name: el['User.name'],
@@ -133,7 +130,6 @@ router.route('/fiveFound').get(async (req, res) => {
         'YYYYMMDD',
       ).fromNow(),
     }));
-    console.log('result', result);
     res.json(result);
   } catch (error) {
     console.log(error);
@@ -146,54 +142,55 @@ router.route('/filter').post(async (req, res) => {
     const postsFind = await Post.findAll({
       where: req.body,
       order: [['lost_date', 'DESC']],
-      // include: [
-      //   {
-      //     model: User,
-      //     attributes: ['name'],
-      //   },
-      //   {
-      //     model: Breed,
-      //     attributes: ['breed'],
-      //   },
-      //   {
-      //     model: Color,
-      //     attributes: ['color_name', 'hex'],
-      //   },
-      //   {
-      //     model: Status,
-      //     attributes: ['status'],
-      //   },
-      //   {
-      //     model: Type,
-      //     attributes: ['type'],
-      //   },
-      //   {
-      //     model: Pet,
-      //     attributes: ['pet'],
-      //   },
-      // 	{
-      //     model: Size,
-      //     attributes: ['size'],
-      //   },
-      // ],
+      include: [
+        {
+          model: User,
+          attributes: ['name'],
+        },
+        {
+          model: Breed,
+          attributes: ['breed'],
+        },
+        {
+          model: Color,
+          attributes: ['color_name', 'hex'],
+        },
+        {
+          model: Status,
+          attributes: ['status'],
+        },
+        {
+          model: Type,
+          attributes: ['type'],
+        },
+        {
+          model: Pet,
+          attributes: ['pet'],
+        },
+        {
+          model: Size,
+          attributes: ['size'],
+        },
+      ],
       raw: true,
     });
     const result = postsFind.map((el) => ({
       ...el,
-      // name: el['User.name'],
-      // breed: el['Breed.breed'],
-      // color_name: el['Color.color_name'],
-      // hex: el['Color.hex'],
-      // status: el['Status.status'],
-      // type: el['Type.type'],
-      // pet: el['Pet.pet'],
-      // size: el['Size.size'],
+      name: el['User.name'],
+      breed: el['Breed.breed'],
+      color_name: el['Color.color_name'],
+      hex: el['Color.hex'],
+      status: el['Status.status'],
+      type: el['Type.type'],
+      pet: el['Pet.pet'],
+      size: el['Size.size'],
       timeSinceMissing: moment(
         el.lost_date?.toISOString().split('T')[0].split('-').join(''),
         'YYYYMMDD',
       ).fromNow(),
     }));
-    console.log('======>', result);
+    // console.log('result', result);
+    // console.log('======>', result);
     res.json(result);
   } catch (error) {
     console.log(error);
@@ -228,7 +225,6 @@ router.route('/params').get(async (req, res) => {
 
 router.route('/:id').get(async (req, res) => {
   try {
-    // console.log(id);
     let post = await Post.findOne({
       where: {
         id: req.params.id,
