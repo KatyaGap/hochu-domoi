@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const fs = require('fs').promises;
 const moment = require('moment');
+const sendMail = require('../utils/mailer');
 const { upload } = require('../middlewares/upload');
 const {
   User, Post, Breed, Pet, Color, Status, Type, Size, Image,
@@ -135,15 +136,39 @@ router.route('/')
     }
   });
 
+// ручка для аватара юзера
+router.route('/avatar')
+  .put(upload.single('file'), async (req, res) => { // изменение аватара
+    const user = await User.findOne({ where: { id: res.locals.userId } });
+    console.log('А ВОТ И ФОТКА С БЭКА', req.body.file);
+    user.user_photo = req.body.file;
+    console.log('ПЕРЕЗАПИСАЛИ ФОТОЧКУ', user.user_photo);
+    await user.save();
+    console.log('А ВОТ И ЮЗЕР НОВЕНЬКИЙ', user);
+    res.json(user);
+  })
+  .delete(async (req, res) => { // удаление аватара
+    const user = await User.findOne({ where: { id: res.locals.userId } });
+    user.user_photo = null;
+    await user.save();
+    res.json(user);
+  });
+
 // ручка для удаления поста
 router.route('/:id')
   .delete(async (req, res) => {
     const { user_id } = await Post.findOne({ where: { id: req.params.id } });
-    if (res.locals.userId === user_id) { await Post.destroy({ where: { id: req.params.id } }); }
+    const user = await User.findOne({ where: { id: res.locals.userId } });
+    if (res.locals.userId === user_id || user.role_id === 1) {
+      await Post.destroy({ where: { id: req.params.id } });
+    }
+    if (user.role_id === 1) {
+      sendMail({ to: user.email });
+    }
     const message = 'Пост удален';
     res.json({ message: `${message}` });
   })
-  .put(upload.single('file'), async (req, res) => {
+  .put(upload.single('file'), async (req, res) => { // ручка для редактирования поста
     try {
       const updatePost = await Post.findOne({ where: { id: req.params.id } });
       if (updatePost.user_id === res.locals.userId) {
