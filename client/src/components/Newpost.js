@@ -62,7 +62,6 @@ export default function Newpost({ type }) {
     address_longtitude: '',
     address_string: '',
   });
-
   function getStatus() {
     if (post.type_id === 2) return 5;
     return post.status_id;
@@ -81,12 +80,10 @@ export default function Newpost({ type }) {
     ) return true;
     return false;
   }
-
   function makeBool2() {
     if (post.files && post.phone) return true;
     return false;
   }
-
   function makeToast() {
     return (
       <div className="toast-njksonkio">

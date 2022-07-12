@@ -75,7 +75,7 @@ router
         size: el.Size.dataValues.size,
         timeSinceMissing: moment(
           el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-          'YYYYMMDD'
+          'YYYYMMDD',
         ).fromNow(),
         photo_url: el.Images[0]?.image,
       }));
@@ -86,7 +86,7 @@ router
   })
   .post(upload.array('files'), async (req, res) => {
     try {
-      console.log('POST CREATE', req.body);
+      console.log('DATA', req.body);
       // const type = await Type.findOne({ where: { type: req.params.type } });
       const { userId } = req.session;
       const arr = req.files;
@@ -99,9 +99,9 @@ router
         color_id: req.body.color_id,
         size_id: req.body.size,
         lost_date: req.body.date,
-        address_string: req.body.address_string || 'Moscow', // ДАННЫЕ ДОЛЖНЫ ИЗ КАРТЫ ТЯНУТЬСЯ
-        address_lattitude: req.body.address_lattitude || 55.683986493805385, // ДАННЫЕ ДОЛЖНЫ ИЗ КАРТЫ ТЯНУТЬСЯ
-        address_longitude: req.body.address_longitude || 37.534586242675786, // ДАННЫЕ ДОЛЖНЫ ИЗ КАРТЫ ТЯНУТЬСЯ
+        address_string: req.body.address_string,
+        address_lattitude: req.body.address_lattitude,
+        address_longitude: req.body.address_longitude,
         user_id: userId,
       });
       // arr.map(
@@ -117,7 +117,7 @@ router
             post_id: post.id,
           }))
       );
-
+      console.log('POST HAS BEEN CREATED', post);
       res.json({ text: 'Круто!' }); // тупо строка для теста. Потом поменять на что-то правильное
     } catch (error) {
       console.log(error);

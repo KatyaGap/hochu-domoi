@@ -31,8 +31,8 @@ module.exports = (sequelize, DataTypes) => {
     size_id: DataTypes.INTEGER,
     lost_date: DataTypes.DATE,
     address_string: DataTypes.STRING,
-    address_lattitude: DataTypes.FLOAT,
-    address_longitude: DataTypes.FLOAT,
+    address_lattitude: DataTypes.DECIMAL(65, 30, 'int'),
+    address_longitude: DataTypes.DECIMAL(65, 30, 'int'),
     user_id: DataTypes.INTEGER,
     phone: DataTypes.STRING,
   }, {
