@@ -2,6 +2,7 @@ import { Avatar, Button, Paper, Stack, TextField, Typography } from '@mui/materi
 import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { styled } from '@mui/material/styles';
 import { UserContext } from '../context/user';
 import { getProfileThunk } from '../redux/actions/adverts';
 import CardWide from './elements/CardWide';
@@ -48,6 +49,10 @@ function Profile() {
     setEmail(user?.email);
   }, [user]);
 
+  const Input = styled('input')({
+    display: 'none',
+  });
+
   return (
     <div className="profile-container">
       <div className="profile-wrapper">
@@ -68,7 +73,12 @@ function Profile() {
               <div className="avatar-container" sx={{ mt: 4, width: 180, height: 180 }}>
                 <Avatar className="avatar" alt={user?.name} src={user?.user_photo} sx={{ width: 180, height: 180 }} />
                 {edit
-                  ? <div onClick={updateAvatar} className="avatar-fade">Выбрать новую</div>
+                  ? (
+                    <label htmlFor="avatar-update">
+                      <Input onChange={updateAvatar} accept="image/*" id="avatar-update" multiple type="file" />
+                      <div className="avatar-fade">Выбрать новую</div>
+                    </label>
+                  )
                   : null}
               </div>
               {edit
