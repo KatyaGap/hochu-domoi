@@ -86,7 +86,6 @@ function Profile() {
     fetch('/lk/avatar', { method: 'PUT', body: formData })
       .then((response) => response.json())
       .then((result) => {
-        console.log('resulttttttttttttttttttt', result);
         setPhoto(result);
       })
       .finally(() => setInput({}));
