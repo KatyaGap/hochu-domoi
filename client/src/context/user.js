@@ -68,9 +68,29 @@ function UserContextProvider({ children }) {
     return result;
   };
 
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`/lk/avatar`, { method: 'delete' });
+      const result = await response.json();
+      console.log('res1', result);
+      setUser(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <UserContext.Provider
-      value={{ user, handleAuth, handleLogout, handleUpdate, loading, message, setMessage }}
+      value={{
+        user,
+        handleAuth,
+        handleLogout,
+        handleUpdate,
+        loading,
+        message,
+        setMessage,
+        handleDelete,
+      }}
     >
       {children}
     </UserContext.Provider>

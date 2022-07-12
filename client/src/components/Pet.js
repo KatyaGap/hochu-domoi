@@ -29,7 +29,6 @@ export default function Pet({ post }) {
       .then((res) => res.json())
       .then((res) => setPet(res));
   }, []);
-
   return (
     <Card sx={{ maxWidth: 345 }}>
       <Typography gutterBottom variant="h6" component="div">
@@ -44,7 +43,7 @@ export default function Pet({ post }) {
         {pet.address_string}
       </Typography>
 
-      <CardMedia component="img" alt="green iguana" height="300" image={pet.photo_url} />
+      <CardMedia component="img" alt="green iguana" height="300" image={pet.image0} />
 
       <CardContent>
         <Typography gutterBottom variant="h8" color="text.secondary" component="div">

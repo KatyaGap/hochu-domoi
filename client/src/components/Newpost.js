@@ -70,27 +70,14 @@ export default function Newpost({ type }) {
     if (post.pet_id === 2) return 6;
     return post.breed_id;
   }
+
   function makeBool1() {
-    if (
-      post.type_id
-      && post.pet_id
-      && post.breed_id
-      && post.color_id
-      && post.size
-      && post.status_id
-      && post.text
+    if (post.type_id && post.pet_id && post.breed_id && post.color_id && post.size && post.status_id && post.text
     ) {
       return true;
     }
-    if (
-      post.type_id
-      && post.pet_id
-      && post.breed_id
-      && post.color_id
-      && post.size
-      && post.status_id
-      && post.text
-    ) { return true; }
+    if (post.type_id && post.pet_id && post.breed_id && post.color_id && post.size && post.status_id && post.text
+    ) return true;
     return false;
   }
   function makeBool2() {
@@ -106,6 +93,7 @@ export default function Newpost({ type }) {
       </div>
     );
   }
+
   console.log(query.get('type'));
   const handleSubmit = (e) => {
     e.preventDefault();

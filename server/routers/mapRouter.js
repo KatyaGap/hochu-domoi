@@ -94,8 +94,8 @@ router
         text: req.body.text,
         pet_id: req.body.pet_id,
         type_id: req.body.type_id,
-        status_id: req.body.status_id ? req.body.status_id : 5,
-        breed_id: req.body.breed_id ? req.body.breed_id : 6,
+        status_id: req.body.status_id,
+        breed_id: req.body.breed_id,
         color_id: req.body.color_id,
         size_id: req.body.size,
         lost_date: req.body.date,
@@ -110,11 +110,12 @@ router
       //     post_id: post.id,
       //   })),
       // );
-      arr.map(
-        await ((img, i) => Image.create({
-          image: arr[i].path.replace('public', ''),
-          post_id: post.id,
-        })),
+      arr?.map(
+        await ((img, i) =>
+          Image.create({
+            image: arr[i].path.replace('public', ''),
+            post_id: post.id,
+          }))
       );
       console.log('POST HAS BEEN CREATED', post);
       res.json({ text: 'Круто!' }); // тупо строка для теста. Потом поменять на что-то правильное

@@ -9,3 +9,5 @@ export const GET_FOUND = 'GET_FOUND';
 export const GET_FILTERED = 'GET_FILTERED';
 export const GET_PARAMS = 'GET_PARAMS';
 export const GET_PROFILE = 'GET_PROFILE';
+export const DELETE_PROFILEIMG = 'GET_PROFILEIMG';
+export const EDIT_PROFILEIMG = 'EDIT_PROFILEIMG';
