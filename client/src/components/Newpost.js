@@ -59,7 +59,7 @@ export default function Newpost({ type }) {
     date: '',
     phone: '',
     address_lattitude: '',
-    address_longtitude: '',
+    address_longitude: '',
     address_string: '',
   });
   function getStatus() {
@@ -109,7 +109,7 @@ export default function Newpost({ type }) {
     formData.append('text', post.text);
     formData.append('phone', post.phone);
     formData.append('address_lattitude', coord?.coordinates[0]);
-    formData.append('address_longtitude', coord?.coordinates[1]);
+    formData.append('address_longitude', coord?.coordinates[1]);
     formData.append('address_string', coord?.adress);
     console.log('formData', Object.fromEntries(formData));
     // console.log('post', post);
@@ -131,7 +131,7 @@ export default function Newpost({ type }) {
           date: '',
           phone: '',
           address_lattitude: '',
-          address_longtitude: '',
+          address_longitude: '',
           address_string: '',
         });
         // navigate('/');

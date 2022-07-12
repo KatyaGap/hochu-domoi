@@ -60,7 +60,7 @@ router.route('/').get(async (req, res) => {
           },
         ],
       });
-			console.log('posts', posts)
+      console.log('posts', posts);
       const result = posts.map((el) => ({
         ...el.dataValues,
         name: el.User.dataValues.name,
@@ -77,7 +77,7 @@ router.route('/').get(async (req, res) => {
         ).fromNow(),
         photo_url: el.Images[0]?.image,
       }));
-			console.log('========== if', result)
+      console.log('========== if', result);
       res.json(result);
     } else {
       const posts = await Post.findAll({
@@ -135,7 +135,7 @@ router.route('/').get(async (req, res) => {
         ).fromNow(),
         photo_url: el.Images[0]?.image,
       }));
-			console.log('else result', result)
+      console.log('else result', result);
       res.json(result);
     }
   } catch (error) {
@@ -162,17 +162,19 @@ router
     await user.save();
     res.json(user);
   });
+
 // ручка для удаления поста
 router
   .route('/:id')
   .delete(async (req, res) => {
     const { user_id } = await Post.findOne({ where: { id: req.params.id } });
     const user = await User.findOne({ where: { id: res.locals.userId } });
+    const deleteUser = await User.findOne({ where: { id: user_id } });
     if (res.locals.userId === user_id || user.role_id === 1) {
       await Image.destroy({ where: { post_id: req.params.id } });
       await Post.destroy({ where: { id: req.params.id } });
       if (user.role_id === 1) {
-        sendMail({ to: user.email });
+        sendMail({ to: deleteUser.email });
       }
     }
     res.json({ id: req.params.id });
@@ -197,6 +199,7 @@ router
         updatePost.address_longitude = req.body.address_longitude;
         updatePost.user_id = res.locals.userId;
         await updatePost.save();
+
         const images = await Image.findAll({
           where: { post_id: req.params.id },
         });

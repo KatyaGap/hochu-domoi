@@ -17,7 +17,7 @@ import { useDispatch } from 'react-redux';
 // import { use } from '../../../../server/routers/mapRouter';
 
 function CardWide({ post, handleDeletePost }) {
-	const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const location = useLocation();
   return (
     <Card className="card card-wide" variant="outlined">
@@ -79,7 +79,11 @@ function CardWide({ post, handleDeletePost }) {
             </Typography>
           </div>
           {location.pathname.includes('profile') && (
-            <IconButton onClick={() => handleDeletePost(post.id)} aria-label="delete" size="small">
+            <IconButton
+              onClick={() => handleDeletePost(post.id)}
+              aria-label="delete"
+              size="small"
+            >
               <DeleteIcon fontSize="inherit" />
             </IconButton>
           )}
@@ -88,5 +92,4 @@ function CardWide({ post, handleDeletePost }) {
     </Card>
   );
 }
-
 export default CardWide;
