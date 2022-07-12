@@ -90,7 +90,7 @@ router.route('/fiveLost').get(async (req, res) => {
       size: el.Size.dataValues.size,
       timeSinceMissing: moment(
         el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD'
+        'YYYYMMDD',
       ).fromNow(),
       photo_url: el.Images[0]?.image,
     }));
@@ -154,7 +154,7 @@ router.route('/fiveFound').get(async (req, res) => {
       size: el.Size.dataValues.size,
       timeSinceMissing: moment(
         el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD'
+        'YYYYMMDD',
       ).fromNow(),
       photo_url: el.Images[0]?.image,
     }));
@@ -219,7 +219,7 @@ router.route('/filter').post(async (req, res) => {
       size: el.Size.dataValues.size,
       timeSinceMissing: moment(
         el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD'
+        'YYYYMMDD',
       ).fromNow(),
       photo_url: el.Images[0]?.image,
     }));
@@ -269,7 +269,7 @@ router.route('/:id').get(async (req, res) => {
       include: [
         {
           model: User,
-          attributes: ['name'],
+          attributes: ['name', 'user_photo'],
         },
         {
           model: Breed,
@@ -300,7 +300,8 @@ router.route('/:id').get(async (req, res) => {
     });
     post = {
       ...post,
-      name: post['User.name'],
+      user_name: post['User.name'],
+      user_photo: post['User.user_photo'],
       breed: post['Breed.breed'],
       color_name: post['Color.color_name'],
       hex: post['Color.hex'],
@@ -310,12 +311,18 @@ router.route('/:id').get(async (req, res) => {
       size: post['Size.size'],
       timeSinceMissing: moment(
         post.lost_date?.toISOString().split('T')[0].split('-').join(''),
-        'YYYYMMDD'
+        'YYYYMMDD',
       ).fromNow(),
     };
-    const images = await Image.findAll({ where: { post_id: req.params.id } });
-    images.forEach((el, ind) => (post[`image${ind}`] = el.image));
-    res.json(post);
+    const images = (
+      await Image.findAll({
+        where: { post_id: req.params.id },
+        raw: true,
+      })
+    ).map((el) => el.image);
+    post.images = images;
+    // images.forEach((el, ind) => (post[`image${ind}`] = el.image));
+    res.json({ post });
   } catch (error) {
     console.log(error);
   }

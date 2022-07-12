@@ -469,3 +469,107 @@
 	border-radius: 10px;
 	padding: 5px;
 }
+
+/* СТРАНИЦА ЖИВОТНОГО */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: flex-start;
+  padding-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+.container .post-owner-header {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  min-width: 50%;
+  max-width: 100%;
+  position: sticky;
+  top: 2rem;
+  z-index: 2;
+  margin-top: 0;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+}
+
+.container .gallery {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.gallery-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 0;
+}
+
+.gallery-wrapper .gallery-timesince,
+.gallery-wrapper .map-and-address {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  color: #444;
+  display: flex;
+  justify-content: space-between;
+  & .MuiTypography-caption {
+    font-size: 0.9rem;
+    padding-top: 2px;
+  }
+  & .gallery-address {
+    width: 75%;
+  }
+}
+
+.map-and-address {
+}
+
+.author {
+  display: flex;
+  align-items: center;
+}
+
+.author .author-name {
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  margin-left: 1rem;
+  margin-right: 3rem;
+}
+
+.author-icons .phone-number {
+  font-size: 1rem;
+  margin-left: 0.5rem;
+  letter-spacing: 1px;
+}
+
+.page-header .favorites-button-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.favorites-button-icon.checked {
+  color: #d32f2f;
+}
+
+.table {
+  width: 80%;
+}
+
+.table td {
+  vertical-align: top;
+  padding: 0.5rem 1rem;
+  // border: #222 1px dotted;
+}
+
+.table .description .MuiTypography-subtitle1 {
+  font-weight: 500;
+  color:#999;
+}
+
+.table .value .MuiTypography-subtitle1 {
+  font-weight: 400;
+  color:#222;
+}
