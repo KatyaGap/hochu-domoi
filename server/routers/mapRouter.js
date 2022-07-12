@@ -86,6 +86,7 @@ router
   })
   .post(upload.array('files'), async (req, res) => {
     try {
+      console.log('DATA', req.body);
       // const type = await Type.findOne({ where: { type: req.params.type } });
       const { userId } = req.session;
       const arr = req.files;
