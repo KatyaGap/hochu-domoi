@@ -74,11 +74,11 @@ module.exports = {
         isNull: false,
       },
       address_lattitude: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.DECIMAL(65, 30, 'int'),
         isNull: false,
       },
       address_longitude: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.DECIMAL(65, 30, 'int'),
         isNull: false,
       },
       user_id: {
