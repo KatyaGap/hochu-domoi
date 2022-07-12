@@ -67,33 +67,18 @@ export default function Newpost({ type }) {
     if (post.type_id === 2) return 5;
     return post.status_id;
   }
-	function getBreed() {
+  function getBreed() {
     if (post.pet_id === 2) return 6;
     return post.breed_id;
   }
 
   function makeBool1() {
-    if (
-      post.type_id &&
-      post.pet_id &&
-      post.breed_id &&
-      post.color_id &&
-      post.size &&
-      post.status_id &&
-      post.text
+    if (post.type_id && post.pet_id && post.breed_id && post.color_id && post.size && post.status_id && post.text
     ) {
       return true;
     }
-    if (
-      post.type_id &&
-      post.pet_id &&
-      post.breed_id &&
-      post.color_id &&
-      post.size &&
-      post.status_id &&
-      post.text
-    )
-      return true;
+    if (post.type_id && post.pet_id && post.breed_id && post.color_id && post.size && post.status_id && post.text
+    ) return true;
     return false;
   }
 

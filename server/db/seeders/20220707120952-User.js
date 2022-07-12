@@ -31,6 +31,13 @@ module.exports = {
         role_id: 2,
         user_photo: '/images/people.jpg',
       },
+      {
+        name: 'Zookie',
+        email: 'zookie@mail.ru',
+        password: await Bcrypt.hash('123'),
+        role_id: 2,
+        user_photo: '/userpics/doge.jpg',
+      },
     ], {});
   },
   async down(queryInterface, Sequelize) {

@@ -15,17 +15,13 @@ export default function SmallCard({ post }) {
   return (
     <Card sx={{ minWidth: 216, maxWidth: 216 }} className="card small-card">
       <CardActionArea onClick={petLink}>
-        <CardMedia
-          component="img"
-          height="180"
-          image={post.photo_url}
-          alt="фотография потеряшки"
-        />
+        <CardMedia component="img" height="180" image={post.photo_url} alt="фотография потеряшки" />
 
         <CardContent className="card-content small-card-content">
           <Typography className="card-description small-card-description" variant="subtitle2" color="text.secondary">
             {post?.text}
           </Typography>
+
           <div className="card-bottom">
             <Typography className="card-address small-card-address" variant="caption" color="text.secondary">
               <PinDrop sx={{ width: '16px', height: '16px', position: 'relative', top: '3px', marginRight: '3px' }} />
@@ -36,6 +32,7 @@ export default function SmallCard({ post }) {
               {post?.timeSinceMissing}
             </Typography>
           </div>
+
         </CardContent>
 
         <Chip label={post?.status} size="small" className="card-status" variant="outlined" color="primary" />

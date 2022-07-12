@@ -313,9 +313,14 @@ router.route('/:id').get(async (req, res) => {
         'YYYYMMDD'
       ).fromNow(),
     };
-    const images = await Image.findAll({ where: { post_id: req.params.id } });
-    images.forEach((el, ind) => (post[`image${ind}`] = el.image));
-    res.json(post);
+    const images = (
+      await Image.findAll({
+        where: { post_id: req.params.id },
+        raw: true,
+      })
+    ).map((el) => el.image);
+    // images.forEach((el, ind) => (post[`image${ind}`] = el.image));
+    res.json({ post, images });
   } catch (error) {
     console.log(error);
   }

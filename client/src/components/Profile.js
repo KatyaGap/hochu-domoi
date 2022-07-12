@@ -9,13 +9,14 @@ import {
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { styled } from '@mui/material/styles';
+import { CollectionsBookmarkRounded } from '@mui/icons-material';
 import { UserContext } from '../context/user';
 import { getProfileThunk } from '../redux/actions/adverts';
-import { deleteProfileimgThunk } from '../redux/actions/profile';
 import CardWide from './elements/CardWide';
 
 function Profile() {
-  const { user, handleUpdate, message, setMessage } = useContext(UserContext);
+  const { user, handleUpdate, message, setMessage, handleDelete } = useContext(UserContext);
   const [edit, setEdit] = useState(false);
   setMessage('');
 
@@ -26,13 +27,13 @@ function Profile() {
   }, []);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [photo, setPhoto] = useState('');
   const profileFounds = profile?.filter((el) => el.type_id === 1);
   const profileLosts = profile?.filter((el) => el.type_id === 2);
 
   const sendForm = async (e) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target));
-    console.log('data: ', data);
     const result = await handleUpdate(data);
     if (result.user?.email) {
       setEmail(result.user.email);
@@ -42,14 +43,48 @@ function Profile() {
     }
     setEdit(false);
   };
+  const [input, setInput] = useState({});
 
-  const updateAvatar = () => {
-    // тут обновление аватара
-  };
+  useEffect(() => {
+    if (input.file) {
+      const formData = new FormData();
+      formData.append('file', input.file);
+      fetch('/lk/avatar', { method: 'PUT', body: formData })
+        .then((response) => response.json())
+        .then((result) => {
+          console.log('result photo', result.user_photo);
+          setPhoto(result.user_photo);
+        })
+        .finally(() => setInput({}));
+    }
+  }, [input.file]);
+  console.log('user', user);
 
-  const deleteAvatar = useCallback((id) => {
-    dispatch(deleteProfileimgThunk(id));
+  const updateAvatar = useCallback((e) => {
+    if (e.target.type === 'file') {
+      setInput((prev) => ({
+        ...prev,
+        [e.target.name]: e.target.value,
+        file: e.target.files[0],
+      }));
+    } else {
+      setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    }
   }, []);
+
+  const handleSubmit = (e) => {
+    console.log('я тттут');
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('file', input.file);
+    fetch('/lk/avatar', { method: 'PUT', body: formData })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log('resulttttttttttttttttttt', result);
+        setPhoto(result);
+      })
+      .finally(() => setInput({}));
+  };
 
   const editToggle = () => {
     setEdit(!edit);
@@ -58,7 +93,12 @@ function Profile() {
   useEffect(() => {
     setUsername(user?.name);
     setEmail(user?.email);
+    setPhoto(user?.user_photo);
   }, [user]);
+
+  const Input = styled('input')({
+    display: 'none',
+  });
 
   return (
     <div className="profile-container">
@@ -93,18 +133,33 @@ function Profile() {
                 <Avatar
                   className="avatar"
                   alt={user?.name}
-                  src={user?.user_photo}
+                  // src={user?.user_photo}
+                  src={photo}
                   sx={{ width: 180, height: 180 }}
                 />
                 {edit ? (
-                  <div onClick={updateAvatar} className="avatar-fade">
-                    Выбрать новую
-                  </div>
+                  <form
+                    name="avatar-update"
+                    id="avatar-form"
+                    onSubmit={(e) => handleSubmit(e)}
+                  >
+                    <label htmlFor="avatar-update">
+                      <Input
+                        name="file"
+                        accept="image/*"
+                        id="avatar-update"
+                        multiple
+                        type="file"
+                        onChange={updateAvatar}
+                      />
+                      <div className="avatar-fade">Выбрать новую</div>
+                    </label>
+                  </form>
                 ) : null}
               </div>
               {edit ? (
                 <Typography
-                  onClick={() => deleteAvatar(user.id)}
+                  onClick={() => handleDelete(user.id)}
                   className="delete-button"
                   variant="caption"
                   gutterBottom

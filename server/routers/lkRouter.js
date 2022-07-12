@@ -146,8 +146,8 @@ router
   .put(upload.single('file'), async (req, res) => {
     // изменение аватара
     const user = await User.findOne({ where: { id: res.locals.userId } });
-    console.log('А ВОТ И ФОТКА С БЭКА', req.body.file);
-    user.user_photo = req.body.file;
+    console.log('А ВОТ И ФОТКА С БЭКА', req.file);
+    user.user_photo = req.file.path.replace('public', '');
     console.log('ПЕРЕЗАПИСАЛИ ФОТОЧКУ', user.user_photo);
     await user.save();
     console.log('А ВОТ И ЮЗЕР НОВЕНЬКИЙ', user);
