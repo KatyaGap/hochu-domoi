@@ -5,7 +5,13 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { IconButton, Input, Stack, TextField } from '@mui/material';
+import {
+  getStepLabelUtilityClass,
+  IconButton,
+  Input,
+  Stack,
+  TextField,
+} from '@mui/material';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import { PhotoCamera } from '@mui/icons-material';
@@ -56,26 +62,28 @@ export default function Newpost({ type }) {
     address_longtitude: '',
     address_string: '',
   });
-
-  function makeBool1() {
-    if (
-      post.type_id
-      && post.pet_id
-      && post.breed_id
-      && post.color_id
-      && post.size
-      && post.status_id
-      && post.text
-    ) { return true; }
-    if (post.type_id && post.pet_id && post.breed_id && post.color_id && post.size && post.status_id && post.text) return true;
-    return false;
+  function getStatus() {
+    if (post.type_id === 2) return 5;
+    return post.status_id;
+  }
+  function getBreed() {
+    if (post.pet_id === 2) return 6;
+    return post.breed_id;
   }
 
+  function makeBool1() {
+    if (post.type_id && post.pet_id && post.breed_id && post.color_id && post.size && post.status_id && post.text
+    ) {
+      return true;
+    }
+    if (post.type_id && post.pet_id && post.breed_id && post.color_id && post.size && post.status_id && post.text
+    ) return true;
+    return false;
+  }
   function makeBool2() {
     if (post.files && post.phone) return true;
     return false;
   }
-
   function makeToast() {
     return (
       <div className="toast-njksonkio">
@@ -85,16 +93,17 @@ export default function Newpost({ type }) {
       </div>
     );
   }
+
   console.log(query.get('type'));
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('type_id', Number(post.type_id));
     formData.append('pet_id', Number(post.pet_id));
-    formData.append('breed_id', Number(post.breed_id));
+    formData.append('breed_id', getBreed());
     formData.append('color_id', Number(post.color_id));
     formData.append('size', Number(post.size));
-    formData.append('status_id', Number(post.status_id));
+    formData.append('status_id', getStatus());
     post.files?.map((el, i) => formData.append('files', post.files[i]));
     formData.append('date', post.date);
     formData.append('text', post.text);
@@ -102,7 +111,7 @@ export default function Newpost({ type }) {
     formData.append('address_lattitude', coord?.coordinates[0]);
     formData.append('address_longtitude', coord?.coordinates[1]);
     formData.append('address_string', coord?.adress);
-    console.log('formData', formData);
+    console.log('formData', Object.fromEntries(formData));
     // console.log('post', post);
     fetch(`/map/${type}`, {
       method: 'Post',

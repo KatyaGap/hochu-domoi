@@ -1,4 +1,6 @@
-import { GET_PROFILE } from "../constants/constants";
+import {
+  GET_PROFILE,
+} from '../constants/constants';
 
 const initialState = [];
 
