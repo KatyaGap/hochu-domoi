@@ -15,7 +15,6 @@ const {
   Image,
 } = require('../db/models');
 require('moment/locale/ru');
-
 // ручка для отображения ВСЕХ постов АДМИНУ или только СВОИХ постов ЮЗЕРУ
 router.route('/').get(async (req, res) => {
   try {
@@ -61,6 +60,7 @@ router.route('/').get(async (req, res) => {
           },
         ],
       });
+      console.log('posts', posts);
       const result = posts.map((el) => ({
         ...el.dataValues,
         name: el.User.dataValues.name,
@@ -73,10 +73,11 @@ router.route('/').get(async (req, res) => {
         size: el.Size.dataValues.size,
         timeSinceMissing: moment(
           el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-          'YYYYMMDD',
+          'YYYYMMDD'
         ).fromNow(),
         photo_url: el.Images[0]?.image,
       }));
+      console.log('========== if', result);
       res.json(result);
     } else {
       const posts = await Post.findAll({
@@ -130,17 +131,17 @@ router.route('/').get(async (req, res) => {
         size: el.Size.dataValues.size,
         timeSinceMissing: moment(
           el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-          'YYYYMMDD',
+          'YYYYMMDD'
         ).fromNow(),
         photo_url: el.Images[0]?.image,
       }));
+      console.log('else result', result);
       res.json(result);
     }
   } catch (error) {
     console.log(error);
   }
 });
-
 // ручка для аватара юзера
 router
   .route('/avatar')
@@ -178,7 +179,8 @@ router
     }
     res.json({ id: req.params.id });
   })
-  .put(upload.single('file'), async (req, res) => { // ручка для редактирования поста
+  .put(upload.single('file'), async (req, res) => {
+    // ручка для редактирования поста
     try {
       const updatePost = await Post.findOne({ where: { id: req.params.id } });
       const arr = req.files;
@@ -198,7 +200,9 @@ router
         updatePost.user_id = res.locals.userId;
         await updatePost.save();
 
-        const images = await Image.findAll({ where: { post_id: req.params.id } });
+        const images = await Image.findAll({
+          where: { post_id: req.params.id },
+        });
         if (arr.length === images.length) {
           for (let i = 0; i < arr.length; i++) {
             images[i].image = arr[i].req.file.filename;
@@ -222,5 +226,4 @@ router
       res.json({ message: `${message}` });
     }
   });
-
 module.exports = router;

@@ -1,6 +1,16 @@
 import axios from 'axios';
 
-import { GET_ADVERTS, GET_FILTERED, GET_FIVEFOUND, GET_FIVELOST, GET_FOUND, GET_LOST, GET_PARAMS, GET_PROFILE } from '../constants/constants';
+import {
+  DELETE_PROFILEPOST,
+  GET_ADVERTS,
+  GET_FILTERED,
+  GET_FIVEFOUND,
+  GET_FIVELOST,
+  GET_FOUND,
+  GET_LOST,
+  GET_PARAMS,
+  GET_PROFILE,
+} from '../constants/constants';
 
 export const getAdverts = (data) => ({ type: GET_ADVERTS, payload: data });
 export const getFiveLost = (data) => ({ type: GET_FIVELOST, payload: data });
@@ -10,6 +20,7 @@ export const getFound = (data) => ({ type: GET_FOUND, payload: data });
 export const getFiltered = (data) => ({ type: GET_FILTERED, payload: data });
 export const getParams = (data) => ({ type: GET_PARAMS, payload: data });
 export const getProfile = (data) => ({ type: GET_PROFILE, payload: data });
+export const deleteProfilePost = (id) => ({ type: DELETE_PROFILEPOST, payload: id });
 
 export const getAdvertsThunk = () => async (dispatch) => {
   try {
@@ -25,6 +36,7 @@ export const getProfileThunk = () => async (dispatch) => {
   try {
     const response = await fetch('/lk');
     const result = await response.json();
+		console.log('result profile', result)
     dispatch(getProfile(result));
   } catch (error) {
     console.log(error);
@@ -68,6 +80,19 @@ export const getParamsThunk = () => async (dispatch) => {
     const response = await fetch('/adverts/params');
     const result = await response.json();
     dispatch(getParams(result));
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const deleteProfilePostThunk = (id) => async (dispatch) => {
+  try {
+    const response = await fetch(`/lk/${id}`, { method: 'delete' });
+    const result = await response.json();
+    console.log('result', result);
+    if (response.ok) {
+			console.log(response)
+      dispatch(deleteProfilePost(id));
+    }
   } catch (error) {
     console.log(error);
   }
