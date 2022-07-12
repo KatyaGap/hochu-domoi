@@ -111,11 +111,10 @@ router
       //   })),
       // );
       arr?.map(
-        await ((img, i) =>
-          Image.create({
-            image: arr[i].path.replace('public', ''),
-            post_id: post.id,
-          }))
+        await ((img, i) => Image.create({
+          image: arr[i].path.replace('public', ''),
+          post_id: post.id,
+        })),
       );
       console.log('POST HAS BEEN CREATED', post);
       res.json({ text: 'Круто!' }); // тупо строка для теста. Потом поменять на что-то правильное
