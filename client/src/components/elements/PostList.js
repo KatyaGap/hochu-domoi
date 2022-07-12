@@ -3,7 +3,7 @@ import { Box } from '@mui/system';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getAdvertsThunk } from '../../redux/actions/adverts';
+import { deletePostThunk, getAdvertsThunk } from '../../redux/actions/adverts';
 
 function PostList({ adverts }) {
   const dispatch = useDispatch();
@@ -11,7 +11,6 @@ function PostList({ adverts }) {
   // const handleDelete = useCallback((id) => {
   //   dispatch(deletePostThunk(id));
   // }, []);
-
   return (
     <ImageList sx={{ width: 600 }} cols={4} gap={8}>
       {adverts?.map((item, ind) => (

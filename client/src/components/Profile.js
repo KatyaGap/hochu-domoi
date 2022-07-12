@@ -12,19 +12,25 @@ import { toast } from 'react-toastify';
 import { styled } from '@mui/material/styles';
 import { CollectionsBookmarkRounded } from '@mui/icons-material';
 import { UserContext } from '../context/user';
-import { getProfileThunk } from '../redux/actions/adverts';
+import { deleteProfilePostThunk, getProfileThunk } from '../redux/actions/adverts';
 import CardWide from './elements/CardWide';
 
 function Profile() {
-  const { user, handleUpdate, message, setMessage, handleDelete } = useContext(UserContext);
+  const { user, handleUpdate, message, setMessage, handleDelete } =
+    useContext(UserContext);
   const [edit, setEdit] = useState(false);
   setMessage('');
-
   const dispatch = useDispatch();
+  const handleDeletePost = useCallback((id) => {
+    dispatch(deleteProfilePostThunk(id));
+  }, []);
+
   const { profile, filtered } = useSelector((state) => state);
+  console.log('profile', profile);
   useEffect(() => {
     dispatch(getProfileThunk());
   }, []);
+
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [photo, setPhoto] = useState('');
@@ -299,7 +305,11 @@ function Profile() {
                 </Typography>
                 <Stack className="my-posts-container" spacing={2}>
                   {profileLosts.map((post) => (
-                    <CardWide key={post?.id} post={post} />
+                    <CardWide
+                      key={post?.id}
+                      post={post}
+                      handleDeletePost={handleDeletePost}
+                    />
                   ))}
                 </Stack>
               </>
@@ -317,7 +327,11 @@ function Profile() {
                 </Typography>
                 <Stack className="my-posts-container" spacing={2}>
                   {profileFounds.map((post) => (
-                    <CardWide key={post?.id} post={post} />
+                    <CardWide
+                      key={post?.id}
+                      post={post}
+                      handleDeletePost={handleDeletePost}
+                    />
                   ))}
                 </Stack>
               </>

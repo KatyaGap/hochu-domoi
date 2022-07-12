@@ -1,4 +1,4 @@
-import { GET_ADVERTS } from "../constants/constants";
+import { DELETE_POST, GET_ADVERTS } from '../constants/constants';
 
 const initialState = [];
 
