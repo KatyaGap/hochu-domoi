@@ -2,7 +2,7 @@ import { PinDrop, Restore } from '@mui/icons-material';
 import { Card, CardActionArea, CardContent, CardMedia, Chip, IconButton, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch } from 'react-redux';
 // import { use } from '../../../../server/routers/mapRouter';
@@ -10,9 +10,16 @@ import { useDispatch } from 'react-redux';
 function CardWide({ post, handleDeletePost }) {
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
+  console.log('post: ', post);
+
+  const petLink = () => {
+    navigate(`/pet/${post.id}`);
+  };
+
   return (
     <Card className="card card-wide" variant="outlined">
-      <CardActionArea className="card-action-area">
+      <CardActionArea onClick={petLink} className="card-action-area">
         <CardMedia
           className="card-photo"
           component="img"
@@ -29,7 +36,7 @@ function CardWide({ post, handleDeletePost }) {
               {post?.text}
             </Typography>
             <Chip
-              label={post['Status.status']}
+              label={post.status}
               className="card-status"
               variant="outlined"
               color="primary"

@@ -25,7 +25,6 @@ export default function Pet() {
   const [pet, setPet] = useState({});
   const [showPhone, setShowPhone] = useState(false);
   const [showMap, setShowMap] = useState(false);
-  console.log('pet: ', pet);
   const [expanded, setExpanded] = React.useState(true);
   const navigate = useNavigate();
   const { user } = useContext(UserContext);

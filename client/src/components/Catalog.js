@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material';
+import { TextField, Typography } from '@mui/material';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -15,11 +15,10 @@ function Catalog() {
     dispatch(getAdvertsThunk());
   }, []);
   return (
-    <div className="cont">
-      <div>
+    <div className="container">
+      <div className="content catalog">
+        <Typography fullWidth variant="h3" gutterBottom component="div">Каталог</Typography>
         <Filters adverts={adverts} />
-      </div>
-      <div>
         <PostList posts={filtered} adverts={adverts} />
       </div>
     </div>

@@ -7,7 +7,6 @@ function Gallery({ pet }) {
 
   useEffect(() => {
     const imagesTemp = [];
-    console.log('pet: ', pet);
     for (let i = 0; i < pet?.images?.length; i += 1) {
       imagesTemp.push(pet?.images[i]);
     }

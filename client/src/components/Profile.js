@@ -18,7 +18,6 @@ function Profile() {
   }, []);
 
   const { profile, filtered } = useSelector((state) => state);
-  console.log('profile', profile);
   useEffect(() => {
     dispatch(getProfileThunk());
   }, []);
@@ -211,7 +210,7 @@ function Profile() {
                 <Typography variant="h5" gutterBottom component="div" sx={{ mt: 4 }}>
                   Найденные
                 </Typography>
-                <Stack className="my-posts-container" spacing={2}>
+                <Stack className="my-posts-container" direction="column" spacing={2}>
                   {profileFounds.map((post) => (
                     <CardWide
                       key={post?.id}

@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { IconButton, Typography, Box, InputLabel, MenuItem, Input, Stack, TextField, ToggleButtonGroup, ToggleButton, Select, FormControl, Tooltip } from '@mui/material';
+import { IconButton, Typography, Box, InputLabel, MenuItem, Input, Stack, TextField, ToggleButtonGroup, ToggleButton, Select, Tooltip, FormControl } from '@mui/material';
 import Button from '@mui/material/Button';
 import { PhotoCamera, Send, KeyboardArrowRight, KeyboardArrowLeft } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,8 +8,11 @@ import { toast } from 'react-toastify';
 import { getAdvertsThunk, getParamsThunk } from '../redux/actions/adverts';
 import filterReducer from '../redux/reducers/filter';
 import AddLabel from './elements/AddLabel';
+import { UserContext } from '../context/user';
 
 export default function Newpost({ type }) {
+  const { message, setMessage } = useContext(UserContext);
+  setMessage('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [posts, setPosts] = useState([]);
@@ -33,7 +36,7 @@ export default function Newpost({ type }) {
   function getType() {
     if (query.get('type') === 'found') return 1;
     if (query.get('type') === 'lost') return 2;
-    return 0;
+    return "";
   }
 
   const [post, setPost] = useState({ type_id: getType(), pet_id: '', breed_id: '', color_id: '', size: '', status_id: '', text: '', date: '', phone: '', address_lattitude: '', address_longtitude: '', address_string: '' });
@@ -88,7 +91,6 @@ export default function Newpost({ type }) {
     formData.append('address_longitude', coord?.coordinates[1]);
     formData.append('address_string', coord?.adress);
     console.log('formData', Object.fromEntries(formData));
-    let newPostId = 0;
     fetch(`/map/${type}`, {
       method: 'Post',
       body: formData,
@@ -96,17 +98,21 @@ export default function Newpost({ type }) {
       .then((response) => response.json())
       .then((result) => {
         setPosts((prev) => [...prev, result]);
-        newPostId = result.id;
+        const newPostId = result?.id;
+        console.log('result: ', result);
+        if (result.message) {
+          setMessage(result.message);
+        } else {
+          setPost({ type_id: '', pet_id: '', breed_id: '', color_id: '', size: '', status_id: '', text: '', date: '', phone: '', address_lattitude: '', address_longtitude: '', address_string: '' });
+          navigate(`/pet/${newPostId}`);
+        }
       })
-      .finally(() => {
-        setPost({ type_id: '', pet_id: '', breed_id: '', color_id: '', size: '', status_id: '', text: '', date: '', phone: '', address_lattitude: '', address_longtitude: '', address_string: '' });
-        navigate(`/pet/${newPostId}`);
+      .finally((result) => {
       });
   };
 
   const handleChange = React.useCallback((e) => {
     if (e.target.type === 'file') {
-      console.log(e.target.files.length);
       setPost((prev) => ({
         ...prev,
         [e.target.name]: e.target.value,
@@ -117,9 +123,12 @@ export default function Newpost({ type }) {
       setFileUploaded(true);
     } else if (+e.target.value) {
       setPost((prev) => ({ ...prev, [e.target.name]: +e.target.value }));
+      post[e.target.name] = +e.target.value;
     } else {
       setPost((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+      post[e.target.name] = e.target.value;
     }
+    console.log('post: ', post);
   }, []);
 
   const changePage = () => {
@@ -133,10 +142,9 @@ export default function Newpost({ type }) {
   const handleChangeType = (event, newTypeId) => {
     setTypeButtonValue(newTypeId);
     handleChange(event);
-    console.log('typeButtonValue: ', typeButtonValue);
   };
 
-  const [sizeButtonValue, setSizeButtonValue] = useState(0);
+  const [sizeButtonValue, setSizeButtonValue] = useState('');
   const handleChangeSize = (event, newSizeId) => {
     setSizeButtonValue(newSizeId);
     handleChange(event);
@@ -170,8 +178,8 @@ export default function Newpost({ type }) {
                   Кто пропал?
                 </Typography>
               )}
-              <FormControl className="newpost-pet">
-                <div className="newpost-select">
+              <div className="newpost-pet">
+                <FormControl className="newpost-select">
                   <InputLabel id="pet">
                     Вид животного
                   </InputLabel>
@@ -183,22 +191,27 @@ export default function Newpost({ type }) {
                       </MenuItem>
                     ))}
                   </Select>
-                </div>
+                </FormControl>
 
                 {post.pet_id === 1 && (
-                  <div className="newpost-select newpost-breed">
+                  <FormControl className="newpost-select newpost-breed">
                     <InputLabel id="breed">Порода</InputLabel>
                     <Select labelId="breed" fullWidth name="breed_id" value={post.breed_id} label="Порода" onChange={handleChange}>
-                      {breeds?.map((item, ind) => (
-                        <MenuItem key={ind + 1} value={ind + 1}>
-                          {item.breed}
-                        </MenuItem>
-                      ))}
+                      {breeds?.map((item, ind) => {
+                        if (item.breed !== "Кошка") {
+                          return (
+                            <MenuItem key={ind + 1} value={ind + 1}>
+                              {item.breed}
+                            </MenuItem>
+                          );
+                        }
+                        return null;
+                      })}
                     </Select>
-                  </div>
+                  </FormControl>
                 )}
 
-              </FormControl>
+              </div>
             </div>
 
             <div className="newpost-item">
@@ -221,7 +234,7 @@ export default function Newpost({ type }) {
             </div>
 
             <div className="newpost-item">
-              <FormControl fullWidth>
+              <div className="fullWidth">
 
                 <Typography variant="h6" component="div" gutterBottom>
                   Размер
@@ -229,13 +242,14 @@ export default function Newpost({ type }) {
 
                 <ToggleButtonGroup className="newpost-size" onChange={handleChangeSize} color="primary" value={sizeButtonValue} exclusive>
                   {sizes?.map((size, i) => (
-                    <ToggleButton key={i + 1} value={i + 1} name="size_id">
+                    <ToggleButton className="newpost-size-button" key={i + 1} value={i + 1} name="size">
                       <div className="size-icon" style={{ WebkitMaskImage: `url('/sizes/size${i + 1}.svg')`, maskImage: `url('/sizes/size${i + 1}.svg')` }} />
+                      {size.size}
                     </ToggleButton>
                   ))}
                 </ToggleButtonGroup>
 
-              </FormControl>
+              </div>
             </div>
 
             {post.type_id === 1 && (
@@ -270,7 +284,7 @@ export default function Newpost({ type }) {
               )}
 
               <Stack noValidate spacing={3}>
-                <TextField onChange={handleChange} id="date" label="Дата" type="date" name="date" defaultValue="2022-07-08" InputLabelProps={{ shrink: true }} />
+                <TextField onChange={handleChange} id="date" label="Дата" type="date" name="date" InputLabelProps={{ shrink: true }} />
               </Stack>
             </div>
 
@@ -357,6 +371,13 @@ export default function Newpost({ type }) {
           </>
         )}
       </form>
+      {message && (
+        <div className="toast-njksonkio">
+          {toast.error(message, {
+            position: toast.POSITION.BOTTOM_CENTER,
+          })}
+        </div>
+      )}
     </div>
   );
 }
