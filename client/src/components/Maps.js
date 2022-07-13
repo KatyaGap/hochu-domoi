@@ -12,8 +12,13 @@ function Maps() {
   const myMap = useRef(null);
   const geoObjects = useRef([]);
   const clusterer = useRef(null);
-
+  const placemarks = [];
   const { ymaps } = window;
+  const myCollection = new ymaps.GeoObjectCollection();
+
+  const handlerLabel = () => {
+    myCollection.add(myPlacemark);
+  };
 
   function init() {
     myMap.current = new ymaps.Map(
@@ -37,6 +42,21 @@ function Maps() {
       },
     });
 
+    // function createMenuGroup(group) {
+    //   // Коллекция для геообъектов группы.
+    //   const collection = new ymaps.GeoObjectCollection(null, { preset: group.style });
+
+    //   // Добавляем коллекцию на карту.
+    //   myMap.geoObjects.add(collection);
+    //   // Добавляем подменю.
+
+    //   for (let j = 0, m = group.items.length; j < m; j += 1) {
+    //     createSubMenu(group.items[j], collection, j);
+    //   }
+    // }
+    // for (let i = 0, l = posts.length; i < l; i += 1) {
+    //   createMenuGroup(posts[i]);
+    // }
     for (let i = 0; i < posts.length; i += 1) {
       geoObjects.current[i] = new ymaps.Placemark(
 
