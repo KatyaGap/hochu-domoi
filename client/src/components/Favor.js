@@ -6,26 +6,14 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import { styled } from '@mui/material/styles';
-import { CollectionsBookmarkRounded } from '@mui/icons-material';
-import { useLocation } from 'react-router-dom';
-import { UserContext } from '../context/user';
 import { deleteLikeThunk, getLikesThunk } from '../redux/actions/adverts';
 import CardWide from './elements/CardWide';
 
-
 function Favor() {
-  const dispatch = useDispatch();
-  // const location = useLocation();
+	const dispatch = useDispatch();
   const { likes } = useSelector((state) => state);
-  // console.log('likes0', likes[0])
-  console.log('likes in favor', likes);
-  // const handleDeleteLike = useCallback((id) => {
-  //   dispatch(deleteLikeThunk(id));
-  // }, []);
   console.log('likes', likes);
   useEffect(() => {
     dispatch(getLikesThunk());
@@ -33,8 +21,6 @@ function Favor() {
 
   const likesFounds = likes.filter((el) => el.type_id === 1);
   const likesLosts = likes.filter((el) => el.type_id === 2);
-  // console.log('likesfound', likesFounds)
-  // console.log('likeslosts', likesLosts)
   return (
     <div className="profile-container">
       <div className="profile-wrapper">
@@ -83,11 +69,7 @@ function Favor() {
                 </Typography>
                 <Stack className="my-posts-container" spacing={2}>
                   {likesFounds.map((post) => (
-                    <CardWide
-                      key={post?.id}
-                      post={post}
-                      // handleDeletePost={handleDeletePost}
-                    />
+                    <CardWide key={post?.id} post={post} />
                   ))}
                 </Stack>
               </>

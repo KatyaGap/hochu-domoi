@@ -14,9 +14,8 @@ function Main() {
   useEffect(() => {
     dispatch(getFiveLostThunk());
     dispatch(getFiveFoundThunk());
-		dispatch(getLikesThunk());
+    dispatch(getLikesThunk());
   }, []);
-	console.log('likes in main', likes)
   const navigate = useNavigate();
   const newpostLink = (type) => {
     navigate(`/newpost?type=${type}`);
@@ -44,11 +43,7 @@ function Main() {
               <Button variant="text">Показать всех</Button>
             </div>
 
-            <Carousel id={1} posts={fivelosts} likes={likes}/>
-
-            {/* <div className="main-last-posts main-last-posts-found">
-            123
-          </div> */}
+            <Carousel id={1} posts={fivelosts} likes={likes} />
           </div>
         </div>
 
@@ -60,7 +55,7 @@ function Main() {
               </Typography>
               <Button variant="text">Показать всех</Button>
             </div>
-            <Carousel id={2} posts={fivefounds}/>
+            <Carousel id={2} posts={fivefounds} />
           </div>
         </div>
       </div>

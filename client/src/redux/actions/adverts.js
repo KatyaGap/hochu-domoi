@@ -110,7 +110,6 @@ export const getLikesThunk = () => async (dispatch) => {
   try {
     const response = await fetch('/lk/likes');
     const result = await response.json();
-    // console.log('result all likes', result);
     dispatch(getLikes(result));
   } catch (error) {
     console.log(error);
@@ -131,8 +130,6 @@ export const makeLikeThunk = (obj) => async (dispatch) => {
     const response = await fetch(`/lk/likes/${obj.id}`);
     if (response.ok) {
       const result = await response.json();
-      // console.log('result in make like', result);
-			console.log(' bf thunk', result);
       dispatch(makeLike(result));
     }
   } catch (error) {

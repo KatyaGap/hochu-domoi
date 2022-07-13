@@ -188,11 +188,7 @@ export default function Pet() {
         aria-label="delete"
         size="large"
         onClick={() => makeLike(pet)}
-				className={
-          likes.find((el) => el.post_id === pet.id)
-            ? 'liked'
-            : 'favorites-button'
-        }
+        className={likes.find((el) => el.post_id === pet.id) ? 'liked' : 'favorites-button'}
       >
         <FavoriteBorder className="favorites-button-icon" fontSize="inherit" />
       </IconButton>

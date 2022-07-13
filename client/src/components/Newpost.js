@@ -93,7 +93,6 @@ export default function Newpost({ type }) {
       </div>
     );
   }
-console.log('post', post)
   console.log(query.get('type'));
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -112,7 +111,6 @@ console.log('post', post)
     formData.append('address_longitude', coord?.coordinates[1]);
     formData.append('address_string', coord?.adress);
     console.log('formData', Object.fromEntries(formData));
-    // console.log('post', post);
     fetch(`/map/${type}`, {
       method: 'Post',
       body: formData,

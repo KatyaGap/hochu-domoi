@@ -11,9 +11,9 @@ import {
   IconButton,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { FavoriteBorder, PinDrop, Restore } from '@mui/icons-material';
 import { makeLikeThunk } from '../../redux/actions/adverts';
-import { useDispatch, useSelector } from 'react-redux';
 
 export default function SmallCard({ post }) {
   const navigate = useNavigate();
@@ -23,11 +23,6 @@ export default function SmallCard({ post }) {
   const petLink = () => {
     navigate(`/pet/${post.id}`);
   };
-  // const hasLike = (obj) => {
-  //   if (likes.findIndex((el) => el.id === post.id) > 0) return true;
-  //   return false;
-  // };
-
   const makeLike = (obj) => {
     dispatch(makeLikeThunk(obj));
   };
@@ -96,15 +91,10 @@ export default function SmallCard({ post }) {
         />
       </CardActionArea>
       <IconButton
-        className="favorites-button"
         aria-label="delete"
         size="large"
         onClick={() => makeLike(post)}
-        className={
-          likes.find((el) => el.post_id === post.id)
-            ? 'liked'
-            : 'favorites-button'
-        }
+        className={likes.find((el) => el.post_id === post.id) ? 'liked' : 'favorites-button'}
       >
         <FavoriteBorder className="favorites-button-icon" fontSize="inherit" />
       </IconButton>

@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeLikeThunk } from '../../redux/actions/adverts';
 
 function CardMap({ post, hasLike }) {
-  const {likes} = useSelector((state) => state);
+  const { likes } = useSelector((state) => state);
   const dispatch = useDispatch();
   const makeLike = React.useCallback((obj) => {
     console.log('clicckkk');

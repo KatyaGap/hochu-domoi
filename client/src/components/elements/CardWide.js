@@ -10,13 +10,14 @@ import {
 } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { deleteLikeThunk, deletePostThunk } from '../../redux/actions/adverts';
-import { useDispatch, useSelector } from 'react-redux';
+import { deleteLikeThunk } from '../../redux/actions/adverts';
+
 // import { use } from '../../../../server/routers/mapRouter';
 
-function CardWide({ post, handleDeletePost }) {
+function CardWide({ post}) {
   const dispatch = useDispatch();
   const location = useLocation();
   const { likes } = useSelector((state) => state);
@@ -25,8 +26,6 @@ function CardWide({ post, handleDeletePost }) {
     console.log('id', id);
     dispatch(deleteLikeThunk(id));
   }, []);
-
-  // console.log('post.id', post.id)
   return (
     <Card className="card card-wide" variant="outlined">
       <CardActionArea className="card-action-area">
@@ -46,7 +45,7 @@ function CardWide({ post, handleDeletePost }) {
               {post?.text}
             </Typography>
             <Chip
-              label={post['Status.status']}
+              label={post['Status.status'] || post.status}
               className="card-status"
               variant="outlined"
               color="primary"
