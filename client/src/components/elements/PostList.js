@@ -35,7 +35,7 @@ function PostList({ adverts, posts = [] }) {
 
   return (
     <ImageList sx={{ width: 600 }} cols={4} gap={8}>
-      {posts.length && renderList(posts)}
+      {!!posts.length && renderList(posts)}
       {!posts.length && flag && <div>По данным критериям посты не найдены</div>}
       {!posts.length && !flag && renderList(adverts)}
       {/* {posts.length ? renderList(posts) : renderList(adverts)}
