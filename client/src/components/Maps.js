@@ -9,7 +9,8 @@ function Maps() {
   console.log('MAP');
   const [posts, setPosts] = useState([]);
   const location = useLocation();
-
+  const { likes } = useSelector((state) => state);
+  
   useEffect(() => {
     axios(`/map${location.pathname}`)
       .then((res) => {
@@ -35,13 +36,17 @@ function Maps() {
       {
         center: [55.76, 37.64],
         zoom: 10,
-        controls: ['searchControl', 'typeSelector', 'fullscreenControl', 'geolocationControl'],
+        controls: [
+          'searchControl',
+          'typeSelector',
+          'fullscreenControl',
+          'geolocationControl',
+        ],
         behaviors: ['drag'],
       },
       {
         searchControlProvider: 'yandex#search',
-      },
-
+      }
     );
     myMap.controls.add('zoomControl', {
       float: 'none',
@@ -53,7 +58,6 @@ function Maps() {
 
     for (let i = 0; i < posts.length; i += 1) {
       geoObjects[i] = new ymaps.Placemark(
-
         [posts[i].address_lattitude, posts[i].address_longitude],
         // console.log('obj', [arr[i].address_lattitude, arr[i].address_longitude]),
         {
@@ -67,7 +71,7 @@ function Maps() {
           iconLayout: 'default#image',
           iconImageHref: 'lable2.png',
           iconImageSize: [35, 35],
-        },
+        }
       );
     }
 
@@ -94,11 +98,13 @@ function Maps() {
 
   return (
     <div className="map-container">
-      {posts.length > 0 && (<div id="map" />)}
+      {posts.length > 0 && <div id="map" />}
       {/* <div id="map" /> */}
       {posts.length > 0 && (
         <Paper className="map-posts-overlay" elevation={8}>
-          {posts.map((post) => <CardMap post={post} />)}
+          {posts.map((post, ind) => (
+            <CardMap post={post} key={ind + 1} />
+          ))}
         </Paper>
       )}
     </div>

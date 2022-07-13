@@ -142,3 +142,10 @@
   margin-top: 15px;
 }
 /* КОНЕЦ ЧАТИКА ====================================*/
+
+.flag {
+	background-color: pink;
+}
+.red {
+	background-color: black;
+}

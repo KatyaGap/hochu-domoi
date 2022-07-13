@@ -20,7 +20,8 @@ function Catalog() {
         <Filters adverts={adverts} />
       </div>
       <div>
-        <PostList adverts={filtered.length ? filtered : adverts} />
+        <PostList adverts={filtered.length ? filtered : []} />
+        {!filtered.length && <div>По вашему объявлению ничего не найдено</div>}
       </div>
     </div>
   );

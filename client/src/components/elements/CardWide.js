@@ -12,13 +12,20 @@ import { Box } from '@mui/system';
 import React, { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { deletePostThunk } from '../../redux/actions/adverts';
+import { deleteLikeThunk, deletePostThunk } from '../../redux/actions/adverts';
 import { useDispatch } from 'react-redux';
 // import { use } from '../../../../server/routers/mapRouter';
 
 function CardWide({ post, handleDeletePost }) {
   const dispatch = useDispatch();
   const location = useLocation();
+console.log('post', post)
+	const deleteLike = React.useCallback((id) => {
+		console.log('id', id);
+		dispatch(deleteLikeThunk(id));
+  }, []);
+
+	// console.log('post.id', post.id)
   return (
     <Card className="card card-wide" variant="outlined">
       <CardActionArea className="card-action-area">
@@ -78,9 +85,9 @@ function CardWide({ post, handleDeletePost }) {
               {post?.timeSinceMissing}
             </Typography>
           </div>
-          {(location.pathname.includes('profile') && (!location.pathname.includes('favor'))) && (
+          {(location.pathname.includes('profile') || (!location.pathname.includes('favor'))) && (
             <IconButton
-              onClick={() => handleDeletePost(post.id)}
+              onClick={() => deleteLike(post.post_id)}
               aria-label="delete"
               size="small"
             >

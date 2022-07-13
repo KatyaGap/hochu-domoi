@@ -23,20 +23,20 @@ function Favor() {
   const dispatch = useDispatch();
 	// const location = useLocation();
   const { likes } = useSelector((state) => state);
-	console.log('likes0', likes[0])
+	// console.log('likes0', likes[0])
 	console.log('likes in favor', likes)
   // const handleDeleteLike = useCallback((id) => {
   //   dispatch(deleteLikeThunk(id));
   // }, []);
-
+console.log('likes', likes)
   useEffect(() => {
     dispatch(getLikesThunk());
   }, []);
 
-  const likesFounds = likes[0]?.filter((el) => el.type_id === 1);
-  const likesLosts = likes[0]?.filter((el) => el.type_id === 2);
-console.log('likesfound', likesFounds)
-console.log('likeslosts', likesLosts)
+  const likesFounds = likes.filter((el) => el.type_id === 1);
+  const likesLosts = likes.filter((el) => el.type_id === 2);
+// console.log('likesfound', likesFounds)
+// console.log('likeslosts', likesLosts)
   return (
     <div className="profile-container">
       <div className="profile-wrapper">

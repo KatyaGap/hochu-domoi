@@ -168,61 +168,97 @@ router
 
 // избранное
 // добавление в избранное
-router.route('/likes/:id').get(async (req, res) => {
-  try {
-    const { id } = req.params;
-    const like = await Favorite.findOne({
-      where: { post_id: id, user_id: res.locals.userId },
-      raw: true,
-    });
-		console.log('leiiiiikeeee', like)
-    if (!like) {
-      await Favorite.create({ user_id: res.locals.userId, post_id: id });
-    } else if (like) {
-      await Favorite.destroy({
-        where: { user_id: res.locals.userId, post_id: id },
+router
+  .route('/likes/:id')
+  .get(async (req, res) => {
+    try {
+      const { id } = req.params;
+      let like = await Favorite.findOne({
+        where: { post_id: id, user_id: res.locals.userId },
+        include: [{ model: Post, include: [{ model: Image, limit: 1 }] }],
       });
+      console.log('like', like);
+      if (!like) {
+        console.log('нет такого лайка');
+        await Favorite.create({ user_id: res.locals.userId, post_id: id });
+        like = await Favorite.findOne({
+          where: { post_id: id, user_id: res.locals.userId },
+          include: [{ model: Post, include: [{ model: Image, limit: 1 }] }],
+        });
+      } else if (like) {
+        console.log('есть такой лайк');
+        await Favorite.destroy({
+          where: { user_id: res.locals.userId, post_id: id },
+        });
+      }
+
+      // const post = {
+      //   ...like,
+      //   text: like['Post.text'],
+      //   address_string: like['Post.address_string'],
+      //   photo_url: like['Post.Images.image'],
+      //   type_id: like['Post.type_id'],
+      // };
+      const post = {
+        photo_url: like.Post.dataValues.Images[0].dataValues.image,
+        text: like.Post.dataValues.text,
+        type_id: like.Post.dataValues.type_id,
+        address_string: like.Post.dataValues.address_string,
+        post_id: like.Post.dataValues.id,
+        timeSinceMissing: moment(
+          like.Post.dataValues.lost_date
+            ?.toISOString()
+            .split('T')[0]
+            .split('-')
+            .join(''),
+          'YYYYMMDD'
+        ).fromNow(),
+      };
+      console.log('aaaaaaaaa', post);
+      // console.log('like', like);
+      res.json(post);
+    } catch (error) {
+      console.log('last', error);
     }
-    let post = await Favorite.findOne({
-      where: { user_id: res.locals.userId, post_id: id },
-			include: [{ model: Post, include: [{ model: Image }] }],
-      raw: true,
+  })
+  .delete(async (req, res) => {
+    // удаление лайка в избранном
+    await Favorite.destroy({
+      where: { user_id: res.locals.userId, post_id: req.params.id },
     });
-		post = {
-      ...post,
-      text: post['Post.text'],
-      address_string: post['Post.address_string'],
-      photo_url: post['Post.Images.image'],
-			type_id: post['Post.type_id'],
-    };
-    console.log('post', post);
-    res.json(post);
-  } catch (error) {
-    console.log(error);
-  }
-});
+    res.sendStatus(200);
+  });
+
 // получение всех постов из избранного
 router.route('/likes').get(async (req, res) => {
   try {
     const posts = await Favorite.findAll({
       where: { user_id: res.locals.userId },
-      include: [{ model: Post, include: [{ model: Image }] }],
-      raw: true,
+      include: [{ model: Post, include: [{ model: Image, limit: 1 }] }],
     });
-// console.log('poooooosts', posts)
+    // console.log('poooooosts', posts)
     // const result = posts.map((el) => ({
     // 	...el.Post,
     // 	text: el.Post.text,
     // 	address_string: el.Post.address_string,
     // }))
+    // console.log('posts', posts);
     const result = posts.map((el) => ({
-      ...el,
-      text: el['Post.text'],
-      address_string: el['Post.address_string'],
-      photo_url: el['Post.Images.image'],
-			type_id: el['Post.type_id'],
+      photo_url: el.Post.dataValues.Images[0].dataValues.image,
+      text: el.Post.dataValues.text,
+      type_id: el.Post.dataValues.type_id,
+      address_string: el.Post.dataValues.address_string,
+      post_id: el.Post.dataValues.id,
+      timeSinceMissing: moment(
+        el.Post.dataValues.lost_date
+          ?.toISOString()
+          .split('T')[0]
+          .split('-')
+          .join(''),
+        'YYYYMMDD'
+      ).fromNow(),
     }));
-    console.log('else result', result);
+    console.log('======================', result);
     res.json(result);
   } catch (error) {
     console.log(error);

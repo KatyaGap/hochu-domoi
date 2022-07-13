@@ -8,22 +8,29 @@ import {
   CardActionArea,
   Typography,
   Chip,
+  IconButton,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { PinDrop, Restore } from '@mui/icons-material';
+import { FavoriteBorder, PinDrop, Restore } from '@mui/icons-material';
 import { makeLikeThunk } from '../../redux/actions/adverts';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function SmallCard({ post }) {
-	const { likes } = useSelector((state) => state);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+	const {likes} = useSelector((state) => state)
+  const [flag, setFlag] = React.useState(false);
   const petLink = () => {
     navigate(`/pet/${post.id}`);
   };
-  const makeLike = React.useCallback((obj) => {
+  // const hasLike = (obj) => {
+  //   if (likes.findIndex((el) => el.id === post.id) > 0) return true;
+  //   return false;
+  // };
+
+  const makeLike = (obj) => {
     dispatch(makeLikeThunk(obj));
-  }, []);
+  }
 
   return (
     <Card sx={{ minWidth: 216, maxWidth: 216 }} className="card small-card">
@@ -88,9 +95,18 @@ export default function SmallCard({ post }) {
           color="primary"
         />
       </CardActionArea>
-      <button type="button" onClick={() => makeLike(post)}>
-        like
-      </button>
+      <button
+        aria-label="delete"
+        size="large"
+        onClick={() => makeLike(post)}
+        className={likes.find((el) =>
+          el.post_id === post.id)
+            ? 'favorites-button red'
+            : 'favorites-button'
+        }
+      >sds </button>
+        {/* <FavoriteBorder className="favorites-button-icon" fontSize="inherit" /> */}
+     
     </Card>
   );
 }

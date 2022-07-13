@@ -1,21 +1,26 @@
-import { DELETE_LIKE, GET_LIKES, MAKE_LIKE } from "../constants/constants";
+import { DELETE_LIKE, GET_LIKES, MAKE_LIKE } from '../constants/constants';
 const initialState = [];
 const likeReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case MAKE_LIKE:
-			if (state.findIndex((post) => post.id === payload.id) > 0) {
-				console.log('aaaaaa', state.filter((el) => el.id !== payload.id))
-				return state?.filter((el) => el.id !== payload.id);
-			}
-      return [...state, payload]
+      if (state.find((like) => like.id === payload.id)) {
+				console.log('deleted');
+				console.log('state', state);
+				console.log('payload', payload);
+        return [...state.filter((el) => el.id !== payload.id)];
+      } else {
+				console.log('added');
+        return [...state, payload];
+      }
     case DELETE_LIKE:
-      return state.filter((post) => post.id !== payload);
+			console.log('payload', payload)
+      return state.filter((like) => like.post_id !== payload);
     case GET_LIKES:
-      console.log(payload);
+      console.log('payload get likes', payload);
       // let lost = state.lost.find((el) => el.id === payload.id);
       // lost.name = lost.name;
-      return [...state, payload];
+      return payload;
     default:
       return state;
   }
