@@ -13,7 +13,10 @@ const {
   Type,
   Size,
   Image,
+  Favorite,
 } = require('../db/models');
+const favorite = require('../db/models/favorite');
+const e = require('express');
 require('moment/locale/ru');
 // ручка для отображения ВСЕХ постов АДМИНУ или только СВОИХ постов ЮЗЕРУ
 router.route('/').get(async (req, res) => {
@@ -162,6 +165,69 @@ router
     await user.save();
     res.json(user);
   });
+
+// избранное
+// добавление в избранное
+router.route('/likes/:id').get(async (req, res) => {
+  try {
+    const { id } = req.params;
+    const like = await Favorite.findOne({
+      where: { post_id: id, user_id: res.locals.userId },
+      raw: true,
+    });
+		console.log('leiiiiikeeee', like)
+    if (!like) {
+      await Favorite.create({ user_id: res.locals.userId, post_id: id });
+    } else if (like) {
+      await Favorite.destroy({
+        where: { user_id: res.locals.userId, post_id: id },
+      });
+    }
+    let post = await Favorite.findOne({
+      where: { user_id: res.locals.userId, post_id: id },
+			include: [{ model: Post, include: [{ model: Image }] }],
+      raw: true,
+    });
+		post = {
+      ...post,
+      text: post['Post.text'],
+      address_string: post['Post.address_string'],
+      photo_url: post['Post.Images.image'],
+			type_id: post['Post.type_id'],
+    };
+    console.log('post', post);
+    res.json(post);
+  } catch (error) {
+    console.log(error);
+  }
+});
+// получение всех постов из избранного
+router.route('/likes').get(async (req, res) => {
+  try {
+    const posts = await Favorite.findAll({
+      where: { user_id: res.locals.userId },
+      include: [{ model: Post, include: [{ model: Image }] }],
+      raw: true,
+    });
+// console.log('poooooosts', posts)
+    // const result = posts.map((el) => ({
+    // 	...el.Post,
+    // 	text: el.Post.text,
+    // 	address_string: el.Post.address_string,
+    // }))
+    const result = posts.map((el) => ({
+      ...el,
+      text: el['Post.text'],
+      address_string: el['Post.address_string'],
+      photo_url: el['Post.Images.image'],
+			type_id: el['Post.type_id'],
+    }));
+    console.log('else result', result);
+    res.json(result);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 // ручка для удаления поста
 router

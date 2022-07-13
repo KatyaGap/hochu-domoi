@@ -11,6 +11,7 @@ import Pet from './components/Pet';
 import Newpost from './components/Newpost';
 import Catalog from './components/Catalog';
 import Profile from './components/Profile';
+import Favor from './components/Favor';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         {/* <Route path="/addlabel" element={<AddLabel />} /> */}
         <Route path="/newpost" element={<Newpost />} />
         <Route path="/profile" element={<Profile />} />
+				<Route path="/profile/favor" element={<Favor />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <div className="toastify">

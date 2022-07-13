@@ -78,7 +78,7 @@ function CardWide({ post, handleDeletePost }) {
               {post?.timeSinceMissing}
             </Typography>
           </div>
-          {location.pathname.includes('profile') && (
+          {(location.pathname.includes('profile') && (!location.pathname.includes('favor'))) && (
             <IconButton
               onClick={() => handleDeletePost(post.id)}
               aria-label="delete"

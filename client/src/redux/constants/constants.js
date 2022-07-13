@@ -12,3 +12,6 @@ export const GET_PROFILE = 'GET_PROFILE';
 export const DELETE_PROFILEIMG = 'GET_PROFILEIMG';
 export const EDIT_PROFILEIMG = 'EDIT_PROFILEIMG';
 export const DELETE_PROFILEPOST = 'DELETE_PROFILEPOST';
+export const MAKE_LIKE = 'MAKE_LIKE';
+export const DELETE_LIKE = 'DELETE_LIKE';
+export const GET_LIKES = 'GET_LIKES';
