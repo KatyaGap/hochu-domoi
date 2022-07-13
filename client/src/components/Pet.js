@@ -5,8 +5,9 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Typography from '@mui/material/Typography';
-import { Avatar, Button, IconButton, Paper, Stack, Tooltip } from '@mui/material';
+import { Avatar, Button, IconButton, Paper, Stack, Tooltip, Modal, MoreVertIcon } from '@mui/material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useSelect } from '@mui/base';
 import { useDispatch, useSelector } from 'react-redux';
 import { Favorite, FavoriteBorder, Email, Call, PinDrop, Restore } from '@mui/icons-material';
 import ChatIcon from '@mui/icons-material/Chat';
@@ -28,12 +29,12 @@ export default function Pet() {
   const [expanded, setExpanded] = React.useState(true);
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-  const [state, setState] = useState(false);
   React.useEffect(() => {
     fetch(`/adverts/${id}`)
       .then((res) => res.json())
       .then((res) => setPet(res.post));
   }, []);
+  const handleNav = () => navigate('/auth');
 
   const mapToggle = () => {
     setShowMap(!showMap);
@@ -71,7 +72,7 @@ export default function Pet() {
               <Button variant="outlined"><Email /></Button>
             </Tooltip>
             <Tooltip title="Открыть чат с автором объявления">
-              <Button variant="contained" disableElevation startIcon={<ChatIcon />}>Чат</Button>
+              {user ? <BasicModal /> : <Button onClick={handleNav} variant="contained" disableElevation startIcon={<ChatIcon />}>Чат</Button>}
             </Tooltip>
           </Stack>
         </Paper>
