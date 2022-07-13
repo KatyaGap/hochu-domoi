@@ -93,7 +93,7 @@ export default function Newpost({ type }) {
       </div>
     );
   }
-
+console.log('post', post)
   console.log(query.get('type'));
   const handleSubmit = (e) => {
     e.preventDefault();

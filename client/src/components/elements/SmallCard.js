@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 export default function SmallCard({ post }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-	const {likes} = useSelector((state) => state)
+  const { likes } = useSelector((state) => state);
   const [flag, setFlag] = React.useState(false);
   const petLink = () => {
     navigate(`/pet/${post.id}`);
@@ -30,8 +30,8 @@ export default function SmallCard({ post }) {
 
   const makeLike = (obj) => {
     dispatch(makeLikeThunk(obj));
-  }
-
+  };
+  console.log('likes in small', likes);
   return (
     <Card sx={{ minWidth: 216, maxWidth: 216 }} className="card small-card">
       <CardActionArea onClick={petLink}>
@@ -95,18 +95,19 @@ export default function SmallCard({ post }) {
           color="primary"
         />
       </CardActionArea>
-      <button
+      <IconButton
+        className="favorites-button"
         aria-label="delete"
         size="large"
         onClick={() => makeLike(post)}
-        className={likes.find((el) =>
-          el.post_id === post.id)
-            ? 'favorites-button red'
+        className={
+          likes.find((el) => el.post_id === post.id)
+            ? 'liked'
             : 'favorites-button'
         }
-      >sds </button>
-        {/* <FavoriteBorder className="favorites-button-icon" fontSize="inherit" /> */}
-     
+      >
+        <FavoriteBorder className="favorites-button-icon" fontSize="inherit" />
+      </IconButton>
     </Card>
   );
 }

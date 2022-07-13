@@ -146,6 +146,6 @@
 .flag {
 	background-color: pink;
 }
-.red {
-	background-color: black;
+.liked{
+border: 3px solid green
 }

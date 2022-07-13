@@ -34,7 +34,7 @@ export default function Pet() {
   const dispatch = useDispatch();
   const params = useParams();
   const { id } = params;
-  const { adverts } = useSelector((state) => state);
+  const { likes, adverts } = useSelector((state) => state);
   const [pet, setPet] = useState({});
   const [showPhone, setShowPhone] = useState(false);
   const [showMap, setShowMap] = useState(false);
@@ -187,7 +187,12 @@ export default function Pet() {
         className={!flag ? 'favorites-button' : 'flag'}
         aria-label="delete"
         size="large"
-        onClick={() => makeLike(post)}
+        onClick={() => makeLike(pet)}
+				className={
+          likes.find((el) => el.post_id === pet.id)
+            ? 'liked'
+            : 'favorites-button'
+        }
       >
         <FavoriteBorder className="favorites-button-icon" fontSize="inherit" />
       </IconButton>
