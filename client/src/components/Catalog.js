@@ -20,7 +20,7 @@ function Catalog() {
         <Filters adverts={adverts} />
       </div>
       <div>
-        <PostList adverts={filtered.length ? filtered : adverts} />
+        <PostList posts={filtered} adverts={adverts} />
       </div>
     </div>
   );

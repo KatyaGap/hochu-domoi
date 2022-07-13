@@ -36,7 +36,7 @@ export const getProfileThunk = () => async (dispatch) => {
   try {
     const response = await fetch('/lk');
     const result = await response.json();
-		console.log('result profile', result)
+    console.log('result profile', result);
     dispatch(getProfile(result));
   } catch (error) {
     console.log(error);
@@ -90,7 +90,7 @@ export const deleteProfilePostThunk = (id) => async (dispatch) => {
     const result = await response.json();
     console.log('result', result);
     if (response.ok) {
-			console.log(response)
+      console.log(response);
       dispatch(deleteProfilePost(id));
     }
   } catch (error) {
