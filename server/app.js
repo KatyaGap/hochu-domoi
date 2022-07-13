@@ -55,6 +55,8 @@ app.use('/lk', lkRouter); // роутер для личного кабинета
 //   console.log('The Best Server in Elbrus', PORT);
 // });
 
+console.log('Hello World');
+
 module.exports = {
   app,
   sessionParser,

@@ -12,7 +12,6 @@ import { Box } from '@mui/system';
 import React, { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { deletePostThunk } from '../../redux/actions/adverts';
 import { useDispatch } from 'react-redux';
 // import { use } from '../../../../server/routers/mapRouter';
 
