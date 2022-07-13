@@ -1,18 +1,9 @@
 import { PinDrop, Restore } from '@mui/icons-material';
-import {
-  Card,
-  CardActionArea,
-  CardContent,
-  CardMedia,
-  Chip,
-  IconButton,
-  Typography,
-} from '@mui/material';
+import { Card, CardActionArea, CardContent, CardMedia, Chip, IconButton, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { deletePostThunk } from '../../redux/actions/adverts';
 import { useDispatch } from 'react-redux';
 // import { use } from '../../../../server/routers/mapRouter';
 

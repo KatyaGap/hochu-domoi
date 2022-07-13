@@ -13,7 +13,8 @@ export default function Newpost({ type }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [posts, setPosts] = useState([]);
-  const [flag, setFlag] = React.useState(false);
+  const [flag, setFlag] = useState(false);
+  const [fileUploaded, setFileUploaded] = useState(false);
   const { params } = useSelector((state) => state);
   const { sizes, types, pets, colors, breeds, statuses } = params;
   const [coord, setCoord] = useState({});
@@ -113,6 +114,7 @@ export default function Newpost({ type }) {
           .fill('')
           .map((el, i) => e.target.files[i]),
       }));
+      setFileUploaded(true);
     } else if (+e.target.value) {
       setPost((prev) => ({ ...prev, [e.target.name]: +e.target.value }));
     } else {
@@ -296,14 +298,27 @@ export default function Newpost({ type }) {
                 Добавьте фото животного
               </Typography>
               <Stack className="file" direction="row" alignItems="center" spacing={2}>
-                <label className="newpost-upload-label" htmlFor="icon-button-file">
-                  <IconButton color="primary" aria-label="upload picture" component="span">
-                    <PhotoCamera />
-                    <Typography sx={{ ml: "0.5rem" }} variant="subtitle2" color="primary" component="div" gutterBottom>
-                      Загрузить фото
-                    </Typography>
-                  </IconButton>
-                </label>
+                {fileUploaded
+                  ? (
+                    <label className="newpost-upload-label uploaded" htmlFor="icon-button-file">
+                      <IconButton color="success" aria-label="upload picture" component="span">
+                        <PhotoCamera color="success" />
+                        <Typography sx={{ ml: "0.5rem" }} variant="subtitle2" color="success" component="div" gutterBottom>
+                          Файлы загружены
+                        </Typography>
+                      </IconButton>
+                    </label>
+                  )
+                  : (
+                    <label className="newpost-upload-label" htmlFor="icon-button-file">
+                      <IconButton color="primary" aria-label="upload picture" component="span">
+                        <PhotoCamera />
+                        <Typography sx={{ ml: "0.5rem" }} variant="subtitle2" color="primary" component="div" gutterBottom>
+                          Загрузить фото
+                        </Typography>
+                      </IconButton>
+                    </label>
+                  )}
                 <input className="newpost-upload-input" accept="image/*" id="icon-button-file" type="file" multiple onChange={handleChange} placeholder="Фото" name="files" />
               </Stack>
             </div>
