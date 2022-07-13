@@ -1,75 +1,146 @@
+import '../App.scss';
 import React, { useContext, useState } from 'react';
-import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import { Button, Modal } from '@mui/material';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Avatar, Button, IconButton, Paper, Stack, Tooltip, Modal, MoreVertIcon } from '@mui/material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useSelect } from '@mui/base';
 import { useDispatch, useSelector } from 'react-redux';
+import { Favorite, FavoriteBorder, Email, Call, PinDrop, Restore } from '@mui/icons-material';
+import ChatIcon from '@mui/icons-material/Chat';
 import Chat from './Chat';
 import { getAdvertsThunk } from '../redux/actions/adverts';
 import { UserContext } from '../context/user';
-import BasicModal from './BasicModal';
+import BasicModal from './elements/ModalForChat';
+import Gallery from './elements/Gallery';
 
-export default function Pet({ post }) {
+export default function Pet() {
   const dispatch = useDispatch();
   const params = useParams();
+  const { id } = params;
   const { adverts } = useSelector((state) => state);
-  const location = useLocation();
-  const id = location.pathname.slice(-1);
-  // console.log(id);
-  const [pet, setPet] = React.useState({});
+  const [pet, setPet] = useState({});
+  const [showPhone, setShowPhone] = useState(false);
+  const [showMap, setShowMap] = useState(false);
+  console.log('pet: ', pet);
   const [expanded, setExpanded] = React.useState(true);
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   React.useEffect(() => {
     fetch(`/adverts/${id}`)
       .then((res) => res.json())
-      .then((res) => setPet(res));
+      .then((res) => setPet(res.post));
   }, []);
-  // console.log('pet', pet);
-  // console.log(adverts);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
   const handleNav = () => navigate('/auth');
 
+  const mapToggle = () => {
+    setShowMap(!showMap);
+  };
+
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardMedia
-        component="img"
-        alt="green iguana"
-        height="300"
-        image={pet.photo_url}
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {pet.user_id}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {pet.text}
-        </Typography>
-        <Typography gutterBottom variant="h5" component="div">
-          {pet.address_string}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Показать номер</Button>
-        {user ? <BasicModal /> : <Button onClick={handleNav}>Зарегистрироваться для отправки сообщений</Button>}
-      </CardActions>
-    </Card>
+    <div className="container">
+      <div className="content" style={{ flexGrow: 0 }}>
+        <div className="page-header">
+          <Typography variant="h3" gutterBottom component="div">Заголовок</Typography>
+          <IconButton className="favorites-button" aria-label="delete" size="large">
+            <FavoriteBorder className="favorites-button-icon" fontSize="inherit" />
+          </IconButton>
+        </div>
+
+        <Paper className="post-owner-header" elevation={3}>
+          <Stack className="author" direction="row" spacing={1}>
+            <Avatar sx={{ width: 48, height: 48 }} src={pet.user_photo} alt="Аватар" />
+            <Typography variant="overline" className="author-name" gutterBottom>{pet.user_name}</Typography>
+          </Stack>
+
+          <Stack className="author-icons" direction="row" spacing={1}>
+            <Tooltip title="Показать телефон">
+              <Button onClick={(e) => setShowPhone(true)} variant="outlined">
+                {showPhone ? (
+                  <>
+                    <Call />
+                    <span className="phone-number">{pet.phone}</span>
+                  </>
+                )
+                  : <Call />}
+              </Button>
+            </Tooltip>
+            <Tooltip title="Написать на почту">
+              <Button variant="outlined"><Email /></Button>
+            </Tooltip>
+            <Tooltip title="Открыть чат с автором объявления">
+              {user ? <BasicModal /> : <Button onClick={handleNav} variant="contained" disableElevation startIcon={<ChatIcon />}>Чат</Button>}
+            </Tooltip>
+          </Stack>
+        </Paper>
+
+        <div className="gallery-wrapper">
+          <div className="gallery-timesince">
+            <Stack direction="row" spacing={1}>
+              <Restore />
+              <Typography variant="caption">
+                {pet.timeSinceMissing}
+              </Typography>
+            </Stack>
+          </div>
+
+          <Gallery className="gallery" pet={pet} />
+
+          <div className="map-and-address">
+            <Stack className="gallery-address" direction="row" spacing={1}>
+              <PinDrop />
+              <Typography variant="caption">
+                {pet.address_string}
+              </Typography>
+            </Stack>
+            {showMap
+              ? <Button onClick={mapToggle} variant="outlined">▲ Скрыть карту</Button>
+              : <Button onClick={mapToggle} variant="outlined">▼ Показать на карте</Button>}
+          </div>
+
+        </div>
+
+        <table className="table">
+          <tr>
+            <td className="description">
+              <Typography variant="subtitle1">Питомец</Typography>
+            </td>
+            <td className="value">
+              <Typography variant="subtitle1">{pet.pet}</Typography>
+            </td>
+          </tr>
+          <tr>
+            <td className="description">
+              <Typography variant="subtitle1">Цвет</Typography>
+            </td>
+            <td className="value">
+              <Typography variant="subtitle1">{pet.color_name}</Typography>
+            </td>
+          </tr>
+          <tr>
+            <td className="description">
+              <Typography variant="subtitle1">Размер</Typography>
+            </td>
+            <td className="value">
+              <Typography variant="subtitle1">{pet.size}</Typography>
+            </td>
+          </tr>
+          <tr>
+            <td className="description">
+              <Typography variant="subtitle1">Описание</Typography>
+            </td>
+            <td className="value">
+              <Typography variant="subtitle1">
+                {pet.text}
+              </Typography>
+            </td>
+          </tr>
+        </table>
+
+      </div>
+    </div>
   );
 }

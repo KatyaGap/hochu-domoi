@@ -25,5 +25,5 @@ server.on('upgrade', (request, socket, head) => {
 });
 
 server.listen(PORT, () => {
-  console.log('Server is up...');
+  console.log('Server is up on port ', PORT);
 });

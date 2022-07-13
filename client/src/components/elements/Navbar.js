@@ -3,11 +3,12 @@ import { useContext } from 'react';
 import { AppBar, Toolbar, Box, Menu, Avatar, Container, Button, Tooltip, MenuItem, IconButton, Typography, Stack } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
-import { Message } from '@mui/icons-material';
+import { Message, AddCircle } from '@mui/icons-material';
 // import '../App.scss';
 
 import AdbIcon from '@mui/icons-material/Adb';
-import { UserContext } from '../context/user';
+import { useDispatch, useSelector } from 'react-redux';
+import { UserContext } from '../../context/user';
 
 const pages = ['Потеряшки', 'Найдёныши', 'Каталог'];
 const pagesLinks = ['lost', 'found', 'catalog'];
@@ -76,8 +77,8 @@ function Navbar() {
       <Container maxWidth="xl">
         <Toolbar className="navbar-content" disableGutters>
 
-          <Stack className="logo" sx={{ flexGrow: 0 }} direction="row" spacing={1}>
-            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <Stack className="logo" sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }} direction="row" spacing={1}>
+            <Box>
               <img src="/iconW24.png" alt="logo" width="24" height="24" />
             </Box>
             <Typography variant="h6" noWrap component="a" onClick={mainLink} sx={{ cursor: 'pointer', mr: 2, display: { xs: 'none', md: 'flex' }, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none' }}>
@@ -85,7 +86,7 @@ function Navbar() {
             </Typography>
           </Stack>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, alignItems: 'center', display: { xs: 'flex', md: 'none' } }}>
             <IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit">
               <MenuIcon />
             </IconButton>
@@ -97,14 +98,13 @@ function Navbar() {
                 </MenuItem>
               ))}
             </Menu>
+            <Box>
+              <img src="/iconW24.png" alt="logo" width="24" height="24" style={{ marginRight: ".5rem" }} />
+            </Box>
+            <Typography variant="h5" noWrap component="a" href="" sx={{ mr: 2, display: { xs: 'flex', md: 'none' }, flexGrow: 1, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none' }}>
+              ХОТИМ ДОМОЙ
+            </Typography>
           </Box>
-
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <img src="/iconW24.png" alt="logo" width="24" height="24" style={{ marginRight: ".5rem" }} />
-          </Box>
-          <Typography variant="h5" noWrap component="a" href="" sx={{ mr: 2, display: { xs: 'flex', md: 'none' }, flexGrow: 1, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none' }}>
-            ХОТИМ ДОМОЙ
-          </Typography>
 
           <Box className="nav-menu" sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page, index) => (
@@ -128,13 +128,14 @@ function Navbar() {
                       </Tooltip>
                     ) : null}
 
-                  <Button onClick={newPostLink} variant="contained" color="secondary">Подать объявление</Button>
+                  <Button onClick={newPostLink} sx={{ display: { xs: 'none', sm: 'none', lg: 'inline-flex' } }} variant="contained" color="secondary" startIcon={<AddCircle />}>Подать объявление</Button>
+                  <IconButton onClick={newPostLink} sx={{ display: { sm: 'inline-flex', lg: 'none' } }} aria-label="Add new post"><AddCircle sx={{ color: "#fff" }} /></IconButton>
                   {user?.id
                     ? (
                       <Box className="navbar=avatar" sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                            <Avatar alt="Remy Sharp" src="/doge.jpg" width="40" height="40" />
+                            <Avatar alt="Remy Sharp" src={user?.user_photo} width="40" height="40" />
                           </IconButton>
                         </Tooltip>
                         <Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right' }} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>

@@ -9,11 +9,15 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function Auth({ isNewPost }) {
   const [regToggle, setRegToggle] = useState(false);
-  const { handleAuth, handleLogout, message, setMessage } = useContext(UserContext);
+  const { handleAuth, message, setMessage } = useContext(UserContext);
   setMessage(''); // скрываем НОВОЕ сообщение с ошибкой при переходе на регистрацию/логин
+  const [switched, setSwitched] = useState(false);
 
-  const regAuthToggle = () => {
+  const regAuthToggle = (e) => {
+    e.preventDefault();
+    const toggle = document.getElementById('auth-toggle');
     const titles = document.querySelectorAll('.auth-title-text');
+    setSwitched(!switched);
     titles.forEach((el) => el.classList.toggle('auth-off'));
     setRegToggle(!regToggle);
     toast.dismiss(); // УРА, теперь тост скрывается при переходе с регистрации на логин и обратно
@@ -31,21 +35,13 @@ function Auth({ isNewPost }) {
   return (
     <div className="auth-container">
       <div className="auth-title">
-        <Typography
-          variant="h4"
-          className="auth-title-text"
-          gutterBottom
-          component="div"
-        >
+        <Typography onClick={(e) => regAuthToggle(e)} variant="h4" className="auth-title-text" gutterBottom component="div">
           Авторизация
         </Typography>
-        <Switch {...label} onClick={regAuthToggle} />
-        <Typography
-          variant="h4"
-          className="auth-title-text auth-off"
-          gutterBottom
-          component="div"
-        >
+
+        <Switch {...label} checked={switched} onClick={(e) => regAuthToggle(e)} />
+
+        <Typography onClick={(e) => regAuthToggle(e)} variant="h4" className="auth-title-text auth-off" gutterBottom component="div">
           Регистрация
         </Typography>
       </div>
@@ -55,20 +51,8 @@ function Auth({ isNewPost }) {
           <TextField required name="name" label="Имя" variant="outlined" />
         ) : null}
         <TextField required name="email" label="Почта" variant="outlined" />
-        <TextField
-          required
-          name="password"
-          label="Пароль"
-          type="password"
-          autoComplete="current-password"
-          variant="outlined"
-        />
-        <Button
-          variant="contained"
-          type="submit"
-          className="form-button"
-          size="large"
-        >
+        <TextField required name="password" label="Пароль" type="password" autoComplete="current-password" variant="outlined" />
+        <Button variant="contained" type="submit" className="form-button" size="large">
           Отправить
         </Button>
       </form>

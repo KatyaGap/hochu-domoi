@@ -10,8 +10,16 @@ module.exports = {
         hex: '#000000',
       },
       {
-        color_name: 'Коричневый',
+        color_name: 'Серый',
         hex: '#808080',
+      },
+      {
+        color_name: 'Коричневый',
+        hex: '#964b00',
+      },
+      {
+        color_name: 'Рыжий',
+        hex: '#ffa500',
       },
     ], {});
   },

@@ -1,79 +1,128 @@
-// import React, { useEffect, useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { YMaps, Map, Placemark, RouteButton, SearchControl, GeolocationControl, GeoObject, Circle } from "react-yandex-maps";
-// import axios from 'axios';
-// import { yandexMap } from '../redux/actions/lost';
-// export default function AddLabel() {
-//   const dispatch = useDispatch();
-//   const [coord, setCoord] = useState('');
-//   const { lost } = useSelector((state) => state);
-//   const [inputs, setInputs] = useState({});
+import React, { useState, useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { yandexMap } from '../redux/actions/lost';
+import Map from './trash/Map';
 
-//   const bek = async (coor) => {
-//     // console.log('--->', coor);
-//     dispatch(
-//       yandexMap({
-//         seen_lattitude: coor[0],
-//         seen_longitude: coor[1],
-//         pet: inputs.pet,
-//         color_name: inputs.color_name,
-//         text: inputs.text,
-//         user_id: inputs.id,
-//       }),
-//     );
-//   };
-//   // console.log('coor', coord, String(coord[0]));
+function AddLabel({ coord, setCoord }) {
+  console.log('AddLabel');
+  const { ymaps } = window;
+  const dispatch = useDispatch();
+  const [inputs, setInputs] = useState({});
+  const [inputCoord, setInputCoord] = useState('');
+  const [changeLable, setCangeLable] = useState({});
 
-//   const getAnyCoordinate = (e) => {
-//     setCoord(e.get('coords'));
-//     bek(e.get('coords'));
-//   };
+  const myMap = useRef(null);
 
-//   //  useEffect(() => {
-//   //    axios('http:localhost:3000/map/lost')  изменить
-//   //      .then((res) => {
-//   //        console.log('res.data2', res.data);
-//   //        setSendCoord(res.data);
-//   //      })
-//   //      .catch((err) => console.log(err));
-//   //  }, []);
+  let myPlacemark;
+  let myGeocoder;
+  let object;
+  function createPlacemark(coords) {
+    return new ymaps.Placemark(coords, {
+      iconCaption: 'поиск...',
+    }, {
+      iconLayout: 'default#image',
+      iconImageHref: 'lable1.png',
+      iconImageSize: [35, 35],
+    });
+  }
+  const addressСoordinates = () => {
+    myGeocoder = ymaps.geocode(inputCoord.value);
+    myGeocoder.then((res) => {
+      setCoord((prev) => ({ ...prev, coordinates: ((res.geoObjects.get(0).geometry.getCoordinates())), adress: inputCoord.value }));
+      const coords = res.geoObjects.get(0).geometry.getCoordinates();
+      myMap.current.geoObjects.add(new ymaps.Placemark(coords, {
+        iconCaption: 'поиск...',
+      }, {
+        iconLayout: 'default#image',
+        iconImageHref: 'lable2.png',
+        iconImageSize: [35, 35],
+      }));
+      console.log(myMap.current);
+    })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-//   return (
-//     <YMaps query={{
-//       apikey: 'ee7ed649-e248-4853-96e6-be2aa79824a9',
-//       ns: 'use-load-option',
-//       load: 'Map,Placemark,control.ZoomControl,control.FullscreenControl,geoObject.addon.balloon',
-//     }}
-//     >
-//       <Map
-//         onClick={getAnyCoordinate}
-//         className="map"
-//         defaultState={{ center: [55.75, 37.57], zoom: 9, controls: ['zoomControl', 'fullscreenControl'] }}
+  function init() {
+    myMap.current = (new ymaps.Map('map2', {
 
-//       >
-//         <GeolocationControl options={{ float: 'left' }} />
+      center: [55.76, 37.64],
+      zoom: 10,
+      controls: ['typeSelector', 'fullscreenControl', 'geolocationControl'],
+      behaviors: ['drag', 'multiTouch', 'scrollZoom'],
+    }, {
+      searchControlProvider: 'yandex#search',
+    }));
 
-//         {lost.length && lost?.map((el) => {
-//           console.log('ggg', [el.address_lattitude, el.address_longitude]);
-//           return (
-//             <Placemark
-//               geometry={[el.address_lattitude, el.address_longitude]}
-//               properties={{
-//                 balloonContentHeader: 'text',
-//                 balloonContentBody: `<div><button type="button">Удалить</button></div>`,
-//               }}
-//               options={{
-//                 iconLayout: 'default#image',
-//                 iconImageHref: 'https://avatars.mds.yandex.net/i?id=66193d0fc93ff6d89b1483bb731930d3-5332098-images-thumbs&n=13',
-//               }}
-//             />
-//           );
-//         })}
-//         <SearchControl options={{
-//           float: 'right',
-//         }}
-//         />
-//       </Map>
-//     </YMaps>
-//   );
-// }
+    myMap.current.controls.add('zoomControl', {
+      float: 'none',
+      position: {
+        right: 20,
+        top: 100,
+      },
+    });
+
+    function getAddress(adress) {
+      ymaps.geocode(adress).then((res) => {
+        const firstGeoObject = res.geoObjects.get(0);
+
+        myPlacemark.properties
+          .set({
+            // Формируем строку с данными об объекте.
+            iconCaption: [
+              // Название населенного пункта или вышестоящее административно-территориальное образование.
+              firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas(),
+              // Получаем путь до топонима, если метод вернул null, запрашиваем наименование здания.
+              firstGeoObject.getThoroughfare() || firstGeoObject.getPremise(),
+            ].filter(Boolean).join(', '),
+            // В качестве контента балуна задаем строку с адресом объекта.
+            balloonContent: setCoord((prev) => ({ ...prev, adress: firstGeoObject.getAddressLine() })),
+          });
+      });
+    }
+    //   myMap.geoObjects.events.add('click', function (e) {
+    //      object = e.get('target');
+    //     myMap.geoObjects.remove(object)
+    // },
+    myMap.current.events.add('click', (e) => {
+      const coords = e.get('coords');
+      setCoord({ coordinates: e.get('coords') });
+      if (myPlacemark) {
+        myPlacemark.geometry.setCoordinates(coords);
+      } else {
+      // Если нет – создаем.
+
+        myPlacemark = createPlacemark(coords);
+
+        myMap.current.geoObjects.add(myPlacemark);
+
+        // Слушаем событие окончания перетаскивания на метке.
+      }
+      getAddress(coords);
+    });
+  }
+  console.log('coord', coord);
+  useEffect(() => {
+    ymaps.ready(init);
+  }, []);
+
+  const deleteLable = (e) => {
+    setCoord('');
+    setInputCoord('');
+    // myMap.current.geoObjects.remove(myPlacemark);
+    myMap.current.destroy();
+    ymaps.ready(init);
+  };
+
+  return (
+    <div>
+      <div id="map2" style={{ width: "600px", height: "400px" }} />
+
+      <Map deleteLable={deleteLable} coord={coord} setCoord={setCoord} inputs={inputs} setInputs={setInputs} inputCoord={inputCoord} setInputCoord={setInputCoord} changeLable={changeLable} setCangeLable={setCangeLable} addressСoordinates={addressСoordinates} />
+      {/* <Maps inputs={inputs} setInputs={setInputs} inputCoord={inputCoord} setInputCoord={setInputCoord} changeLable={changeLable} setCangeLable={setCangeLable} addressСoordinates={addressСoordinates} /> */}
+    </div>
+  );
+}
+
+export default AddLabel;

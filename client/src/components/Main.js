@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import '../App.scss';
 import { getFiveFoundThunk, getFiveLostThunk } from '../redux/actions/adverts';
-import Carousel from './Carousel';
+import Carousel from './elements/Carousel';
 
 function Main() {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ function Main() {
   }, []);
   const navigate = useNavigate();
   const newpostLink = (type) => {
-    navigate(`/chat?type=${type}`);
+    navigate(`/newpost?type=${type}`);
   };
 
   return (
@@ -36,18 +36,13 @@ function Main() {
         <div className="main-last-posts main-last-posts-lost">
           <div className="main-last-posts-wrapper">
             <div className="main-last-posts-title-wrapper">
-              <Typography
-                className="main-last-posts-title"
-                variant="h4"
-                gutterBottom
-                component="div"
-              >
+              <Typography className="main-last-posts-title" variant="h4" gutterBottom component="div">
                 Потерялись недавно
               </Typography>
               <Button variant="text">Показать всех</Button>
             </div>
 
-            <Carousel id={1} imgArray={fivelosts} />
+            <Carousel id={1} posts={fivelosts} />
 
             {/* <div className="main-last-posts main-last-posts-found">
             123
@@ -58,17 +53,12 @@ function Main() {
         <div className="main-last-posts main-last-posts-found">
           <div className="main-last-posts-wrapper">
             <div className="main-last-posts-title-wrapper">
-              <Typography
-                className="main-last-posts-title"
-                variant="h4"
-                gutterBottom
-                component="div"
-              >
+              <Typography className="main-last-posts-title" variant="h4" gutterBottom component="div">
                 Ищут хозяев
               </Typography>
               <Button variant="text">Показать всех</Button>
             </div>
-            <Carousel id={2} imgArray={fivefounds} />
+            <Carousel id={2} posts={fivefounds} />
           </div>
         </div>
       </div>

@@ -56,9 +56,14 @@ module.exports = {
         },
         onDelete: 'CASCADE',
       },
-      size: {
+      size_id: {
         type: Sequelize.INTEGER,
         isNull: false,
+        references: {
+          model: 'Sizes',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
       },
       lost_date: {
         type: Sequelize.DATE,
@@ -69,15 +74,12 @@ module.exports = {
         isNull: false,
       },
       address_lattitude: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.DECIMAL(65, 30, 'int'),
         isNull: false,
       },
       address_longitude: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.DECIMAL(65, 30, 'int'),
         isNull: false,
-      },
-      photo_url: {
-        type: Sequelize.STRING,
       },
       user_id: {
         type: Sequelize.INTEGER,
