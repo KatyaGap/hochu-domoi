@@ -15,19 +15,7 @@ function AddLabel({ coord, setCoord }) {
 
   let myPlacemark;
   let myGeocoder;
-
-  const bek = async (coor) => {
-    if (Object.keys(coor).length > 1) {
-      dispatch(
-        yandexMap({
-          address_lattitude: coor?.coordinates[0],
-          address_longitude: coor?.coordinates[1],
-          address_string: coor?.adress,
-        }),
-      );
-    }
-  };
-
+  let object;
   function createPlacemark(coords) {
     return new ymaps.Placemark(coords, {
       iconCaption: 'поиск...',
@@ -38,9 +26,9 @@ function AddLabel({ coord, setCoord }) {
     });
   }
   const addressСoordinates = () => {
-    myGeocoder = ymaps.geocode(inputCoord.adress);
+    myGeocoder = ymaps.geocode(inputCoord.value);
     myGeocoder.then((res) => {
-      setCoord((prev) => ({ ...prev, coordinates: ((res.geoObjects.get(0).geometry.getCoordinates())), adress: inputCoord.adress }));
+      setCoord((prev) => ({ ...prev, coordinates: ((res.geoObjects.get(0).geometry.getCoordinates())), adress: inputCoord.value }));
       const coords = res.geoObjects.get(0).geometry.getCoordinates();
       myMap.current.geoObjects.add(new ymaps.Placemark(coords, {
         iconCaption: 'поиск...',
@@ -56,17 +44,13 @@ function AddLabel({ coord, setCoord }) {
       });
   };
 
-  const save = () => {
-    bek(coord);
-  };
-
   function init() {
     myMap.current = (new ymaps.Map('map2', {
 
       center: [55.76, 37.64],
       zoom: 10,
-      controls: ['searchControl', 'typeSelector', 'fullscreenControl', 'geolocationControl'],
-      behaviors: ['drag', 'multiTouch'],
+      controls: ['typeSelector', 'fullscreenControl', 'geolocationControl'],
+      behaviors: ['drag', 'multiTouch', 'scrollZoom'],
     }, {
       searchControlProvider: 'yandex#search',
     }));
@@ -97,7 +81,10 @@ function AddLabel({ coord, setCoord }) {
           });
       });
     }
-
+    //   myMap.geoObjects.events.add('click', function (e) {
+    //      object = e.get('target');
+    //     myMap.geoObjects.remove(object)
+    // },
     myMap.current.events.add('click', (e) => {
       const coords = e.get('coords');
       setCoord({ coordinates: e.get('coords') });
@@ -115,16 +102,24 @@ function AddLabel({ coord, setCoord }) {
       getAddress(coords);
     });
   }
-
+  console.log('coord', coord);
   useEffect(() => {
     ymaps.ready(init);
   }, []);
+
+  const deleteLable = (e) => {
+    setCoord('');
+    setInputCoord('');
+    // myMap.current.geoObjects.remove(myPlacemark);
+    myMap.current.destroy();
+    ymaps.ready(init);
+  };
 
   return (
     <div>
       <div id="map2" style={{ width: "600px", height: "400px" }} />
 
-      <Map save={save} setCoord={setCoord} inputs={inputs} setInputs={setInputs} inputCoord={inputCoord} setInputCoord={setInputCoord} changeLable={changeLable} setCangeLable={setCangeLable} addressСoordinates={addressСoordinates} />
+      <Map deleteLable={deleteLable} coord={coord} setCoord={setCoord} inputs={inputs} setInputs={setInputs} inputCoord={inputCoord} setInputCoord={setInputCoord} changeLable={changeLable} setCangeLable={setCangeLable} addressСoordinates={addressСoordinates} />
       {/* <Maps inputs={inputs} setInputs={setInputs} inputCoord={inputCoord} setInputCoord={setInputCoord} changeLable={changeLable} setCangeLable={setCangeLable} addressСoordinates={addressСoordinates} /> */}
     </div>
   );
