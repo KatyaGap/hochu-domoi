@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { yandexMap } from '../redux/actions/lost';
-import Map from './trash/Map';
+import { yandexMap } from '../../redux/actions/lost';
+import MapAddress from './MapAddress';
 
 function AddLabel({ coord, setCoord }) {
   console.log('AddLabel');
@@ -119,10 +119,20 @@ function AddLabel({ coord, setCoord }) {
   };
 
   return (
-    <div>
-      <div id="map2" style={{ width: "600px", height: "400px" }} />
-
-      <Map deleteLable={deleteLable} coord={coord} setCoord={setCoord} inputs={inputs} setInputs={setInputs} inputCoord={inputCoord} setInputCoord={setInputCoord} changeLable={changeLable} setCangeLable={setCangeLable} addressСoordinates={addressСoordinates} />
+    <div className="map-container">
+      <MapAddress
+        deleteLable={deleteLable}
+        coord={coord}
+        setCoord={setCoord}
+        inputs={inputs}
+        setInputs={setInputs}
+        inputCoord={inputCoord}
+        setInputCoord={setInputCoord}
+        changeLable={changeLable}
+        setCangeLable={setCangeLable}
+        addressСoordinates={addressСoordinates}
+      />
+      <div id="map2" style={{ height: "400px" }} />
       {/* <Maps inputs={inputs} setInputs={setInputs} inputCoord={inputCoord} setInputCoord={setInputCoord} changeLable={changeLable} setCangeLable={setCangeLable} addressСoordinates={addressСoordinates} /> */}
     </div>
   );
