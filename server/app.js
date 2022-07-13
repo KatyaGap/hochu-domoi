@@ -42,13 +42,13 @@ app.use(sessionParser); //  подключил session parser
 app.use('/adverts', advertsRouter); // правим
 app.use('/auth', registerRouter); // оставляем
 
-app.use('/get-messages', chatRouter);
-app.use('/new-messages', chatRouter);
+// app.use('/get-messages', chatRouter);
+// app.use('/new-messages', chatRouter);
 app.use('/map', mapRouter); // правим
 
-app.listen(PORT, () => {
-  console.log('The Best Server in Elbrus', PORT);
-});
+// app.listen(PORT, () => {
+//   console.log('The Best Server in Elbrus', PORT);
+// });
 
 module.exports = {
   app,

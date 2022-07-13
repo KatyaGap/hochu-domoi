@@ -9,7 +9,7 @@ import SmallCard from './SmallCard';
 
 function PostList({ adverts }) {
   const dispatch = useDispatch();
-	const navigate = useNavigate();
+  const navigate = useNavigate();
   // const handleDelete = useCallback((id) => {
   //   dispatch(deletePostThunk(id));
   // }, []);

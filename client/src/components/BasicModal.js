@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import { useContext } from 'react';
 import Chat from './Chat';
 
 const style = {
@@ -38,7 +39,6 @@ export default function BasicModal() {
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }} component="div">
             <Chat />
-
           </Typography>
         </Box>
       </Modal>
