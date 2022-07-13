@@ -94,7 +94,6 @@ function AddLabel({ coord, setCoord }) {
       // Если нет – создаем.
 
         myPlacemark = createPlacemark(coords);
-
         myMap.current.geoObjects.add(myPlacemark);
 
         // Слушаем событие окончания перетаскивания на метке.
@@ -107,10 +106,14 @@ function AddLabel({ coord, setCoord }) {
     ymaps.ready(init);
   }, []);
 
+  useEffect(() => {
+    console.log(myPlacemark);
+  });
+
   const deleteLable = (e) => {
     setCoord('');
     setInputCoord('');
-    // myMap.current.geoObjects.remove(myPlacemark);
+
     myMap.current.destroy();
     ymaps.ready(init);
   };
