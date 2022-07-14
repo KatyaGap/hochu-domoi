@@ -23,8 +23,11 @@ export default function SmallCard({ post }) {
   const petLink = () => {
     navigate(`/pet/${post.id}`);
   };
-  const makeLike = (obj) => {
+  const makeLike = (e, obj) => {
     dispatch(makeLikeThunk(obj));
+    likes.indexOf((el) => el.post_id === post.id);
+    // const icon = e.target.classList.contains('like-icon') ? e.target : e.target.querySelector('.like-icon'); // находим элемент иконки
+    // icon.classList.toggle("filled");
   };
   return (
     <Card sx={{ minWidth: 216, maxWidth: 216 }} className="card small-card">
@@ -80,6 +83,19 @@ export default function SmallCard({ post }) {
             </Typography>
           </div>
         </CardContent>
+      </CardActionArea>
+
+      <div className="card-overlay">
+        <IconButton
+          className="favorites-button"
+          aria-label="like"
+          size="large"
+          onClick={(e) => makeLike(e, post)}
+        >
+          <span className={likes.find((el) => el.post_id === post.id) ? "material-symbols-outlined like-icon filled" : "material-symbols-outlined like-icon"}>
+            favorite
+          </span>
+        </IconButton>
 
         <Chip
           label={post?.status}
@@ -88,15 +104,7 @@ export default function SmallCard({ post }) {
           variant="outlined"
           color="primary"
         />
-      </CardActionArea>
-      <IconButton
-        aria-label="delete"
-        size="large"
-        onClick={() => makeLike(post)}
-        className={likes.find((el) => el.post_id === post.id) ? 'liked' : 'favorites-button'}
-      >
-        <FavoriteBorder className="favorites-button-icon" fontSize="inherit" />
-      </IconButton>
+      </div>
     </Card>
   );
 }

@@ -233,7 +233,7 @@ export default function Newpost({ type }) {
             </div>
 
             <div className="newpost-item">
-              <div className="fullWidth">
+              <div className="fullwidth">
 
                 <Typography variant="h6" component="div" gutterBottom>
                   Размер

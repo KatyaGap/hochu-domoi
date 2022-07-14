@@ -242,21 +242,52 @@ router.route('/filter').post(async (req, res) => {
 
 router.route('/params').get(async (req, res) => {
   try {
-    const types = await Type.findAll({ attributes: ['type'], raw: true });
-    const pets = await Pet.findAll({ attributes: ['pet'], raw: true });
-    const breeds = await Breed.findAll({ attributes: ['breed'], raw: true });
-    const colors = await Color.findAll({
-      attributes: ['color_name', 'hex'],
+    let types = await Type.findAll({ attributes: ['id', 'type'], raw: true });
+    let pets = await Pet.findAll({ attributes: ['id', 'pet'], raw: true });
+    let breeds = await Breed.findAll({ attributes: ['id', 'breed'], raw: true });
+    let colors = await Color.findAll({
+      attributes: ['id', 'color_name', 'hex'],
       raw: true,
     });
-    const statuses = await Status.findAll({
-      attributes: ['status'],
+    let statuses = await Status.findAll({
+      attributes: ['id', 'status'],
       raw: true,
     });
-    const sizes = await Size.findAll({
-      attributes: ['size'],
+    let sizes = await Size.findAll({
+      attributes: ['id', 'size'],
       raw: true,
     });
+
+    types = types.map((el) => ({
+      ...el,
+      value: el.type,
+    }));
+
+    pets = pets.map((el) => ({
+      ...el,
+      value: el.pet,
+    }));
+
+    breeds = breeds.map((el) => ({
+      ...el,
+      value: el.breed,
+    }));
+
+    colors = colors.map((el) => ({
+      ...el,
+      value: el.color_name,
+    }));
+
+    statuses = statuses.map((el) => ({
+      ...el,
+      value: el.status,
+    }));
+
+    sizes = sizes.map((el) => ({
+      ...el,
+      value: el.size,
+    }));
+
     res.json({
       sizes,
       types,

@@ -50,21 +50,20 @@ export default function Pet() {
 
   return (
     <div className="container">
-      <div className="content" style={{ flexGrow: 0 }}>
+      <div className="content pet-page" style={{ flexGrow: 0 }}>
         <div className="page-header">
           <Typography variant="h3" gutterBottom component="div">
             Заголовок
           </Typography>
           <IconButton
             className="favorites-button"
-            aria-label="delete"
+            aria-label="like"
             size="large"
-            onClick={() => setFlag((prev) => !prev)}
+            onClick={() => makeLike(pet)}
           >
-            <FavoriteBorder
-              className="favorites-button-icon"
-              fontSize="inherit"
-            />
+            <span className={likes.find((el) => el.post_id === pet.id) ? 'material-symbols-outlined like-icon filled' : 'material-symbols-outlined like-icon'}>
+              favorite
+            </span>
           </IconButton>
         </div>
 
@@ -177,19 +176,6 @@ export default function Pet() {
           </tr>
         </table>
       </div>
-      <IconButton
-        // className={!flag ? 'favorites-button' : 'flag'}
-        aria-label="delete"
-        size="large"
-        onClick={() => makeLike(pet)}
-        className={
-          likes.find((el) => el.post_id === pet.id)
-            ? 'liked'
-            : 'favorites-button'
-        }
-      >
-        <FavoriteBorder className="favorites-button-icon" fontSize="inherit" />
-      </IconButton>
     </div>
   );
 }

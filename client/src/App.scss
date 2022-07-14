@@ -5,6 +5,35 @@
 @import "../node_modules/bootstrap/scss/root";
 @import "../node_modules/bootstrap/scss/carousel";
 
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 500,
+  'GRAD' 0,
+  'opsz' 48
+}
+.material-symbols-outlined.filled {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 600,
+  'GRAD' 0,
+  'opsz' 48
+}
+
+.like-icon {
+  transition: all 0.3s;
+}
+
+.small-card .like-icon {
+  color: #fff;
+}
+
+.like-icon.filled {
+  color: rgba(211, 46, 47, 0.9);
+  transition: all 0.3s;
+}
+
+
 * {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -160,11 +189,23 @@
   display: flex;
 }
 
-.small-card,
+.card.small-card,
 .small-card .MuiCardActionArea-root {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  position: relative;
+}
+
+.small-card .card-overlay {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  padding-right: 12px;
+  top: 0;
+  left: 0;
 }
 
 .map-card .card-action-area,
@@ -229,9 +270,6 @@
 }
 
 .main-last-posts .card-status {
-  position: absolute;
-  top: 0.6rem;
-  right: 0.4rem;
   background-color: rgba(255, 255, 255, 0.85);
 }
 
@@ -453,10 +491,27 @@
   object-fit: cover;
 }
 
-.card-wide .card-bottom,
-.card-wide .card-top {
+.card-wide .card-bottom {
   display: flex;
   width: 100%;
+  justify-content: space-between;
+}
+
+.card-wide .post-delete-button {
+  position: relative;
+  bottom: 4rem;
+  left: 0px;
+  transition: 0.3s all;
+}
+
+.card-wide:hover .post-delete-button {
+  bottom: 0rem;
+  transition: 0.3s all;
+}
+
+.card-wide .card-top {
+  display: flex;
+  width: 80%;
   justify-content: space-between;
 }
 
@@ -468,8 +523,9 @@
 
 .card-wide .card-overlay {
   position: absolute;
-  top: 1rem;
+  top: 0px;
   right: 0px;
+  margin-top: 1rem;
   margin-right: 1rem;
   z-index: 3;
   & > * {
@@ -502,6 +558,10 @@
   border-radius: 12px;
 }
 
+.pet-page .like-icon {
+  font-size: 2rem;
+}
+
 .container .gallery {
   margin-top: 0.5rem;
   margin-bottom: 1rem;
@@ -528,9 +588,6 @@
   & .gallery-address {
     width: 75%;
   }
-}
-
-.map-and-address {
 }
 
 .author {
@@ -849,4 +906,88 @@
   max-width: 120px;
   height: 0px;
   transform: translateX(-120px);
+}
+
+.chip-select .filter-chip {
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  text-align: center;
+  text-decoration-color: rgba(0, 0, 0, 0.54);
+  text-decoration-line: none;
+  text-decoration-style: solid;
+  text-decoration-thickness: auto;
+  text-indent: 0px;
+  text-rendering: auto;
+  text-shadow: none;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-stretch: 100%;
+  font-style: normal;
+  font-variant-caps: normal;
+  font-variant-east-asian: normal;
+  font-variant-ligatures: normal;
+  font-variant-numeric: normal;
+  font-weight: 500;
+  padding: 8px 8px;
+  color: rgba(0, 0, 0, 0.54);
+  height: auto;
+  border-radius: 18px;
+}
+
+.chip-select .filter-chip.MuiChip-filled {
+  color: white;
+}
+
+.catalog .filters-paper {
+  position: sticky;
+  padding: 0rem 1.5rem;
+  top: 0px;
+  width: 100%;
+  display: flex;
+  border-radius: 8px;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%);
+}
+
+.content.catalog {
+  position: relative;
+}
+
+.catalog .filter-header {
+  margin-top: 1.2rem;
+  color:rgba(0, 0, 0, 0.7)
+}
+
+.filterstack .filter-type {
+  margin-right: 2rem;
+}
+
+.filterstack .filter-type,
+.filterstack .chip-select {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.catalog .filter-apply-button {
+  flex-shrink: 0;
+  margin-left: 2rem;
+}
+
+.catalog .filterstack {
+  padding-left: 1rem;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.catalog .filters-chips {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  align-items: center;
 }
