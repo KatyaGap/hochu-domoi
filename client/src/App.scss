@@ -444,6 +444,10 @@
    margin-bottom: 2rem;
  }
 
+.card-wide {
+  position: relative;
+}
+ 
 .card-wide .card-photo {
   aspect-ratio: 5/4;
   object-fit: cover;
@@ -460,6 +464,17 @@
 .card-wide .card-timesincemissing {
   -webkit-line-clamp: 1;
   line-clamp: 1;
+}
+
+.card-wide .card-overlay {
+  position: absolute;
+  top: 1rem;
+  right: 0px;
+  margin-right: 1rem;
+  z-index: 3;
+  & > * {
+    margin-left: 0.5rem;
+  }
 }
 
 /* СТРАНИЦА ЖИВОТНОГО */
