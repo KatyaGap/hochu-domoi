@@ -3,17 +3,18 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import '../App.scss';
-import { getFiveFoundThunk, getFiveLostThunk } from '../redux/actions/adverts';
+import { getFiveFoundThunk, getFiveLostThunk, getLikesThunk } from '../redux/actions/adverts';
 import Carousel from './elements/Carousel';
 
 function Main() {
   const dispatch = useDispatch();
   const [imgArray1, setImgArray1] = useState([]);
   const [imgArray2, setImgArray2] = useState([]);
-  const { fivelosts, fivefounds } = useSelector((state) => state);
+  const { fivelosts, fivefounds, likes } = useSelector((state) => state);
   useEffect(() => {
     dispatch(getFiveLostThunk());
     dispatch(getFiveFoundThunk());
+    dispatch(getLikesThunk());
   }, []);
   const navigate = useNavigate();
   const newpostLink = (type) => {
@@ -42,11 +43,7 @@ function Main() {
               <Button variant="text">Показать всех</Button>
             </div>
 
-            <Carousel id={1} posts={fivelosts} />
-
-            {/* <div className="main-last-posts main-last-posts-found">
-            123
-          </div> */}
+            <Carousel id={1} posts={fivelosts} likes={likes} />
           </div>
         </div>
 

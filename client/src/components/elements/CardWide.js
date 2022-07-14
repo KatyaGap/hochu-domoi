@@ -3,11 +3,11 @@ import { Card, CardActionArea, CardContent, CardMedia, Chip, IconButton, Typogra
 import { Box } from '@mui/system';
 import React, { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useDispatch } from 'react-redux';
-// import { use } from '../../../../server/routers/mapRouter';
+import { deleteLikeThunk } from '../../redux/actions/adverts';
 
-function CardWide({ post, handleDeletePost }) {
+function CardWide({ post }) {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
@@ -16,6 +16,12 @@ function CardWide({ post, handleDeletePost }) {
     navigate(`/pet/${post.id}`);
   };
 
+  const { likes } = useSelector((state) => state);
+  console.log('post', post);
+  const deleteLike = React.useCallback((id) => {
+    console.log('id', id);
+    dispatch(deleteLikeThunk(id));
+  }, []);
   return (
     <Card className="card card-wide" variant="outlined">
       <CardActionArea onClick={petLink} className="card-action-area">
@@ -35,7 +41,7 @@ function CardWide({ post, handleDeletePost }) {
               {post?.text}
             </Typography>
             <Chip
-              label={post.status}
+              label={post['Status.status'] || post.status}
               className="card-status"
               variant="outlined"
               color="primary"
@@ -75,9 +81,10 @@ function CardWide({ post, handleDeletePost }) {
               {post?.timeSinceMissing}
             </Typography>
           </div>
-          {location.pathname.includes('profile') && (
+          {(location.pathname.includes('profile') ||
+            !location.pathname.includes('favor')) && (
             <IconButton
-              onClick={() => handleDeletePost(post.id)}
+              onClick={() => deleteLike(post.post_id)}
               aria-label="delete"
               size="small"
             >

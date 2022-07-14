@@ -73,7 +73,6 @@ export default function Newpost({ type }) {
       </div>
     );
   }
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
