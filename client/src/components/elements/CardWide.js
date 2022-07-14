@@ -17,7 +17,6 @@ function CardWide({ post }) {
   };
 
   const { likes } = useSelector((state) => state);
-  console.log('post', post);
   const deleteLike = React.useCallback((id) => {
     console.log('id', id);
     dispatch(deleteLikeThunk(id));
@@ -40,12 +39,6 @@ function CardWide({ post }) {
             >
               {post?.text}
             </Typography>
-            <Chip
-              label={post['Status.status'] || post.status}
-              className="card-status"
-              variant="outlined"
-              color="primary"
-            />
           </div>
           <div className="card-bottom">
             <Typography
@@ -81,16 +74,6 @@ function CardWide({ post }) {
               {post?.timeSinceMissing}
             </Typography>
           </div>
-          {(location.pathname.includes('profile')
-            || !location.pathname.includes('favor')) && (
-            <IconButton
-              onClick={() => deleteLike(post.post_id)}
-              aria-label="delete"
-              size="small"
-            >
-              <DeleteIcon fontSize="inherit" />
-            </IconButton>
-          )}
         </CardContent>
       </CardActionArea>
     </Card>
