@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import { UserContext } from '../context/user';
 import '../App.css';
 
-const socket = new WebSocket('ws://192.168.1.37:3001');
+const socket = new WebSocket('ws://localhost:3002');
 
 function Chat({ id }) {
   const { user } = useContext(UserContext);

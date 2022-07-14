@@ -24,11 +24,20 @@ router.route('/').get(async (req, res) => {
           attributes: ['image'],
           limit: 1,
         },
+        {
+          model: Status,
+          attributes: ['status'],
+        },
       ],
     });
     const result = posts.map((el) => ({
       ...el.dataValues,
       photo_url: el.Images[0]?.image,
+      status: el.Status.dataValues.status,
+      timeSinceMissing: moment(
+        el.lost_date?.toISOString().split('T')[0].split('-').join(''),
+        'YYYYMMDD',
+      ).fromNow(),
     }));
     res.json(result);
   } catch (error) {
@@ -165,7 +174,6 @@ router.route('/fiveFound').get(async (req, res) => {
 });
 
 router.route('/filter').post(async (req, res) => {
-  console.log('REQ BODY FILTER', req.body);
   try {
     const postsFind = await Post.findAll({
       where: req.body,
@@ -206,7 +214,6 @@ router.route('/filter').post(async (req, res) => {
         },
       ],
     });
-    console.log('POSTS FIND FILTER', postsFind);
     const result = postsFind.map((el) => ({
       ...el.dataValues,
       name: el.User.dataValues.name,
@@ -222,8 +229,8 @@ router.route('/filter').post(async (req, res) => {
         'YYYYMMDD',
       ).fromNow(),
       photo_url: el.Images[0]?.image,
+      flag: true, // Марат - спец флаг чтобы проверить, работал ли фильтр, но он мб и не нужен, но удалять боюсь
     }));
-    console.log('FILTERED', result);
     res.json(result);
   } catch (error) {
     console.log(error);

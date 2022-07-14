@@ -86,8 +86,6 @@ router
   })
   .post(upload.array('files'), async (req, res) => {
     try {
-      console.log('DATA', req.body);
-      // const type = await Type.findOne({ where: { type: req.params.type } });
       const { userId } = req.session;
       const arr = req.files;
       const post = await Post.create({
@@ -103,24 +101,18 @@ router
         address_lattitude: req.body.address_lattitude,
         address_longitude: req.body.address_longitude,
         user_id: userId,
+        phone: req.body.phone,
       });
-      // arr.map(
-      //   await ((img, i) => Image.create({
-      //     image: arr[i].path.replace('public', ''),
-      //     post_id: post.id,
-      //   })),
-      // );
       arr?.map(
         await ((img, i) => Image.create({
           image: arr[i].path.replace('public', ''),
           post_id: post.id,
         })),
       );
-      console.log('POST HAS BEEN CREATED', post);
-      res.json({ text: 'Круто!' }); // тупо строка для теста. Потом поменять на что-то правильное
+      res.json({ id: post.id }); // тупо строка для теста. Потом поменять на что-то правильное
     } catch (error) {
       console.log(error);
-      res.json({ text: 'Не Круто!' }); // тупо строка для теста. Потом поменять на что-то правильное
+      res.json({ message: 'Ошибка в введённых данных, пост не создан!' }); // тупо строка для теста. Потом поменять на что-то правильное
     }
   });
 module.exports = router;

@@ -12,23 +12,42 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Favorite, FavoriteBorder, Email, Call, PinDrop, Restore } from '@mui/icons-material';
 import ChatIcon from '@mui/icons-material/Chat';
 import Chat from './Chat';
-import { getAdvertsThunk } from '../redux/actions/adverts';
+import { getAdvertsThunk, makeLikeThunk } from '../redux/actions/adverts';
 import { UserContext } from '../context/user';
 import BasicModal from './elements/ModalForChat';
 import Gallery from './elements/Gallery';
+import { sendMessage } from '../redux/actions/message';
+import ModalForMessage from './elements/ModalForMessage';
 
 export default function Pet() {
   const dispatch = useDispatch();
   const params = useParams();
   const { id } = params;
-  const { adverts } = useSelector((state) => state);
+  const { likes, adverts } = useSelector((state) => state);
   const [pet, setPet] = useState({});
   const [showPhone, setShowPhone] = useState(false);
   const [showMap, setShowMap] = useState(false);
-  console.log('pet: ', pet);
+  const [flag, setFlag] = useState(false);
   const [expanded, setExpanded] = React.useState(true);
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
+  const [modalActive, setModalActive] = useState(true);
+  const [form, setForm] = useState('');
+
+  // Marat
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(sendMessage(form));
+    e.target.reset();
+  };
+
+  console.log('FORM====>', form);
+
+  const handleChange = React.useCallback((e) => {
+    setForm(e.target.value);
+  }, []);
+  //
+
   React.useEffect(() => {
     fetch(`/adverts/${id}`)
       .then((res) => res.json())
@@ -37,23 +56,43 @@ export default function Pet() {
   const handleNav = () => navigate('/auth');
 
   const mapToggle = () => {
-    setShowMap(!showMap);
+    setShowMap(!showMap); // ВОЗМОЖНО
   };
+  const makeLike = React.useCallback((obj) => {
+    dispatch(makeLikeThunk(obj));
+    setFlag((prev) => !prev); // ВОЗМОЖНО
+  }, []);
 
   return (
     <div className="container">
       <div className="content" style={{ flexGrow: 0 }}>
         <div className="page-header">
-          <Typography variant="h3" gutterBottom component="div">Заголовок</Typography>
-          <IconButton className="favorites-button" aria-label="delete" size="large">
-            <FavoriteBorder className="favorites-button-icon" fontSize="inherit" />
+          <Typography variant="h3" gutterBottom component="div">
+            Заголовок
+          </Typography>
+          <IconButton
+            className="favorites-button"
+            aria-label="delete"
+            size="large"
+            onClick={() => setFlag((prev) => !prev)}
+          >
+            <FavoriteBorder
+              className="favorites-button-icon"
+              fontSize="inherit"
+            />
           </IconButton>
         </div>
 
         <Paper className="post-owner-header" elevation={3}>
           <Stack className="author" direction="row" spacing={1}>
-            <Avatar sx={{ width: 48, height: 48 }} src={pet.user_photo} alt="Аватар" />
-            <Typography variant="overline" className="author-name" gutterBottom>{pet.user_name}</Typography>
+            <Avatar
+              sx={{ width: 48, height: 48 }}
+              src={pet.user_photo}
+              alt="Аватар"
+            />
+            <Typography variant="overline" className="author-name" gutterBottom>
+              {pet.user_name}
+            </Typography>
           </Stack>
 
           <Stack className="author-icons" direction="row" spacing={1}>
@@ -64,15 +103,40 @@ export default function Pet() {
                     <Call />
                     <span className="phone-number">{pet.phone}</span>
                   </>
-                )
-                  : <Call />}
+                ) : (
+                  <Call />
+                )}
               </Button>
             </Tooltip>
-            <Tooltip title="Написать на почту">
-              <Button variant="outlined"><Email /></Button>
-            </Tooltip>
+            <div onClick={() => setModalActive((prev) => !prev)}>
+
+              <Tooltip title="Написать на почту">
+                <Button variant="outlined">
+                  <Email />
+                </Button>
+              </Tooltip>
+            </div>
+            <ModalForMessage active={!modalActive} setActive={setModalActive}>
+              {/* <p>Hello Kate!!!</p>
+              <form onSubmit={handleSubmit}>
+                <textarea name="message" onChange={handleChange} value={form} />
+                <button type="submit">Отправить Письмо</button>
+                <button type="button">Отмена</button>
+              </form> */}
+            </ModalForMessage>
             <Tooltip title="Открыть чат с автором объявления">
-              {user ? <BasicModal id={id} /> : <Button onClick={handleNav} variant="contained" disableElevation startIcon={<ChatIcon />}>Чат</Button>}
+              {user ? (
+                <BasicModal />
+              ) : (
+                <Button
+                  onClick={handleNav}
+                  variant="contained"
+                  disableElevation
+                  startIcon={<ChatIcon />}
+                >
+                  Чат
+                </Button>
+              )}
             </Tooltip>
           </Stack>
         </Paper>
@@ -81,9 +145,7 @@ export default function Pet() {
           <div className="gallery-timesince">
             <Stack direction="row" spacing={1}>
               <Restore />
-              <Typography variant="caption">
-                {pet.timeSinceMissing}
-              </Typography>
+              <Typography variant="caption">{pet.timeSinceMissing}</Typography>
             </Stack>
           </div>
 
@@ -92,15 +154,18 @@ export default function Pet() {
           <div className="map-and-address">
             <Stack className="gallery-address" direction="row" spacing={1}>
               <PinDrop />
-              <Typography variant="caption">
-                {pet.address_string}
-              </Typography>
+              <Typography variant="caption">{pet.address_string}</Typography>
             </Stack>
-            {showMap
-              ? <Button onClick={mapToggle} variant="outlined">▲ Скрыть карту</Button>
-              : <Button onClick={mapToggle} variant="outlined">▼ Показать на карте</Button>}
+            {showMap ? (
+              <Button onClick={mapToggle} variant="outlined">
+                ▲ Скрыть карту
+              </Button>
+            ) : (
+              <Button onClick={mapToggle} variant="outlined">
+                ▼ Показать на карте
+              </Button>
+            )}
           </div>
-
         </div>
 
         <table className="table">
@@ -133,14 +198,24 @@ export default function Pet() {
               <Typography variant="subtitle1">Описание</Typography>
             </td>
             <td className="value">
-              <Typography variant="subtitle1">
-                {pet.text}
-              </Typography>
+              <Typography variant="subtitle1">{pet.text}</Typography>
             </td>
           </tr>
         </table>
-
       </div>
+      <IconButton
+        // className={!flag ? 'favorites-button' : 'flag'}
+        aria-label="delete"
+        size="large"
+        onClick={() => makeLike(pet)}
+        className={
+          likes.find((el) => el.post_id === pet.id)
+            ? 'liked'
+            : 'favorites-button'
+        }
+      >
+        <FavoriteBorder className="favorites-button-icon" fontSize="inherit" />
+      </IconButton>
     </div>
   );
 }

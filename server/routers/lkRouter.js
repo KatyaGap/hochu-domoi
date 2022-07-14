@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const fs = require('fs').promises;
 const moment = require('moment');
-const sendMail = require('../utils/mailer');
+const { sendMail } = require('../utils/mailer');
 const { upload } = require('../middlewares/upload');
 const {
   User,
@@ -13,7 +13,10 @@ const {
   Type,
   Size,
   Image,
+  Favorite,
 } = require('../db/models');
+const favorite = require('../db/models/favorite');
+const e = require('express');
 require('moment/locale/ru');
 // ручка для отображения ВСЕХ постов АДМИНУ или только СВОИХ постов ЮЗЕРУ
 router.route('/').get(async (req, res) => {
@@ -60,7 +63,6 @@ router.route('/').get(async (req, res) => {
           },
         ],
       });
-      console.log('posts', posts);
       const result = posts.map((el) => ({
         ...el.dataValues,
         name: el.User.dataValues.name,
@@ -73,11 +75,10 @@ router.route('/').get(async (req, res) => {
         size: el.Size.dataValues.size,
         timeSinceMissing: moment(
           el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-          'YYYYMMDD'
+          'YYYYMMDD',
         ).fromNow(),
         photo_url: el.Images[0]?.image,
       }));
-      console.log('========== if', result);
       res.json(result);
     } else {
       const posts = await Post.findAll({
@@ -131,11 +132,10 @@ router.route('/').get(async (req, res) => {
         size: el.Size.dataValues.size,
         timeSinceMissing: moment(
           el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-          'YYYYMMDD'
+          'YYYYMMDD',
         ).fromNow(),
         photo_url: el.Images[0]?.image,
       }));
-      console.log('else result', result);
       res.json(result);
     }
   } catch (error) {
@@ -148,11 +148,8 @@ router
   .put(upload.single('file'), async (req, res) => {
     // изменение аватара
     const user = await User.findOne({ where: { id: res.locals.userId } });
-    console.log('А ВОТ И ФОТКА С БЭКА', req.file);
     user.user_photo = req.file.path.replace('public', '');
-    console.log('ПЕРЕЗАПИСАЛИ ФОТОЧКУ', user.user_photo);
     await user.save();
-    console.log('А ВОТ И ЮЗЕР НОВЕНЬКИЙ', user);
     res.json(user);
   })
   .delete(async (req, res) => {
@@ -163,6 +160,100 @@ router
     res.json(user);
   });
 
+// избранное
+// добавление в избранное
+router
+  .route('/likes/:id')
+  .get(async (req, res) => {
+    try {
+      const { id } = req.params;
+      let like = await Favorite.findOne({
+        where: { post_id: id, user_id: res.locals.userId },
+        include: [{ model: Post, include: [{ model: Image, limit: 1 }, {model: Status}, {model: Breed}] }, {model: User}],
+      });
+      if (!like) {
+        await Favorite.create({ user_id: res.locals.userId, post_id: id });
+        like = await Favorite.findOne({
+          where: { post_id: id, user_id: res.locals.userId },
+          include: [{ model: Post, include: [{ model: Image, limit: 1}, {model: Status}, {model: Breed}]}, {model: User}],
+        });
+      } else if (like) {
+        await Favorite.destroy({
+          where: { user_id: res.locals.userId, post_id: id },
+        });
+      }
+
+      // const post = {
+      //   ...like,
+      //   text: like['Post.text'],
+      //   address_string: like['Post.address_string'],
+      //   photo_url: like['Post.Images.image'],
+      //   type_id: like['Post.type_id'],
+      // };
+      const post = {
+        photo_url: like.Post.dataValues.Images[0].dataValues.image,
+        text: like.Post.dataValues.text,
+        type_id: like.Post.dataValues.type_id,
+        address_string: like.Post.dataValues.address_string,
+        post_id: like.Post.dataValues.id,
+			status: like.Post.dataValues.Status.status,
+			breed: like.Post.dataValues.Breed.breed,
+			user_name: like.User.dataValues.name,
+			user_photo: like.User.dataValues.user_photo,
+        timeSinceMissing: moment(
+          like.Post.dataValues.lost_date
+            ?.toISOString()
+            .split('T')[0]
+            .split('-')
+            .join(''),
+          'YYYYMMDD'
+        ).fromNow(),
+      };
+      res.json(post);
+    } catch (error) {
+      console.log('last', error);
+    }
+  })
+  .delete(async (req, res) => {
+    // удаление лайка в избранном
+    await Favorite.destroy({
+      where: { user_id: res.locals.userId, post_id: req.params.id },
+    });
+    res.sendStatus(200);
+  });
+
+// получение всех постов из избранного
+router.route('/likes').get(async (req, res) => {
+  try {
+    const posts = await Favorite.findAll({
+      where: { user_id: res.locals.userId },
+      include: [{ model: Post, include: [{ model: Image, limit: 1 }, {model: Status}, {model: Breed}] }, {model: User}],
+    });
+    const result = posts.map((el) => ({
+      photo_url: el.Post.dataValues.Images[0].dataValues.image,
+      text: el.Post.dataValues.text,
+      type_id: el.Post.dataValues.type_id,
+      address_string: el.Post.dataValues.address_string,
+      post_id: el.Post.dataValues.id,
+			status: el.Post.dataValues.Status.status,
+			breed: el.Post.dataValues.Breed.breed,
+			user_name: el.User.dataValues.name,
+			user_photo: el.User.dataValues.user_photo,
+      timeSinceMissing: moment(
+        el.Post.dataValues.lost_date
+          ?.toISOString()
+          .split('T')[0]
+          .split('-')
+          .join(''),
+        'YYYYMMDD'
+      ).fromNow(),
+    }));
+    res.json(result);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 // ручка для удаления поста
 router
   .route('/:id')
@@ -171,7 +262,11 @@ router
     const user = await User.findOne({ where: { id: res.locals.userId } });
     const deleteUser = await User.findOne({ where: { id: user_id } });
     if (res.locals.userId === user_id || user.role_id === 1) {
+      const imagesToDelete = await Image.findAll({ where: { post_id: req.params.id } });
       await Image.destroy({ where: { post_id: req.params.id } });
+      imagesToDelete.map(async (image) => {
+        await fs.unlink(`${process.env.PWD}/public/${image.image}`);
+      });
       await Post.destroy({ where: { id: req.params.id } });
       if (user.role_id === 1) {
         sendMail({ to: deleteUser.email });

@@ -69,6 +69,30 @@ module.exports = {
         image: '/images/чаучау4.jpeg',
         post_id: 12,
       },
+      {
+        image: '/images/кошка1.jpeg',
+        post_id: 13,
+      },
+      {
+        image: '/images/кошка2.jpeg',
+        post_id: 13,
+      },
+      {
+        image: '/images/крыса1.jpeg',
+        post_id: 14,
+      },
+      {
+        image: '/images/крыса2.jpeg',
+        post_id: 14,
+      },
+      {
+        image: '/images/хомяк1.jpeg',
+        post_id: 15,
+      },
+      {
+        image: '/images/хомяк2.jpeg',
+        post_id: 15,
+      },
     ], {});
   },
 

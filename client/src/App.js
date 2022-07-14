@@ -6,11 +6,11 @@ import Main from './components/Main';
 import Auth from './components/Auth';
 import Chat from './components/Chat';
 import Maps from './components/Maps';
-import AddLabel from './components/AddLabel';
 import Pet from './components/Pet';
 import Newpost from './components/Newpost';
 import Catalog from './components/Catalog';
 import Profile from './components/Profile';
+import Favor from './components/Favor';
 
 function App() {
   return (
@@ -25,9 +25,9 @@ function App() {
         <Route path="/auth" element={<Auth />} />
         <Route path="/authnewpost" element={<Auth isNewPost />} />
         <Route path="/catalog" element={<Catalog />} />
-        {/* <Route path="/addlabel" element={<AddLabel />} /> */}
         <Route path="/newpost" element={<Newpost />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/favor" element={<Favor />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <div className="toastify">

@@ -3,12 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-<<<<<<< HEAD:client/src/components/BasicModal.js
-import { useContext } from 'react';
 import Chat from './Chat';
-=======
-import Chat from '../Chat';
->>>>>>> dev:client/src/components/elements/ModalForChat.js
 
 const style = {
   position: 'absolute',

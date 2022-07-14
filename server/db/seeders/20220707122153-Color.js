@@ -3,11 +3,11 @@ module.exports = {
     await queryInterface.bulkInsert('Colors', [
       {
         color_name: 'Черный',
-        hex: '#FFFFFF',
+        hex: '#000000',
       },
       {
         color_name: 'Белый',
-        hex: '#000000',
+        hex: '#FFFFFF',
       },
       {
         color_name: 'Серый',
