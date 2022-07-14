@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeLikeThunk } from '../../redux/actions/adverts';
 
-function CardMap({ post, hasLike }) {
+function CardMap({ post, hasLike, setTypeAndPan }) {
   const { likes } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,8 +22,10 @@ function CardMap({ post, hasLike }) {
 
   return (
     <Card className="card map-card" variant="outlined">
-      <CardActionArea onClick={petLink} sx={{ display: 'flex' }}>
-        <CardMedia className="card-photo" component="img" sx={{ width: 130 }} image={post?.photo_url} alt="Фото питомца" />
+      <CardActionArea sx={{ display: 'flex' }}>
+        {/* <CardActionArea onClick={petLink} sx={{ display: 'flex' }}> */}
+
+        <CardMedia onClick={() => setTypeAndPan(post.address_lattitude, post.address_longitude)} className="card-photo" component="img" sx={{ width: 130 }} image={post?.photo_url} alt="Фото питомца" />
         <CardContent className="card-content">
           <Typography
             className="card-description small-card-description"

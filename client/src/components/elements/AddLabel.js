@@ -106,9 +106,9 @@ function AddLabel({ coord, setCoord }) {
     ymaps.ready(init);
   }, []);
 
-  useEffect(() => {
-    // console.log(myPlacemark);
-  });
+  // useEffect(() => {
+  //   // console.log(myPlacemark);
+  // });
 
   const deleteLable = (e) => {
     setCoord('');
