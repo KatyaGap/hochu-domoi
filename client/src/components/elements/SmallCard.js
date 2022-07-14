@@ -29,6 +29,10 @@ export default function SmallCard({ post }) {
     // const icon = e.target.classList.contains('like-icon') ? e.target : e.target.querySelector('.like-icon'); // находим элемент иконки
     // icon.classList.toggle("filled");
   };
+
+  // console.log('likes: ', likes);
+  // console.log('post: ', post);
+
   return (
     <Card sx={{ minWidth: 216, maxWidth: 216 }} className="card small-card">
       <CardActionArea onClick={petLink}>
@@ -92,7 +96,10 @@ export default function SmallCard({ post }) {
           size="large"
           onClick={(e) => makeLike(e, post)}
         >
-          <span className={likes.find((el) => el.post_id === post.id) ? "material-symbols-outlined like-icon filled" : "material-symbols-outlined like-icon"}>
+          <span className={likes.find((el) => el.post_id === post.id)
+            ? "material-symbols-outlined like-icon filled"
+            : "material-symbols-outlined like-icon"}
+          >
             favorite
           </span>
         </IconButton>

@@ -5,10 +5,9 @@ const likeReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case MAKE_LIKE:
-      if (state.find((like) => like.id === payload.id)) {
-        console.log('deleted');
-        return [...state.filter((el) => el.id !== payload.id)];
-      } console.log('added');
+      if (state.find((like) => like.post_id === payload.post_id)) {
+        return [...state.filter((el) => el.post_id !== payload.post_id)];
+      }
       return [...state, payload];
     case DELETE_LIKE:
       console.log('payload', payload);
