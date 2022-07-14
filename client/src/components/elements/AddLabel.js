@@ -101,13 +101,13 @@ function AddLabel({ coord, setCoord }) {
       getAddress(coords);
     });
   }
-  console.log('coord', coord);
+  // console.log('coord', coord);
   useEffect(() => {
     ymaps.ready(init);
   }, []);
 
   useEffect(() => {
-    console.log(myPlacemark);
+    // console.log(myPlacemark);
   });
 
   const deleteLable = (e) => {

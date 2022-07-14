@@ -5,27 +5,11 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Typography from '@mui/material/Typography';
-import {
-  Avatar,
-  Button,
-  IconButton,
-  Paper,
-  Stack,
-  Tooltip,
-  Modal,
-  MoreVertIcon,
-} from '@mui/material';
+import { Avatar, Button, IconButton, Paper, Stack, Tooltip, Modal, MoreVertIcon } from '@mui/material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useSelect } from '@mui/base';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Favorite,
-  FavoriteBorder,
-  Email,
-  Call,
-  PinDrop,
-  Restore,
-} from '@mui/icons-material';
+import { Favorite, FavoriteBorder, Email, Call, PinDrop, Restore } from '@mui/icons-material';
 import ChatIcon from '@mui/icons-material/Chat';
 import Chat from './Chat';
 import { getAdvertsThunk, makeLikeThunk } from '../redux/actions/adverts';
@@ -192,7 +176,7 @@ export default function Pet() {
         </table>
       </div>
       <IconButton
-        className={!flag ? 'favorites-button' : 'flag'}
+        // className={!flag ? 'favorites-button' : 'flag'}
         aria-label="delete"
         size="large"
         onClick={() => makeLike(pet)}
