@@ -107,7 +107,7 @@
   flex-direction: column;
 }
 
-.form input {
+.form-control {
   min-width: 300px;
   width: 100%;
   padding: 5px 10px;
@@ -141,11 +141,12 @@
   padding: 15px;
   margin-top: 15px;
 }
-/* КОНЕЦ ЧАТИКА ====================================*/
 
-.flag {
-	background-color: pink;
+.own-message-name{
+  float: right;
 }
-.liked{
-border: 3px solid green
+
+.own-message-message{
+  float: right;
 }
+/* КОНЕЦ ЧАТИКА ==================================== */
