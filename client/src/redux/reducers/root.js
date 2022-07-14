@@ -10,6 +10,7 @@ import lostReducer from './lost';
 import mapReducer from './map';
 import paramsReducer from './params';
 import profileReducer from './profile';
+import messageReducer from './message';
 
 const rootReducer = combineReducers({
   adverts: advertsReducer,
@@ -22,5 +23,6 @@ const rootReducer = combineReducers({
   profile: profileReducer,
   likes: likeReducer,
   label: labelReducer,
+  message: messageReducer,
 });
 export default rootReducer;

@@ -14,6 +14,7 @@ const chatRouter = require('./routers/chatRouter');
 const mapRouter = require('./routers/mapRouter');
 const lkRouter = require('./routers/lkRouter');
 const checkSession = require('./middlewares/checkSession');
+const messageRouter = require('./routers/messageRouter');
 
 const app = express();
 
@@ -50,6 +51,7 @@ app.use('/auth', registerRouter); // оставляем
 // app.use('/new-messages', chatRouter);
 app.use('/map', mapRouter); // правим
 app.use('/lk', lkRouter); // роутер для личного кабинета
+app.use('/message', messageRouter);
 
 // app.listen(PORT, () => {
 //   console.log('The Best Server in Elbrus', PORT);

@@ -47,6 +47,7 @@ export default function Newpost({ type }) {
   }
   function getBreed() {
     if (post.pet_id === 2) return 6;
+    if (post.pet_id !== 2 && post.pet_id !== 1) return 5;
     return post.breed_id;
   }
 
