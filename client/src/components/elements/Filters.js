@@ -12,8 +12,10 @@ export default function Filters({ adverts }) {
   React.useEffect(() => {
     dispatch(getParamsThunk());
   }, []);
+
   React.useEffect(() => {
-    console.log(filter);
+    console.log("filter ", filter);
+    console.log('filtered: ', filtered);
   }, [filter]);
 
   const handleSetFilter = React.useCallback((name, value) => {
@@ -22,7 +24,6 @@ export default function Filters({ adverts }) {
     // } else {
     //   setFilter((prev) => Object.entries(prev).forEach((el) => el[0] === name && delete filter[el[0]]));
     // }
-    console.log('filter', filter);
   });
 
   const handleApplyFilter = (e) => {
@@ -89,7 +90,7 @@ export default function Filters({ adverts }) {
 
         </Stack>
         <Button type="submit" variant="contained" className="filter-apply-button">
-          Применить фильтр
+          Применить
         </Button>
       </div>
     </form>

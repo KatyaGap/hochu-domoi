@@ -8,9 +8,9 @@ function PostList({ adverts, posts = [] }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [flag, setFlag] = useState(false);
-  if (posts.length !== 0 && !flag) {
-    setFlag(true);
+  const [isEmpty, setIsEmpty] = useState(false);
+  if (posts.length !== 0 && !isEmpty) {
+    setIsEmpty(true);
   }
 
   const renderList = (array) => array.map((post, i) => (
@@ -20,8 +20,8 @@ function PostList({ adverts, posts = [] }) {
   return (
     <Stack className="my-posts-container postlist" direction="column" spacing={2}>
       {!!posts.length && renderList(posts)}
-      {!posts.length && flag && <div>По данным критериям посты не найдены</div>}
-      {!posts.length && !flag && renderList(adverts)}
+      {!posts.length && isEmpty && <div>По данным критериям посты не найдены</div>}
+      {!posts.length && !isEmpty && renderList(adverts)}
     </Stack>
   );
 }

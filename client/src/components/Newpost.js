@@ -52,12 +52,12 @@ export default function Newpost({ type }) {
   }
 
   function makeBool1() {
-    if (post.type_id && post.pet_id && post.breed_id && post.color_id && post.size && post.status_id && post.text
+    if (post.type_id && post.pet_id
+      && getBreed() && post.color_id
+      && post.size && post.status_id && post.text
     ) {
       return true;
     }
-    if (post.type_id && post.pet_id && post.breed_id && post.color_id && post.size && post.status_id && post.text
-    ) return true;
     return false;
   }
   function makeBool2() {
@@ -132,8 +132,12 @@ export default function Newpost({ type }) {
   }, []);
 
   const changePage = () => {
-    setFlag((prev) => !prev);
-    console.log("post:::", post);
+    if (makeBool1()) {
+      setFlag((prev) => !prev);
+      console.log("post:::", post);
+    } else {
+      makeToast();
+    }
   };
 
   // ДЛЯ СТИЛИЗАЦИИ ========================
@@ -146,8 +150,12 @@ export default function Newpost({ type }) {
 
   const [sizeButtonValue, setSizeButtonValue] = useState('');
   const handleChangeSize = (event, newSizeId) => {
+    console.log('newSizeId: ', newSizeId);
     setSizeButtonValue(newSizeId);
-    handleChange(event);
+    const result = { target: { name: "size", value: newSizeId } };
+    // event.target.value = event.target.closest('.newpost-size-button').value;
+    // console.log('.value: ', event.target.closest('.newpost-size-button').value);
+    handleChange(result);
   };
 
   return (
