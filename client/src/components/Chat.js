@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 // import axios from 'axios';
 import { UserContext } from '../context/user';
 
-const socket = new WebSocket('ws://192.168.1.37:3001');
+const socket = new WebSocket('ws://localhost:3002');
 
 function Chat() {
   const { user } = useContext(UserContext);

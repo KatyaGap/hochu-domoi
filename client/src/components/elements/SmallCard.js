@@ -26,7 +26,6 @@ export default function SmallCard({ post }) {
   const makeLike = (obj) => {
     dispatch(makeLikeThunk(obj));
   };
-  console.log('likes in small', likes);
   return (
     <Card sx={{ minWidth: 216, maxWidth: 216 }} className="card small-card">
       <CardActionArea onClick={petLink}>
