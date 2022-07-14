@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
@@ -20,21 +20,27 @@ import PostList from './elements/PostList';
 import { getAdvertsThunk, getFilteredThunk, getParamsThunk } from '../redux/actions/adverts';
 
 function Maps() {
+  const location = useLocation();
   const [posts, setPosts] = useState([]);
   const [go, setGo] = useState(false);
-  const location = useLocation();
+
   const myMap = useRef(null);
   const geoObjects = useRef([]);
   const clusterer = useRef(null);
+  console.log('location', location);
 
   const placemarks = [];
   const { ymaps } = window;
   const dispatch = useDispatch();
   const { params, filtered, adverts } = useSelector((state) => state);
   const { sizes, types, pets, colors, breeds, statuses } = params;
-  const [filter, setFilter] = React.useState({});
+  const [filter, setFilter] = useState({ type_id: getType() });
 
-  React.useEffect(() => {
+  useEffect(() => {
+    function getType() {
+      if (location.pathname.includes('found')) return 1;
+      return 2;
+    }
     dispatch(getParamsThunk());
     dispatch(getAdvertsThunk());
   }, []);
@@ -46,7 +52,7 @@ function Maps() {
   console.log('filtered', filtered);
   console.log('adverts', adverts);
 
-  const handleChange = React.useCallback((e) => {
+  const handleChange = useCallback((e) => {
     setFilter((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   });
   console.log('filter', filter);
@@ -100,9 +106,9 @@ function Maps() {
     // for (let i = 0, l = posts.length; i < l; i += 1) {
     //   createMenuGroup(posts[i]);
     // }
-    console.log('fiiiiiiil', filtered);
+    console.log('filtered', filtered);
     for (let i = 0; i < filtered.length; i += 1) {
-      console.log('&&&&&&', [+filtered[i].address_lattitude, +filtered[i].address_longitude]);
+      // console.log('&&&&&&', [+filtered[i].address_lattitude, +filtered[i].address_longitude]);
       geoObjects.current[i] = new ymaps.Placemark(
 
         [+filtered[i].address_lattitude, +filtered[i].address_longitude],
@@ -138,17 +144,6 @@ function Maps() {
   }
 
   useEffect(() => {
-    if (filtered.length) {
-      console.log('qqqqqqqqq', filtered.length);
-      ymaps?.ready(init);
-    }
-    setFlag((prev) => !prev);
-    return () => {
-      myMap?.current?.destroy();
-    };
-  }, [go, filtered]);
-
-  useEffect(() => {
     console.log('zzzzzzzzzzz');
     // axios(`/map${location.pathname}`)
     //   .then((res) => {
@@ -162,7 +157,17 @@ function Maps() {
     //   })
     //   .catch((err) => console.log(err));
     dispatch(getFilteredThunk(filter));
-  }, [location, filter]);
+  }, [location.pathname, filter]);
+  useEffect(() => {
+    if (filtered.length) {
+      console.log('filtered.length', filtered.length);
+      ymaps?.ready(init);
+    }
+    setFlag((prev) => !prev); // 'nj xnj
+    return () => {
+      myMap?.current?.destroy();
+    };
+  }, [filtered]);
   console.log('postss', posts);
   return (
     <>
@@ -170,12 +175,11 @@ function Maps() {
 
         <div id="map" />
 
-        {/* {posts.length > 0 && (
+        {filtered.length > 0 && (
         <Paper className="map-posts-overlay" elevation={8}>
-          {posts.map((post) => <CardMap post={post} />)}
-        </Paper> */}
-
-        {/* )} */}
+          {filtered.map((post) => <CardMap post={post} />)}
+        </Paper>
+        )}
       </div>
       <div>
         <form>
@@ -184,7 +188,7 @@ function Maps() {
               Пожалуйста, выберите данные
             </Typography>
             <Box sx={{ minWidth: 120 }}>
-              <div className="select">
+              {/* <div className="select">
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label">
                     Какие животные вас интересуют?
@@ -201,7 +205,7 @@ function Maps() {
                     <MenuItem value={2}>Потеряшки</MenuItem>
                   </Select>
                 </FormControl>
-              </div>
+              </div> */}
               <div className="select">
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label">
