@@ -18,7 +18,7 @@ function Carousel({ posts, id }) {
           <div className="carousel-flex">
             {posts.map((post, index) => {
               if (index < 4) {
-                return <SmallCard key={index} post={post}/>;
+                return <SmallCard key={index} post={post} />;
               }
               return null;
             })}
@@ -31,7 +31,7 @@ function Carousel({ posts, id }) {
               <div className="carousel-flex">
                 {posts.map((post, index) => {
                   if (index >= 4 && index < 8) {
-                    return <SmallCard key={index} post={post}/>;
+                    return <SmallCard key={index} post={post} />;
                   }
                   return null;
                 })}
@@ -46,7 +46,7 @@ function Carousel({ posts, id }) {
               <div className="carousel-flex">
                 {posts.map((post, index) => {
                   if (index >= 8 && index <= 12) {
-                    return <SmallCard key={index} post={post}/>;
+                    return <SmallCard key={index} post={post} />;
                   }
                   return null;
                 })}

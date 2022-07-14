@@ -81,8 +81,8 @@ function CardWide({ post }) {
               {post?.timeSinceMissing}
             </Typography>
           </div>
-          {(location.pathname.includes('profile') ||
-            !location.pathname.includes('favor')) && (
+          {(location.pathname.includes('profile')
+            || !location.pathname.includes('favor')) && (
             <IconButton
               onClick={() => deleteLike(post.post_id)}
               aria-label="delete"

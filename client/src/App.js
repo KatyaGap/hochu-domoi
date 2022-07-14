@@ -27,7 +27,7 @@ function App() {
         <Route path="/catalog" element={<Catalog />} />
         <Route path="/newpost" element={<Newpost />} />
         <Route path="/profile" element={<Profile />} />
-				<Route path="/profile/favor" element={<Favor />} />
+        <Route path="/profile/favor" element={<Favor />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <div className="toastify">

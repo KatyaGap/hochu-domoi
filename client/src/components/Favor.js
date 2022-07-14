@@ -1,18 +1,11 @@
-import {
-  Avatar,
-  Button,
-  Paper,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Avatar, Button, Paper, Stack, TextField, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteLikeThunk, getLikesThunk } from '../redux/actions/adverts';
 import CardWide from './elements/CardWide';
 
 function Favor() {
-	const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const { likes } = useSelector((state) => state);
   console.log('likes', likes);
   useEffect(() => {
