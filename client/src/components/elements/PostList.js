@@ -18,7 +18,7 @@ function PostList({ adverts, posts = [] }) {
   ));
 
   return (
-    <Stack className="my-posts-container" direction="column" spacing={2}>
+    <Stack className="my-posts-container postlist" direction="column" spacing={2}>
       {!!posts.length && renderList(posts)}
       {!posts.length && flag && <div>По данным критериям посты не найдены</div>}
       {!posts.length && !flag && renderList(adverts)}

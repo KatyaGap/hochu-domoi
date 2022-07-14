@@ -15,9 +15,9 @@ function Catalog() {
     dispatch(getAdvertsThunk());
   }, []);
   return (
-    <div className="container">
+    <div className="container catalog">
       <div className="content catalog">
-        <Typography fullWidth variant="h3" gutterBottom component="div">Каталог</Typography>
+        <Typography variant="h3" gutterBottom component="div">Каталог</Typography>
         <Filters adverts={adverts} />
         <PostList posts={filtered} adverts={adverts} />
       </div>

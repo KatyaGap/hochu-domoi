@@ -1,4 +1,4 @@
-import { PinDrop, Restore } from '@mui/icons-material';
+import { FavoriteBorder, PinDrop, Restore } from '@mui/icons-material';
 import {
   Card,
   CardActionArea,
@@ -19,23 +19,54 @@ import { useDispatch } from 'react-redux';
 import { deleteLikeThunk } from '../../redux/actions/adverts';
 
 function CardWide({ post, handleDeletePost }) {
-  console.log('post', post);
   const dispatch = useDispatch();
   const location = useLocation();
-  console.log('location.pathname', location.pathname);
   const navigate = useNavigate();
 
+  const id = post.post_id || post.id;
+
   const petLink = () => {
-    navigate(`/pet/${post.id}`);
+    navigate(`/pet/${id}`);
   };
 
   const { likes } = useSelector((state) => state);
-  const deleteLike = React.useCallback((id) => {
-    console.log('id', id);
-    dispatch(deleteLikeThunk(id));
+  const deleteLike = React.useCallback((post_id) => {
+    console.log('id', post_id);
+    dispatch(deleteLikeThunk(post_id));
   }, []);
   return (
     <Card className="card card-wide" variant="outlined">
+
+      <div className="card-overlay">
+        {location.pathname === '/profile' && (
+          <IconButton
+            onClick={() => handleDeletePost(post.id)}
+            aria-label="delete"
+            className="post-delete-button"
+          >
+            <DeleteIcon color="error" />
+          </IconButton>
+        )}
+        {location.pathname === '/profile/favor' && (
+          <IconButton
+            className="favorites-button"
+            aria-label="like"
+            size="large"
+            onClick={() => deleteLike(post.post_id)}
+          >
+            <span className={likes.find((el) => el.post_id === post.post_id) ? 'material-symbols-outlined like-icon filled' : 'material-symbols-outlined like-icon'}>
+              favorite
+            </span>
+          </IconButton>
+        )}
+        <Chip
+          label={post['Status.status'] || post.status}
+          className="card-status"
+          variant="outlined"
+          color="primary"
+        />
+      </div>
+
       <CardActionArea onClick={petLink} className="card-action-area">
         <CardMedia
           className="card-photo"
@@ -87,24 +118,6 @@ function CardWide({ post, handleDeletePost }) {
               {post?.timeSinceMissing}
             </Typography>
           </div>
-          {location.pathname === '/profile/favor' && (
-            <IconButton
-              onClick={() => deleteLike(post.post_id)}
-              aria-label="delete"
-              size="small"
-            >
-              <DeleteIcon fontSize="inherit" />
-            </IconButton>
-          )}
-          {location.pathname === '/profile' && (
-            <IconButton
-              onClick={() => handleDeletePost(post.id)}
-              aria-label="delete"
-              size="small"
-            >
-              <DeleteIcon fontSize="inherit" />
-            </IconButton>
-          )}
         </CardContent>
       </CardActionArea>
     </Card>
