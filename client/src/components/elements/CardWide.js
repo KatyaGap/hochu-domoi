@@ -7,9 +7,11 @@ import { useLocation } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteLikeThunk } from '../../redux/actions/adverts';
 
-function CardWide({ post }) {
+function CardWide({ post, handleDeletePost }) {
+	console.log('post', post)
   const dispatch = useDispatch();
   const location = useLocation();
+	console.log('location.pathname', location.pathname)
   const { likes } = useSelector((state) => state);
   console.log('post', post);
   const deleteLike = React.useCallback((id) => {
@@ -75,10 +77,18 @@ function CardWide({ post }) {
               {post?.timeSinceMissing}
             </Typography>
           </div>
-          {(location.pathname.includes('profile') ||
-            !location.pathname.includes('favor')) && (
+          {(location.pathname === '/profile/favor') && (
             <IconButton
               onClick={() => deleteLike(post.post_id)}
+              aria-label="delete"
+              size="small"
+            >
+              <DeleteIcon fontSize="inherit" />
+            </IconButton>
+          )}
+					{(location.pathname ===  '/profile' ) && (
+            <IconButton
+              onClick={() => handleDeletePost(post.id)}
               aria-label="delete"
               size="small"
             >
