@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
 import { Paper, IconButton, Input, Stack, TextField } from '@mui/material';
-// import * as React from 'react';
+
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -11,19 +11,17 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
-import SendIcon from '@mui/icons-material/Send';
-import { PhotoCamera } from '@mui/icons-material';
+
 import Typography from '@mui/material/Typography';
 import CardMap from './elements/CardMap';
 
-import PostList from './elements/PostList';
 import { getAdvertsThunk, getFilteredThunk, getParamsThunk } from '../redux/actions/adverts';
 
 function Maps() {
   const location = useLocation();
   const [posts, setPosts] = useState([]);
   const [go, setGo] = useState(false);
-
+  const myCollection = useRef([]);
   const myMap = useRef(null);
   const geoObjects = useRef([]);
   const clusterer = useRef(null);
@@ -34,22 +32,24 @@ function Maps() {
   const dispatch = useDispatch();
   const { params, filtered, adverts } = useSelector((state) => state);
   const { sizes, types, pets, colors, breeds, statuses } = params;
+  console.log('types', types);
+  function getType() {
+    if (`/map${location.pathname}`.includes('found')) return 1;
+    return 2;
+  }
   const [filter, setFilter] = useState({ type_id: getType() });
-
   useEffect(() => {
-    function getType() {
-      if (location.pathname.includes('found')) return 1;
-      return 2;
-    }
     dispatch(getParamsThunk());
     dispatch(getAdvertsThunk());
-  }, []);
+    dispatch(getFilteredThunk(filter));
+    setGo((prev) => !prev);
+  }, [filter]);
 
   const [flag, setFlag] = useState(false);
   // if (filtered.length !== 0 && !flag) {
   //   setFlag(true);
   // }
-  console.log('filtered', filtered);
+  console.log('filtered1', filtered);
   console.log('adverts', adverts);
 
   const handleChange = useCallback((e) => {
@@ -62,9 +62,7 @@ function Maps() {
   //   console.log('filtered!!', filtered);
   //   setPosts(filtered);
   // };
-
   // const myCollection = new ymaps.GeoObjectCollection();
-
   // const handlerLabel = () => {
   //   myCollection.add(myPlacemark);
   // };
@@ -90,25 +88,10 @@ function Maps() {
       },
     });
 
-    // function createMenuGroup(group) {
-    //   // Коллекция для геообъектов группы.
-    //   const collection = new ymaps.GeoObjectCollection(null, { preset: group.style });
+    myCollection.current = new ymaps.GeoObjectCollection();
 
-    //   // Добавляем коллекцию на карту.
-    //   myMap.geoObjects.add(collection);
-    //   // Добавляем подменю.
-
-    //   for (let j = 0, m = group.items.length; j < m; j += 1) {
-    //     createSubMenu(group.items[j], collection, j);
-    //   }
-    // }
-    // for (let i = 0, l = posts.length; i < l; i += 1) {
-    //   createMenuGroup(posts[i]);
-    // }
-    console.log('filtered', filtered);
     for (let i = 0; i < filtered.length; i += 1) {
-      // console.log('&&&&&&', [+filtered[i].address_lattitude, +filtered[i].address_longitude]);
-      geoObjects.current[i] = new ymaps.Placemark(
+      myCollection.current.add(new ymaps.Placemark(
 
         [+filtered[i].address_lattitude, +filtered[i].address_longitude],
 
@@ -124,50 +107,47 @@ function Maps() {
           iconImageHref: 'lable2.png',
           iconImageSize: [35, 35],
         },
-      );
+      ));
     }
 
-    clusterer.current = new ymaps.Clusterer({
-      clusterIcons: [
-        {
-          href: 'lable4.png',
-          size: [60, 60],
-          offset: [-50, -50],
-        },
-      ],
-      clusterIconContentLayout: null,
+    myMap.current?.geoObjects.add(myCollection.current);
+    myMap.current?.setBounds(myMap.current.geoObjects.getBounds(), {
+      checkZoomRange: true,
+      zoomMargin: 35,
     });
-
-    myMap.current?.geoObjects.add(clusterer?.current);
-    clusterer?.current?.add(geoObjects?.current);
   }
 
-  useEffect(() => {
-    console.log('zzzzzzzzzzz');
-    // axios(`/map${location.pathname}`)
-    //   .then((res) => {
-    setGo((prev) => !prev);
-    //     setPosts(res.data);
-
-    //     // if (filtered.length) {
-    //     //   setPosts(filtered);
-    //     // } else if (!filtered.length && !flag) {
-    //     //   setPosts(adverts);
-    //   })
-    //   .catch((err) => console.log(err));
-    dispatch(getFilteredThunk(filter));
-  }, [location.pathname, filter]);
   useEffect(() => {
     if (filtered.length) {
       console.log('filtered.length', filtered.length);
       ymaps?.ready(init);
     }
-    setFlag((prev) => !prev); // 'nj xnj
+    setFlag((prev) => !prev);
     return () => {
       myMap?.current?.destroy();
     };
-  }, [filtered]);
+  }, [filtered.length, filter, location.pathname]);
+
   console.log('postss', posts);
+
+  const setTypeAndPan = (latt, long) => {
+    console.log('latt, long', [+latt, +long]);
+    myMap.current.panTo([+latt, +long], {
+      flying: true,
+      // Задержка между перемещениями.
+      duration: 800,
+      callback() {
+        myMap.current.setZoom(15, {
+
+        });
+      },
+    });
+
+    myMap.current.setCenter([+latt, +long], 15, {
+      checkZoomRange: true,
+    });
+  };
+
   return (
     <>
       <div className="map-container">
@@ -176,7 +156,8 @@ function Maps() {
 
         {filtered.length > 0 && (
         <Paper className="map-posts-overlay" elevation={8}>
-          {filtered.map((post) => <CardMap post={post} />)}
+          {filtered.map((post) => <CardMap setTypeAndPan={setTypeAndPan} post={post} />)}
+
         </Paper>
         )}
       </div>
@@ -187,24 +168,7 @@ function Maps() {
               Пожалуйста, выберите данные
             </Typography>
             <Box sx={{ minWidth: 120 }}>
-              {/* <div className="select">
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">
-                    Какие животные вас интересуют?
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    name="type_id"
-                    value={filter.type_id}
-                    label="Pet"
-                    onChange={handleChange}
-                  >
-                    <MenuItem value={1}>Найденыши</MenuItem>
-                    <MenuItem value={2}>Потеряшки</MenuItem>
-                  </Select>
-                </FormControl>
-              </div> */}
+
               <div className="select">
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label">

@@ -23,7 +23,8 @@ function Navbar() {
 
   const navLink = (pagesLinksArrNumber) => {
     setAnchorElNav(null);
-    navigate(`/${pagesLinks[pagesLinksArrNumber]}`);
+    // navigate(`/${pagesLinks[pagesLinksArrNumber]}`);
+    window.location.replace(`/${pagesLinks[pagesLinksArrNumber]}`);
   };
 
   const navSettings = (settingsLinksArrNumber) => {
