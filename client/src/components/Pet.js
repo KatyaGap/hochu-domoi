@@ -16,6 +16,8 @@ import { getAdvertsThunk, makeLikeThunk } from '../redux/actions/adverts';
 import { UserContext } from '../context/user';
 import BasicModal from './elements/ModalForChat';
 import Gallery from './elements/Gallery';
+import { sendMessage } from '../redux/actions/message';
+import ModalForMessage from './elements/ModalForMessage';
 
 export default function Pet() {
   const dispatch = useDispatch();
@@ -26,13 +28,27 @@ export default function Pet() {
   const [showPhone, setShowPhone] = useState(false);
   const [showMap, setShowMap] = useState(false);
   const [flag, setFlag] = useState(false);
-  console.log('pet: ', pet);
   const [expanded, setExpanded] = React.useState(true);
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
+  const [modalActive, setModalActive] = useState(true);
+  const [form, setForm] = useState('');
+
+  // Marat
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(sendMessage(form));
+    e.target.reset();
+  };
+
+  console.log('FORM====>', form);
+
+  const handleChange = React.useCallback((e) => {
+    setForm(e.target.value);
+  }, []);
+  //
 
   React.useEffect(() => {
-    console.log('Я ГОТОВЛЮСЬ ОТПРАВИТЬ ФЕТЧ', id);
     fetch(`/adverts/${id}`)
       .then((res) => res.json())
       .then((res) => setPet(res.post));
@@ -43,7 +59,6 @@ export default function Pet() {
     setShowMap(!showMap); // ВОЗМОЖНО
   };
   const makeLike = React.useCallback((obj) => {
-    console.log('clicckkk');
     dispatch(makeLikeThunk(obj));
     setFlag((prev) => !prev); // ВОЗМОЖНО
   }, []);
@@ -92,11 +107,22 @@ export default function Pet() {
                 )}
               </Button>
             </Tooltip>
-            <Tooltip title="Написать на почту">
-              <Button variant="outlined">
-                <Email />
-              </Button>
-            </Tooltip>
+            <div onClick={() => setModalActive((prev) => !prev)}>
+
+              <Tooltip title="Написать на почту">
+                <Button variant="outlined">
+                  <Email />
+                </Button>
+              </Tooltip>
+            </div>
+            <ModalForMessage active={!modalActive} setActive={setModalActive}>
+              {/* <p>Hello Kate!!!</p>
+              <form onSubmit={handleSubmit}>
+                <textarea name="message" onChange={handleChange} value={form} />
+                <button type="submit">Отправить Письмо</button>
+                <button type="button">Отмена</button>
+              </form> */}
+            </ModalForMessage>
             <Tooltip title="Открыть чат с автором объявления">
               {user ? (
                 <BasicModal />

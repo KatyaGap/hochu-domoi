@@ -109,7 +109,6 @@ router
           post_id: post.id,
         })),
       );
-      console.log('POST HAS BEEN CREATED', post);
       res.json({ id: post.id }); // тупо строка для теста. Потом поменять на что-то правильное
     } catch (error) {
       console.log(error);
