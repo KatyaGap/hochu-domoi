@@ -12,8 +12,11 @@ import {
   Paper,
   Stack,
   Tooltip,
+  Modal,
+  MoreVertIcon,
 } from '@mui/material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useSelect } from '@mui/base';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Favorite,
@@ -43,17 +46,17 @@ export default function Pet() {
   const [expanded, setExpanded] = React.useState(true);
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-  const [state, setState] = useState(false);
   React.useEffect(() => {
     fetch(`/adverts/${id}`)
       .then((res) => res.json())
       .then((res) => setPet(res.post));
   }, []);
+  const handleNav = () => navigate('/auth');
 
   const mapToggle = () => {
     setShowMap(!showMap);
   };
-	const makeLike = React.useCallback((obj) => {
+  const makeLike = React.useCallback((obj) => {
     console.log('clicckkk');
     dispatch(makeLikeThunk(obj));
     setFlag((prev) => !prev);
@@ -110,13 +113,18 @@ export default function Pet() {
               </Button>
             </Tooltip>
             <Tooltip title="Открыть чат с автором объявления">
-              <Button
-                variant="contained"
-                disableElevation
-                startIcon={<ChatIcon />}
-              >
-                Чат
-              </Button>
+              {user ? (
+                <BasicModal />
+              ) : (
+                <Button
+                  onClick={handleNav}
+                  variant="contained"
+                  disableElevation
+                  startIcon={<ChatIcon />}
+                >
+                  Чат
+                </Button>
+              )}
             </Tooltip>
           </Stack>
         </Paper>
@@ -188,7 +196,11 @@ export default function Pet() {
         aria-label="delete"
         size="large"
         onClick={() => makeLike(pet)}
-        className={likes.find((el) => el.post_id === pet.id) ? 'liked' : 'favorites-button'}
+        className={
+          likes.find((el) => el.post_id === pet.id)
+            ? 'liked'
+            : 'favorites-button'
+        }
       >
         <FavoriteBorder className="favorites-button-icon" fontSize="inherit" />
       </IconButton>

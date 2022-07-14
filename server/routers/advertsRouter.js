@@ -222,6 +222,7 @@ router.route('/filter').post(async (req, res) => {
         'YYYYMMDD',
       ).fromNow(),
       photo_url: el.Images[0]?.image,
+      flag: true, // Марат - спец флаг чтобы проверить, работал ли фильтр, но он мб и не нужен, но удалять боюсь
     }));
     console.log('FILTERED', result);
     res.json(result);

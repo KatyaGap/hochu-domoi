@@ -76,7 +76,7 @@ router.route('/').get(async (req, res) => {
         size: el.Size.dataValues.size,
         timeSinceMissing: moment(
           el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-          'YYYYMMDD'
+          'YYYYMMDD',
         ).fromNow(),
         photo_url: el.Images[0]?.image,
       }));
@@ -134,7 +134,7 @@ router.route('/').get(async (req, res) => {
         size: el.Size.dataValues.size,
         timeSinceMissing: moment(
           el.lost_date?.toISOString().split('T')[0].split('-').join(''),
-          'YYYYMMDD'
+          'YYYYMMDD',
         ).fromNow(),
         photo_url: el.Images[0]?.image,
       }));
@@ -278,7 +278,11 @@ router
     const user = await User.findOne({ where: { id: res.locals.userId } });
     const deleteUser = await User.findOne({ where: { id: user_id } });
     if (res.locals.userId === user_id || user.role_id === 1) {
+      const imagesToDelete = await Image.findAll({ where: { post_id: req.params.id } });
       await Image.destroy({ where: { post_id: req.params.id } });
+      imagesToDelete.map(async (image) => {
+        await fs.unlink(`${process.env.PWD}/public/${image.image}`);
+      });
       await Post.destroy({ where: { id: req.params.id } });
       if (user.role_id === 1) {
         sendMail({ to: deleteUser.email });

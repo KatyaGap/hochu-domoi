@@ -3,12 +3,12 @@ module.exports = {
     await queryInterface.bulkInsert(
       'Pets',
       [
-        {
-          pet: 'Собака',
-        },
-        {
-          pet: 'Кошка',
-        },
+        { pet: 'Собака' },
+        { pet: 'Кошка' },
+        { pet: 'Крыса' },
+        { pet: 'Хомяк' },
+        { pet: 'Какаду' },
+        { pet: 'Кактус' },
       ],
       {},
     );
