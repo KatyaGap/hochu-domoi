@@ -30,7 +30,9 @@ export default function Pet() {
   const [expanded, setExpanded] = React.useState(true);
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
+
   React.useEffect(() => {
+    console.log('Я ГОТОВЛЮСЬ ОТПРАВИТЬ ФЕТЧ', id);
     fetch(`/adverts/${id}`)
       .then((res) => res.json())
       .then((res) => setPet(res.post));
@@ -38,12 +40,12 @@ export default function Pet() {
   const handleNav = () => navigate('/auth');
 
   const mapToggle = () => {
-    setShowMap(!showMap);
+    setShowMap(!showMap); // ВОЗМОЖНО
   };
   const makeLike = React.useCallback((obj) => {
     console.log('clicckkk');
     dispatch(makeLikeThunk(obj));
-    setFlag((prev) => !prev);
+    setFlag((prev) => !prev); // ВОЗМОЖНО
   }, []);
 
   return (
@@ -57,7 +59,7 @@ export default function Pet() {
             className="favorites-button"
             aria-label="delete"
             size="large"
-            onClick={setFlag((prev) => !prev)}
+            onClick={() => setFlag((prev) => !prev)}
           >
             <FavoriteBorder
               className="favorites-button-icon"
