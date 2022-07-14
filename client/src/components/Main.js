@@ -22,15 +22,15 @@ function Main() {
 
   return (
     <div className="container">
-      <div className="content">
+      <div className="content innermargin">
         <ButtonGroup
           className="main-buttons-group"
           size="large"
           variant="contained"
           aria-label="outlined primary button group"
         >
-          <Button onClick={(e) => newpostLink('lost')}>Я потерял</Button>
           <Button onClick={(e) => newpostLink('found')}>Я нашёл</Button>
+          <Button onClick={(e) => newpostLink('lost')}>Я потерял</Button>
         </ButtonGroup>
 
         <div className="main-last-posts main-last-posts-lost">
