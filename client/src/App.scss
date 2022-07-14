@@ -561,6 +561,10 @@
   color:#999;
 }
 
+.table .description {
+  width: 20%
+}
+
 .table .value .MuiTypography-subtitle1 {
   font-weight: 400;
   color:#222;
@@ -627,6 +631,10 @@
   }
 }
 
+.newpost-size .newpost-size-button {
+  flex-direction: column;
+}
+
 .newpost-item .newpost-description {
   width: 100%;
   display: flex;
@@ -683,7 +691,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-clip: content-box;
-  background-color: #222;
+  background-color: rgba(0, 0, 0, 0.54);
   width: 5rem;
   height: 5rem;
 }
@@ -798,4 +806,32 @@
   box-shadow: 0px 7px 8px -1px rgb(39 118 210 / 30%),
               0px 12px 17px 3px rgb(39 118 210 / 21%),
               0px 3px 11px 4px rgb(39 118 210 / 18%);
+}
+
+/* КАТАЛОГ */
+
+.my-posts-container {
+  margin-top: 2rem;
+}
+
+/* КАТАЛОГ */
+
+.content.catalog {
+  align-items: flex-start;
+  margin-top: 2rem;
+} 
+
+.chip-select {
+  position: relative;
+}
+
+.chip-select .chip-select-selector {
+  position: absolute;
+  margin: 0;
+  top: 6px;
+  left: 0px;
+  width: 120px;
+  max-width: 120px;
+  height: 0px;
+  transform: translateX(-120px);
 }

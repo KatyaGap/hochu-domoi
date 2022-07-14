@@ -1,17 +1,31 @@
 import { PinDrop, Restore } from '@mui/icons-material';
-import { Card, CardActionArea, CardContent, CardMedia, Chip, IconButton, Typography } from '@mui/material';
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Chip,
+  IconButton,
+  Typography,
+} from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useCallback } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteLikeThunk } from '../../redux/actions/adverts';
 
 function CardWide({ post, handleDeletePost }) {
-	console.log('post', post)
+  console.log('post', post);
   const dispatch = useDispatch();
   const location = useLocation();
-	console.log('location.pathname', location.pathname)
+  console.log('location.pathname', location.pathname);
+  const navigate = useNavigate();
+
+  const petLink = () => {
+    navigate(`/pet/${post.id}`);
+  };
+
   const { likes } = useSelector((state) => state);
   console.log('post', post);
   const deleteLike = React.useCallback((id) => {
@@ -20,7 +34,7 @@ function CardWide({ post, handleDeletePost }) {
   }, []);
   return (
     <Card className="card card-wide" variant="outlined">
-      <CardActionArea className="card-action-area">
+      <CardActionArea onClick={petLink} className="card-action-area">
         <CardMedia
           className="card-photo"
           component="img"
@@ -77,7 +91,7 @@ function CardWide({ post, handleDeletePost }) {
               {post?.timeSinceMissing}
             </Typography>
           </div>
-          {(location.pathname === '/profile/favor') && (
+          {location.pathname === '/profile/favor' && (
             <IconButton
               onClick={() => deleteLike(post.post_id)}
               aria-label="delete"
@@ -86,7 +100,7 @@ function CardWide({ post, handleDeletePost }) {
               <DeleteIcon fontSize="inherit" />
             </IconButton>
           )}
-					{(location.pathname ===  '/profile' ) && (
+          {location.pathname === '/profile' && (
             <IconButton
               onClick={() => handleDeletePost(post.id)}
               aria-label="delete"

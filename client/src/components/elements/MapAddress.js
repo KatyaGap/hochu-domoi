@@ -9,7 +9,7 @@ export default function MapAddress({ deleteLable, addressСoordinates, save, coo
   const id = useId();
 
   const suggestionsRef = useRef < AddressSuggestions > (null);
-  console.log('inputCoord', inputCoord);
+  // console.log('inputCoord', inputCoord);
 
   const inputHandler = (e) => {
     setInputCoord((prev) => ({

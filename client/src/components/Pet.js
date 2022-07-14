@@ -5,27 +5,11 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Typography from '@mui/material/Typography';
-import {
-  Avatar,
-  Button,
-  IconButton,
-  Paper,
-  Stack,
-  Tooltip,
-  Modal,
-  MoreVertIcon,
-} from '@mui/material';
+import { Avatar, Button, IconButton, Paper, Stack, Tooltip, Modal, MoreVertIcon } from '@mui/material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useSelect } from '@mui/base';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Favorite,
-  FavoriteBorder,
-  Email,
-  Call,
-  PinDrop,
-  Restore,
-} from '@mui/icons-material';
+import { Favorite, FavoriteBorder, Email, Call, PinDrop, Restore } from '@mui/icons-material';
 import ChatIcon from '@mui/icons-material/Chat';
 import Chat from './Chat';
 import { getAdvertsThunk, makeLikeThunk } from '../redux/actions/adverts';
@@ -46,7 +30,9 @@ export default function Pet() {
   const [expanded, setExpanded] = React.useState(true);
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
+
   React.useEffect(() => {
+    console.log('Я ГОТОВЛЮСЬ ОТПРАВИТЬ ФЕТЧ', id);
     fetch(`/adverts/${id}`)
       .then((res) => res.json())
       .then((res) => setPet(res.post));
@@ -54,12 +40,12 @@ export default function Pet() {
   const handleNav = () => navigate('/auth');
 
   const mapToggle = () => {
-    setShowMap(!showMap);
+    setShowMap(!showMap); // ВОЗМОЖНО
   };
   const makeLike = React.useCallback((obj) => {
     console.log('clicckkk');
     dispatch(makeLikeThunk(obj));
-    setFlag((prev) => !prev);
+    setFlag((prev) => !prev); // ВОЗМОЖНО
   }, []);
 
   return (
@@ -73,7 +59,7 @@ export default function Pet() {
             className="favorites-button"
             aria-label="delete"
             size="large"
-            onClick={setFlag((prev) => !prev)}
+            onClick={() => setFlag((prev) => !prev)}
           >
             <FavoriteBorder
               className="favorites-button-icon"
@@ -192,7 +178,7 @@ export default function Pet() {
         </table>
       </div>
       <IconButton
-        className={!flag ? 'favorites-button' : 'flag'}
+        // className={!flag ? 'favorites-button' : 'flag'}
         aria-label="delete"
         size="large"
         onClick={() => makeLike(pet)}
