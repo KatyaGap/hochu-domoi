@@ -1,5 +1,13 @@
 import { PinDrop, Restore } from '@mui/icons-material';
-import { Card, CardActionArea, CardContent, CardMedia, Chip, IconButton, Typography } from '@mui/material';
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Chip,
+  IconButton,
+  Typography,
+} from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -7,9 +15,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteLikeThunk } from '../../redux/actions/adverts';
 
-function CardWide({ post }) {
+function CardWide({ post, handleDeletePost }) {
+  console.log('post', post);
   const dispatch = useDispatch();
   const location = useLocation();
+  console.log('location.pathname', location.pathname);
   const navigate = useNavigate();
 
   const petLink = () => {
@@ -74,6 +84,24 @@ function CardWide({ post }) {
               {post?.timeSinceMissing}
             </Typography>
           </div>
+          {location.pathname === '/profile/favor' && (
+            <IconButton
+              onClick={() => deleteLike(post.post_id)}
+              aria-label="delete"
+              size="small"
+            >
+              <DeleteIcon fontSize="inherit" />
+            </IconButton>
+          )}
+          {location.pathname === '/profile' && (
+            <IconButton
+              onClick={() => handleDeletePost(post.id)}
+              aria-label="delete"
+              size="small"
+            >
+              <DeleteIcon fontSize="inherit" />
+            </IconButton>
+          )}
         </CardContent>
       </CardActionArea>
     </Card>
