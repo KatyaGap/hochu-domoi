@@ -12,6 +12,7 @@ import {
   Stack,
   TextField,
 } from '@mui/material';
+import PhoneInput from 'react-phone-number-input';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import { PhotoCamera } from '@mui/icons-material';
@@ -402,6 +403,13 @@ export default function Newpost({ type }) {
           <Typography className="h" variant="h6" component="div" gutterBottom>
             Укажите контактный телефон
           </Typography>
+          {/* <div className="select">
+            <PhoneInput
+              defaultCountry="RU"
+              value={post.phone}
+              onChange={handleChange}
+            />
+          </div> */}
           <div className="select">
             <Input
               type="phone"
