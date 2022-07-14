@@ -2,14 +2,20 @@ import { PinDrop, Restore } from '@mui/icons-material';
 import { Card, CardActionArea, CardContent, CardMedia, Chip, IconButton, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useDispatch } from 'react-redux';
-// import { use } from '../../../../server/routers/mapRouter';
+import { deleteLikeThunk } from '../../redux/actions/adverts';
 
-function CardWide({ post, handleDeletePost }) {
+function CardWide({ post }) {
   const dispatch = useDispatch();
   const location = useLocation();
+  const { likes } = useSelector((state) => state);
+  console.log('post', post);
+  const deleteLike = React.useCallback((id) => {
+    console.log('id', id);
+    dispatch(deleteLikeThunk(id));
+  }, []);
   return (
     <Card className="card card-wide" variant="outlined">
       <CardActionArea className="card-action-area">
@@ -29,7 +35,7 @@ function CardWide({ post, handleDeletePost }) {
               {post?.text}
             </Typography>
             <Chip
-              label={post['Status.status']}
+              label={post['Status.status'] || post.status}
               className="card-status"
               variant="outlined"
               color="primary"
@@ -69,9 +75,10 @@ function CardWide({ post, handleDeletePost }) {
               {post?.timeSinceMissing}
             </Typography>
           </div>
-          {location.pathname.includes('profile') && (
+          {(location.pathname.includes('profile') ||
+            !location.pathname.includes('favor')) && (
             <IconButton
-              onClick={() => handleDeletePost(post.id)}
+              onClick={() => deleteLike(post.post_id)}
               aria-label="delete"
               size="small"
             >

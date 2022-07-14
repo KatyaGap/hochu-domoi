@@ -27,7 +27,6 @@ function Maps() {
       {
         searchControlProvider: 'yandex#search',
       },
-
     );
     myMap.current.controls.add('zoomControl', {
       float: 'none',
@@ -39,11 +38,9 @@ function Maps() {
 
     for (let i = 0; i < posts.length; i += 1) {
       geoObjects.current[i] = new ymaps.Placemark(
-
         [posts[i].address_lattitude, posts[i].address_longitude],
 
         {
-
           balloonContentHeader: posts[i].text,
 
           balloonContentBody: `<img src=${posts[i].photo_url} height="150" width="200">`,
@@ -92,12 +89,13 @@ function Maps() {
 
   return (
     <div className="map-container">
-
       <div id="map" />
 
       {posts.length > 0 && (
         <Paper className="map-posts-overlay" elevation={8}>
-          {posts.map((post) => <CardMap post={post} />)}
+          {posts.map((post, ind) => (
+            <CardMap post={post} key={ind + 1} />
+          ))}
         </Paper>
       )}
     </div>

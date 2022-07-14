@@ -4,6 +4,7 @@ import filterReducer from './filter';
 import fiveFoundReducer from './fiveFound';
 import fiveLostReducer from './fiveLost';
 import foundReducer from './found';
+import likeReducer from './like';
 import labelReducer from './label';
 import lostReducer from './lost';
 import mapReducer from './map';
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   filtered: filterReducer,
   params: paramsReducer,
   profile: profileReducer,
+  likes: likeReducer,
   label: labelReducer,
 });
 export default rootReducer;

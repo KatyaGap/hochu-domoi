@@ -13,7 +13,10 @@ const {
   Type,
   Size,
   Image,
+  Favorite,
 } = require('../db/models');
+const favorite = require('../db/models/favorite');
+const e = require('express');
 require('moment/locale/ru');
 // ручка для отображения ВСЕХ постов АДМИНУ или только СВОИХ постов ЮЗЕРУ
 router.route('/').get(async (req, res) => {
@@ -162,6 +165,110 @@ router
     await user.save();
     res.json(user);
   });
+
+// избранное
+// добавление в избранное
+router
+  .route('/likes/:id')
+  .get(async (req, res) => {
+    try {
+      const { id } = req.params;
+      let like = await Favorite.findOne({
+        where: { post_id: id, user_id: res.locals.userId },
+        include: [{ model: Post, include: [{ model: Image, limit: 1 }, {model: Status}, {model: Breed}] }, {model: User}],
+      });
+      if (!like) {
+        console.log('нет такого лайка');
+        await Favorite.create({ user_id: res.locals.userId, post_id: id });
+        like = await Favorite.findOne({
+          where: { post_id: id, user_id: res.locals.userId },
+          include: [{ model: Post, include: [{ model: Image, limit: 1}, {model: Status}, {model: Breed}]}, {model: User}],
+        });
+      } else if (like) {
+        console.log('есть такой лайк');
+        await Favorite.destroy({
+          where: { user_id: res.locals.userId, post_id: id },
+        });
+      }
+
+      // const post = {
+      //   ...like,
+      //   text: like['Post.text'],
+      //   address_string: like['Post.address_string'],
+      //   photo_url: like['Post.Images.image'],
+      //   type_id: like['Post.type_id'],
+      // };
+      const post = {
+        photo_url: like.Post.dataValues.Images[0].dataValues.image,
+        text: like.Post.dataValues.text,
+        type_id: like.Post.dataValues.type_id,
+        address_string: like.Post.dataValues.address_string,
+        post_id: like.Post.dataValues.id,
+			status: like.Post.dataValues.Status.status,
+			breed: like.Post.dataValues.Breed.breed,
+			user_name: like.User.dataValues.name,
+			user_photo: like.User.dataValues.user_photo,
+        timeSinceMissing: moment(
+          like.Post.dataValues.lost_date
+            ?.toISOString()
+            .split('T')[0]
+            .split('-')
+            .join(''),
+          'YYYYMMDD'
+        ).fromNow(),
+      };
+      console.log('post', post);
+      res.json(post);
+    } catch (error) {
+      console.log('last', error);
+    }
+  })
+  .delete(async (req, res) => {
+    // удаление лайка в избранном
+    await Favorite.destroy({
+      where: { user_id: res.locals.userId, post_id: req.params.id },
+    });
+    res.sendStatus(200);
+  });
+
+// получение всех постов из избранного
+router.route('/likes').get(async (req, res) => {
+  try {
+    const posts = await Favorite.findAll({
+      where: { user_id: res.locals.userId },
+      include: [{ model: Post, include: [{ model: Image, limit: 1 }, {model: Status}, {model: Breed}] }, {model: User}],
+    });
+    // console.log('poooooosts', posts)
+    // const result = posts.map((el) => ({
+    // 	...el.Post,
+    // 	text: el.Post.text,
+    // 	address_string: el.Post.address_string,
+    // }))
+    // console.log('posts', posts);
+    const result = posts.map((el) => ({
+      photo_url: el.Post.dataValues.Images[0].dataValues.image,
+      text: el.Post.dataValues.text,
+      type_id: el.Post.dataValues.type_id,
+      address_string: el.Post.dataValues.address_string,
+      post_id: el.Post.dataValues.id,
+			status: el.Post.dataValues.Status.status,
+			breed: el.Post.dataValues.Breed.breed,
+			user_name: el.User.dataValues.name,
+			user_photo: el.User.dataValues.user_photo,
+      timeSinceMissing: moment(
+        el.Post.dataValues.lost_date
+          ?.toISOString()
+          .split('T')[0]
+          .split('-')
+          .join(''),
+        'YYYYMMDD'
+      ).fromNow(),
+    }));
+    res.json(result);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 // ручка для удаления поста
 router

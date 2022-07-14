@@ -10,8 +10,8 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { useDispatch, useSelector } from 'react-redux';
 import { UserContext } from '../../context/user';
 
-const pages = ['Потеряшки', 'Найдёныши', 'Каталог'];
-const pagesLinks = ['lost', 'found', 'catalog'];
+const pages = ['Потеряшки', 'Найдёныши', 'Каталог', "Избранное"];
+const pagesLinks = ['lost', 'found', 'catalog', 'profile/favor'];
 const settings = ['Профиль', 'Выйти'];
 const settingsLinks = ['profile', 'logout'];
 
