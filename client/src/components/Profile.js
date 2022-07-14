@@ -16,8 +16,7 @@ import { deleteProfilePostThunk, getProfileThunk } from '../redux/actions/advert
 import CardWide from './elements/CardWide';
 
 function Profile() {
-  const { user, handleUpdate, message, setMessage, handleDelete } =
-    useContext(UserContext);
+  const { user, handleUpdate, message, setMessage, handleDelete } = useContext(UserContext);
   const [edit, setEdit] = useState(false);
   setMessage('');
   const dispatch = useDispatch();

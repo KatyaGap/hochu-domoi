@@ -72,7 +72,7 @@ export default function Pet() {
               <Button variant="outlined"><Email /></Button>
             </Tooltip>
             <Tooltip title="Открыть чат с автором объявления">
-              {user ? <BasicModal /> : <Button onClick={handleNav} variant="contained" disableElevation startIcon={<ChatIcon />}>Чат</Button>}
+              {user ? <BasicModal id={id} /> : <Button onClick={handleNav} variant="contained" disableElevation startIcon={<ChatIcon />}>Чат</Button>}
             </Tooltip>
           </Stack>
         </Paper>
