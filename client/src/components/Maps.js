@@ -81,7 +81,6 @@ function Maps() {
       {
         searchControlProvider: 'yandex#search',
       },
-
     );
     myMap.current.controls.add('zoomControl', {
       float: 'none',

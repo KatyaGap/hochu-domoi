@@ -1,11 +1,4 @@
-import {
-  Avatar,
-  Button,
-  Paper,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Avatar, Button, Paper, Stack, TextField, Typography } from '@mui/material';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -16,8 +9,7 @@ import { deleteProfilePostThunk, getProfileThunk } from '../redux/actions/advert
 import CardWide from './elements/CardWide';
 
 function Profile() {
-  const { user, handleUpdate, message, setMessage, handleDelete } =
-    useContext(UserContext);
+  const { user, handleUpdate, message, setMessage, handleDelete } = useContext(UserContext);
   const [edit, setEdit] = useState(false);
   setMessage('');
   const dispatch = useDispatch();
@@ -26,7 +18,6 @@ function Profile() {
   }, []);
 
   const { profile, filtered } = useSelector((state) => state);
-  console.log('profile', profile);
   useEffect(() => {
     dispatch(getProfileThunk());
   }, []);
@@ -64,7 +55,6 @@ function Profile() {
         .finally(() => setInput({}));
     }
   }, [input.file]);
-  console.log('user', user);
 
   const updateAvatar = useCallback((e) => {
     if (e.target.type === 'file') {
@@ -110,66 +100,31 @@ function Profile() {
       <div className="profile-wrapper">
         <div className="profile-my-data">
           <div className="profile-my-data-title">
-            <Typography
-              className="profile-title"
-              variant="h4"
-              gutterBottom
-              component="div"
-            >
+            <Typography className="profile-title" variant="h4" gutterBottom component="div">
               Мои данные
             </Typography>
             {edit ? (
-              <Button variant="outlined" onClick={editToggle} color="info">
-                Отмена
-              </Button>
+              <Button variant="outlined" onClick={editToggle} color="info">Отмена</Button>
             ) : (
-              <Button variant="outlined" onClick={editToggle}>
-                Изменить
-              </Button>
+              <Button variant="outlined" onClick={editToggle}>Изменить</Button>
             )}
           </div>
 
           <div className="profile-my-data-content">
             <div className="avatar-flex">
-              <div
-                className="avatar-container"
-                sx={{ mt: 4, width: 180, height: 180 }}
-              >
-                <Avatar
-                  className="avatar"
-                  alt={user?.name}
-                  // src={user?.user_photo}
-                  src={photo}
-                  sx={{ width: 180, height: 180 }}
-                />
+              <div className="avatar-container" sx={{ mt: 4, width: 180, height: 180 }}>
+                <Avatar className="avatar" alt={user?.name} src={photo} sx={{ width: 180, height: 180 }} />
                 {edit ? (
-                  <form
-                    name="avatar-update"
-                    id="avatar-form"
-                    onSubmit={(e) => handleSubmit(e)}
-                  >
+                  <form name="avatar-update" id="avatar-form" onSubmit={(e) => handleSubmit(e)}>
                     <label htmlFor="avatar-update">
-                      <Input
-                        name="file"
-                        accept="image/*"
-                        id="avatar-update"
-                        multiple
-                        type="file"
-                        onChange={updateAvatar}
-                      />
+                      <Input name="file" accept="image/*" id="avatar-update" multiple type="file" onChange={updateAvatar} />
                       <div className="avatar-fade">Выбрать новую</div>
                     </label>
                   </form>
                 ) : null}
               </div>
               {edit ? (
-                <Typography
-                  onClick={() => handleDelete(user.id)}
-                  className="delete-button"
-                  variant="caption"
-                  gutterBottom
-                  component="div"
-                >
+                <Typography onClick={() => handleDelete(user.id)} className="delete-button" variant="caption" gutterBottom component="div">
                   Удалить
                 </Typography>
               ) : null}
@@ -177,88 +132,39 @@ function Profile() {
             <div className="profile-my-data-text">
               <form onSubmit={sendForm} id="user-update-form">
                 <div className="profile-my-data-data">
-                  <Typography
-                    variant="h6"
-                    gutterBottom
-                    component="div"
-                    sx={{ mt: 4 }}
-                  >
+                  <Typography variant="h6" gutterBottom component="div" sx={{ mt: 4 }}>
                     Имя
                   </Typography>
                   {edit ? (
-                    <TextField
-                      name="name"
-                      defaultValue={username}
-                      className="profile-textfield"
-                      label="Введите новое имя"
-                      variant="outlined"
-                    />
+                    <TextField name="name" defaultValue={username} className="profile-textfield" label="Введите новое имя" variant="outlined" />
                   ) : (
-                    <Typography
-                      variant="body1"
-                      className="profile-textfield read-only"
-                      gutterBottom
-                      component="div"
-                    >
+                    <Typography variant="body1" className="profile-textfield read-only" gutterBottom component="div">
                       {username}
                     </Typography>
                   )}
                 </div>
 
                 <div className="profile-my-data-data">
-                  <Typography
-                    variant="h6"
-                    gutterBottom
-                    component="div"
-                    sx={{ mt: 4 }}
-                  >
+                  <Typography variant="h6" gutterBottom component="div" sx={{ mt: 4 }}>
                     E-mail
                   </Typography>
                   {edit ? (
-                    <TextField
-                      name="email"
-                      defaultValue={email}
-                      className="profile-textfield"
-                      label="Введите новую почту"
-                      variant="outlined"
-                    />
+                    <TextField name="email" defaultValue={email} className="profile-textfield" label="Введите новую почту" variant="outlined" />
                   ) : (
-                    <Typography
-                      variant="body1"
-                      className="profile-textfield read-only"
-                      gutterBottom
-                      component="div"
-                    >
+                    <Typography variant="body1" className="profile-textfield read-only" gutterBottom component="div">
                       {email}
                     </Typography>
                   )}
                 </div>
 
                 <div className="profile-my-data-data">
-                  <Typography
-                    variant="h6"
-                    gutterBottom
-                    component="div"
-                    sx={{ mt: 4 }}
-                  >
+                  <Typography variant="h6" gutterBottom component="div" sx={{ mt: 4 }}>
                     Пароль
                   </Typography>
                   {edit ? (
-                    <TextField
-                      name="password"
-                      className="profile-textfield"
-                      label="Введите новый пароль"
-                      type="password"
-                      autoComplete="current-password"
-                      variant="outlined"
-                    />
+                    <TextField name="password" className="profile-textfield" label="Введите новый пароль" type="password" autoComplete="current-password" variant="outlined" />
                   ) : (
-                    <Typography
-                      variant="body1"
-                      className="profile-textfield read-only"
-                      gutterBottom
-                      component="div"
-                    >
+                    <Typography variant="body1" className="profile-textfield read-only" gutterBottom component="div">
                       ••••••••
                     </Typography>
                   )}
@@ -266,12 +172,7 @@ function Profile() {
 
                 <div className="profile-my-data-data send-form">
                   {edit ? (
-                    <Button
-                      variant="contained"
-                      type="submit"
-                      className="form-button"
-                      size="large"
-                    >
+                    <Button variant="contained" type="submit" className="form-button" size="large">
                       Обновить
                     </Button>
                   ) : null}
@@ -283,23 +184,13 @@ function Profile() {
 
         {profile.length > 0 ? (
           <div className="profile-my-posts">
-            <Typography
-              className="profile-title"
-              variant="h4"
-              gutterBottom
-              component="div"
-            >
+            <Typography className="profile-title" variant="h4" gutterBottom component="div">
               Мои объявления
             </Typography>
 
             {profileLosts.length > 0 ? (
               <>
-                <Typography
-                  variant="h5"
-                  gutterBottom
-                  component="div"
-                  sx={{ mt: 4 }}
-                >
+                <Typography variant="h5" gutterBottom component="div" sx={{ mt: 4 }}>
                   Потерявшиеся
                 </Typography>
                 <Stack className="my-posts-container" spacing={2}>
@@ -316,15 +207,10 @@ function Profile() {
 
             {profileFounds.length > 0 ? (
               <>
-                <Typography
-                  variant="h5"
-                  gutterBottom
-                  component="div"
-                  sx={{ mt: 4 }}
-                >
+                <Typography variant="h5" gutterBottom component="div" sx={{ mt: 4 }}>
                   Найденные
                 </Typography>
-                <Stack className="my-posts-container" spacing={2}>
+                <Stack className="my-posts-container" direction="column" spacing={2}>
                   {profileFounds.map((post) => (
                     <CardWide
                       key={post?.id}
@@ -337,12 +223,7 @@ function Profile() {
             ) : null}
           </div>
         ) : (
-          <Typography
-            variant="h5"
-            gutterBottom
-            component="div"
-            sx={{ textAlign: 'center' }}
-          >
+          <Typography variant="h5" gutterBottom component="div" sx={{ textAlign: 'center' }}>
             У вас пока нет объявлений
           </Typography>
         )}

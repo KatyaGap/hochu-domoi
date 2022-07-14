@@ -29,6 +29,7 @@
 
 .content {
   width: 60rem;
+  max-width: 60rem;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -36,7 +37,7 @@
   align-items: center;
 }
 
-.content > * {
+.content.innermargin > * {
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
@@ -276,9 +277,7 @@
 .toast-njksonkio{
 	font-size:0px
 }
-.MuiFormControl-root .MuiOutlinedInput-input{
-	width: 40vw;
-}
+
 .file {
 	margin: 15px
 }
@@ -463,13 +462,6 @@
   line-clamp: 1;
 }
 
-#suggest {
-	margin: 10px;
-	border: 1px solid blue;
-	border-radius: 10px;
-	padding: 5px;
-}
-
 /* СТРАНИЦА ЖИВОТНОГО */
 
 .page-header {
@@ -569,7 +561,277 @@
   color:#999;
 }
 
+.table .description {
+  width: 20%
+}
+
 .table .value .MuiTypography-subtitle1 {
   font-weight: 400;
   color:#222;
+}
+
+/* НОВЫЙ ПОСТ */
+
+.newpost-content {
+  width: 50rem;
+  max-width: 50rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.MuiFormControl-root .MuiOutlinedInput-input{
+	min-width: 300px;
+}
+
+.newpost-item {
+  width: 100%;
+  margin-top: 2rem;
+  // border:rgba(0, 0, 0, 0.45) 2px solid;
+}
+
+.newpost-item .MuiTypography-h6 {
+  margin-bottom: 1rem;
+}
+
+.newpost-item .newpost-type {
+  width: 100%;
+  justify-content: center;
+  & > * {
+    flex-grow: 1;
+    font-size: 1.2rem;
+  }
+}
+
+.newpost-item .newpost-pet {
+  min-width: 50%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: row;
+
+  & .newpost-select {
+    flex-shrink: 1;
+    flex-grow: 1;
+    position: relative;
+  }
+
+  & .newpost-breed {
+    margin-left: 1rem;
+  }
+}
+
+.newpost-item .newpost-size {
+  width: 100%;
+  justify-content: center;
+  & > * {
+    flex-grow: 1;
+  }
+}
+
+.newpost-size .newpost-size-button {
+  flex-direction: column;
+}
+
+.newpost-item .newpost-description {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  & > * {
+    width: 100%;
+  }
+}
+
+
+.newpost-item.newpost-button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  & > * {
+    width: 50%;
+  }
+}
+
+.newpost-upload-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 4rem;
+  cursor: pointer;
+  background-color: rgb(39 118 210 / 20%);
+  border-radius: 8px;
+}
+
+.newpost-upload-label.uploaded {
+  background-color: rgb(76 175 80 / 20%);
+}
+
+.newpost-upload-input {
+  visibility: hidden;
+  display: none;
+}
+
+.newpost-tel {
+  display: flex;
+  justify-content: flex-start;
+  & > * {
+    width: 50%;
+  }
+}
+
+.size-icon {
+  mask-position: 50% 50%;
+  mask-size: cover;
+  mask-repeat: no-repeat;
+  mask-clip: content-box;
+  background-position: 50% 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-clip: content-box;
+  background-color: rgba(0, 0, 0, 0.54);
+  width: 5rem;
+  height: 5rem;
+}
+
+.Mui-selected .size-icon {
+  background-color: #2776d2;
+}
+
+.map-container {
+  width: 100%;
+}
+#map2 {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.newpost-item.buttons {
+  display: flex;
+  width: 100%;
+  & > * {
+    flex-grow: 1;
+  }
+  :last-child{
+    margin-left: 1rem;
+  }
+}
+
+.newpost-map-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  :last-child {
+    color: #888;
+  }
+}
+
+.newpost-map-address {
+  display: flex;
+  width: 100%;
+  & > :first-child {
+    flex-grow: 3;
+    margin-right: 1rem;
+  }
+  & > :last-child {
+    flex-grow: 1;
+  }
+}
+
+.newpost-map-address .react-dadata__container {
+  height: 58px;
+}
+.newpost-map-address .newpost-map-address-string {
+  padding: 16.5px 14px 0px;
+  height: 58px;
+  margin-bottom: 0;
+  letter-spacing: 0.5px;
+  font-weight: 400;
+  color: #222;
+}
+
+.newpost-map-address .react-dadata__input {    font: inherit;
+  letter-spacing: inherit;
+  color: currentColor;
+  box-sizing: content-box;
+  background: none;
+  height: 1.4375em;
+  -webkit-tap-highlight-color: transparent;
+  display: block;
+  min-width: 0;
+  width: 95%;
+  margin-right: 2rem;
+  -webkit-animation-name: mui-auto-fill-cancel;
+  animation-name: mui-auto-fill-cancel;
+  -webkit-animation-duration: 10ms;
+  animation-duration: 10ms;
+  padding: 16.5px 14px;
+}
+
+/* ВЫБОР ЦВЕТА */
+
+.newpost-item .color-selector {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.color-item .color-wrapper {
+  display: inline-block;
+  width: 3rem;
+  height: 3rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+.color-item .color-wrapper .color-label {
+  display: inline-block;
+  font-size: 0px;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 100px;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+              0px 2px 2px 0px rgb(0 0 0 / 14%),
+              0px 1px 5px 0px rgb(0 0 0 / 12%);
+  cursor: pointer;
+}
+
+.color-item .color-radio {
+  display: none;
+}
+
+.color-item .color-radio:checked + .color-label {
+  outline: 2px solid rgba(39, 118, 210, 0.8);
+  box-shadow: 0px 7px 8px -1px rgb(39 118 210 / 30%),
+              0px 12px 17px 3px rgb(39 118 210 / 21%),
+              0px 3px 11px 4px rgb(39 118 210 / 18%);
+}
+
+/* КАТАЛОГ */
+
+.my-posts-container {
+  margin-top: 2rem;
+}
+
+/* КАТАЛОГ */
+
+.content.catalog {
+  align-items: flex-start;
+  margin-top: 2rem;
+} 
+
+.chip-select {
+  position: relative;
+}
+
+.chip-select .chip-select-selector {
+  position: absolute;
+  margin: 0;
+  top: 6px;
+  left: 0px;
+  width: 120px;
+  max-width: 120px;
+  height: 0px;
+  transform: translateX(-120px);
 }

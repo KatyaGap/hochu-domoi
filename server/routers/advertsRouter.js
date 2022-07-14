@@ -24,11 +24,20 @@ router.route('/').get(async (req, res) => {
           attributes: ['image'],
           limit: 1,
         },
+        {
+          model: Status,
+          attributes: ['status'],
+        },
       ],
     });
     const result = posts.map((el) => ({
       ...el.dataValues,
       photo_url: el.Images[0]?.image,
+      status: el.Status.dataValues.status,
+      timeSinceMissing: moment(
+        el.lost_date?.toISOString().split('T')[0].split('-').join(''),
+        'YYYYMMDD',
+      ).fromNow(),
     }));
     res.json(result);
   } catch (error) {
