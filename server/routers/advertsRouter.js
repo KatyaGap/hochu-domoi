@@ -271,6 +271,8 @@ router.route('/params').get(async (req, res) => {
 });
 
 router.route('/:id').get(async (req, res) => {
+  console.log('ПОПАЛ В РУЧКУ');
+  console.log('REQ BODY', req.body);
   try {
     let post = await Post.findOne({
       where: {
