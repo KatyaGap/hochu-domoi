@@ -1,12 +1,28 @@
 import * as React from 'react';
 import { InputLabel, MenuItem, FormControl, Select, Button, Chip } from '@mui/material';
 
-export default function FilterChip() {
+export default function FilterChip({ filterName, name, optionsObj, handleSetFilter }) {
   const [value, setValue] = React.useState('');
   const [open, setOpen] = React.useState(false);
+  const [options, setOptions] = React.useState(false);
+
+  // Делаем из пришедшего списка опций обычный массив
+  React.useEffect(() => {
+    if (optionsObj) {
+      const optionsArr = optionsObj.map((el) => Object.values(el)).flat();
+      setOptions(optionsArr);
+    }
+  }, [optionsObj]);
+
+  const optionsRender = (optionsArr) => optionsArr.map((option, i) => (
+    <MenuItem key={i + 1} value={i + 1}>
+      {option}
+    </MenuItem>
+  ));
 
   const handleChange = (event) => {
     setValue(event.target.value);
+    console.log('value: ', value);
   };
 
   const handleClose = () => {
@@ -19,27 +35,25 @@ export default function FilterChip() {
 
   return (
     <div className="chip-select">
-      <Chip label="Название фильтра" variant="outlined" onClick={handleOpen} />
+      <Chip label={filterName} variant="outlined" onClick={handleOpen} />
 
       <FormControl className="chip-select-selector" sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id="chip-select" sx={{ visibility: 'hidden', width: "0", height: "0" }}>Age</InputLabel>
+        <InputLabel id={filterName} sx={{ visibility: 'hidden', width: "0", height: "0" }}>Age</InputLabel>
         <Select
           autoWidth
-          labelId="chip-select"
+          className="chip-select-hidden"
+          labelId={filterName}
           open={open}
           onClose={handleClose}
           onOpen={handleOpen}
           value={value}
-          label="???"
+          label={filterName}
           onChange={handleChange}
           sx={{ visibility: 'hidden', width: "0", height: "0" }}
         >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+
+          {options.length && optionsRender(options)}
+
         </Select>
       </FormControl>
     </div>

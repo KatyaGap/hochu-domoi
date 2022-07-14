@@ -11,7 +11,6 @@ function CardWide({ post, handleDeletePost }) {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  console.log('post: ', post);
 
   const petLink = () => {
     navigate(`/pet/${post.id}`);
