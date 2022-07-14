@@ -174,7 +174,6 @@ router.route('/fiveFound').get(async (req, res) => {
 });
 
 router.route('/filter').post(async (req, res) => {
-  console.log('REQ BODY FILTER', req.body);
   try {
     const postsFind = await Post.findAll({
       where: req.body,
@@ -215,7 +214,6 @@ router.route('/filter').post(async (req, res) => {
         },
       ],
     });
-    console.log('POSTS FIND FILTER', postsFind);
     const result = postsFind.map((el) => ({
       ...el.dataValues,
       name: el.User.dataValues.name,
@@ -233,7 +231,6 @@ router.route('/filter').post(async (req, res) => {
       photo_url: el.Images[0]?.image,
       flag: true, // Марат - спец флаг чтобы проверить, работал ли фильтр, но он мб и не нужен, но удалять боюсь
     }));
-    console.log('FILTERED', result);
     res.json(result);
   } catch (error) {
     console.log(error);
@@ -271,8 +268,6 @@ router.route('/params').get(async (req, res) => {
 });
 
 router.route('/:id').get(async (req, res) => {
-  console.log('ПОПАЛ В РУЧКУ');
-  console.log('REQ BODY', req.body);
   try {
     let post = await Post.findOne({
       where: {

@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const fs = require('fs').promises;
 const moment = require('moment');
-const sendMail = require('../utils/mailer');
+const { sendMail } = require('../utils/mailer');
 const { upload } = require('../middlewares/upload');
 const {
   User,
@@ -63,7 +63,6 @@ router.route('/').get(async (req, res) => {
           },
         ],
       });
-      console.log('posts', posts);
       const result = posts.map((el) => ({
         ...el.dataValues,
         name: el.User.dataValues.name,
@@ -80,7 +79,6 @@ router.route('/').get(async (req, res) => {
         ).fromNow(),
         photo_url: el.Images[0]?.image,
       }));
-      console.log('========== if', result);
       res.json(result);
     } else {
       const posts = await Post.findAll({
@@ -138,7 +136,6 @@ router.route('/').get(async (req, res) => {
         ).fromNow(),
         photo_url: el.Images[0]?.image,
       }));
-      console.log('else result', result);
       res.json(result);
     }
   } catch (error) {
@@ -151,11 +148,8 @@ router
   .put(upload.single('file'), async (req, res) => {
     // изменение аватара
     const user = await User.findOne({ where: { id: res.locals.userId } });
-    console.log('А ВОТ И ФОТКА С БЭКА', req.file);
     user.user_photo = req.file.path.replace('public', '');
-    console.log('ПЕРЕЗАПИСАЛИ ФОТОЧКУ', user.user_photo);
     await user.save();
-    console.log('А ВОТ И ЮЗЕР НОВЕНЬКИЙ', user);
     res.json(user);
   })
   .delete(async (req, res) => {
@@ -178,14 +172,12 @@ router
         include: [{ model: Post, include: [{ model: Image, limit: 1 }, {model: Status}, {model: Breed}] }, {model: User}],
       });
       if (!like) {
-        console.log('нет такого лайка');
         await Favorite.create({ user_id: res.locals.userId, post_id: id });
         like = await Favorite.findOne({
           where: { post_id: id, user_id: res.locals.userId },
           include: [{ model: Post, include: [{ model: Image, limit: 1}, {model: Status}, {model: Breed}]}, {model: User}],
         });
       } else if (like) {
-        console.log('есть такой лайк');
         await Favorite.destroy({
           where: { user_id: res.locals.userId, post_id: id },
         });
@@ -217,7 +209,6 @@ router
           'YYYYMMDD'
         ).fromNow(),
       };
-      console.log('post', post);
       res.json(post);
     } catch (error) {
       console.log('last', error);
@@ -238,13 +229,6 @@ router.route('/likes').get(async (req, res) => {
       where: { user_id: res.locals.userId },
       include: [{ model: Post, include: [{ model: Image, limit: 1 }, {model: Status}, {model: Breed}] }, {model: User}],
     });
-    // console.log('poooooosts', posts)
-    // const result = posts.map((el) => ({
-    // 	...el.Post,
-    // 	text: el.Post.text,
-    // 	address_string: el.Post.address_string,
-    // }))
-    // console.log('posts', posts);
     const result = posts.map((el) => ({
       photo_url: el.Post.dataValues.Images[0].dataValues.image,
       text: el.Post.dataValues.text,

@@ -17,4 +17,15 @@ async function sendMail({ to }) {
 
   });
 }
-module.exports = sendMail;
+
+async function sendMailToUser({ to, text }) {
+  await transporter.sendMail({
+    from: 'wewanthomewithlove@gmail.com',
+    to,
+    subject: 'Письмо от пользователя Хотим Домой',
+    text,
+
+  });
+}
+
+module.exports = { sendMail, sendMailToUser };
