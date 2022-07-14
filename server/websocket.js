@@ -16,27 +16,16 @@ const wsServer = new WebSocket.Server({
 const clientMap = new Map();
 
 wsServer.on('connection', (ws, request) => {
-  // const { userId, userName } = request.session;
-  console.log('START CONNECTION');
-
-  // console.log('USERID', userId);
-  // console.log('USRNAME', userName);
-
-  // ws.userId = userId;
-  // ws.userName = userName;
   let postId;
   let userName;
-  let userId;
+  let userId = uuidv4.v4();
   clientMap.set(userId, ws);
-  // console.log('ckient conected', clientMap);
 
   ws.on('message', async (message) => {
     const parsedMessage = JSON.parse(message);
-
     switch (parsedMessage.type) {
       case 'CONNECTION':
         console.log('CONNECTION');
-        // getMessages().then(console.log);
         postId = parsedMessage.postId;
         userId = parsedMessage.userId;
         userName = parsedMessage.userNamed;
@@ -57,8 +46,6 @@ wsServer.on('connection', (ws, request) => {
               id: parsedMessage.payload.postId,
             },
           });
-          log('USER', parsedMessage.payload.id);
-          log('OWNER', ownerPost.user_id);
 
           let room = await Room.findAll({ where: {
             [Op.or]: [
@@ -67,7 +54,6 @@ wsServer.on('connection', (ws, request) => {
             ],
 
           } });
-          log('room', room);
 
           function sendMessage(newMessage) {
             clientMap.forEach((client) => {
@@ -79,7 +65,6 @@ wsServer.on('connection', (ws, request) => {
               }
             });
           }
-
           if (!room.length) {
             room = await Room.create({ user1_id: parsedMessage.payload.id, user2_id: ownerPost.user_id });
             const newMessage = await Message.create({
@@ -87,28 +72,16 @@ wsServer.on('connection', (ws, request) => {
               user_id: parsedMessage.payload.id,
               room_id: room.id,
             });
+
             sendMessage(newMessage);
           } else {
             const newMessage = await Message.create({
               message: parsedMessage.payload.message,
               user_id: parsedMessage.payload.id,
-              room_id: room.id,
+              room_id: room[0].id,
             });
             sendMessage(newMessage);
           }
-
-          // log('=======>', room);
-
-          // if (!room.length) {
-          //   room = await Room.create({ user1_id: parsedMessage.payload.id, user2_id: ownerPost.user_id });
-          //   const newMessage = await Message.create({
-          //     message: parsedMessage.payload.message,
-          //     user_id: parsedMessage.payload.id,
-          //     room_id: room.id,
-          //   });
-          // }
-
-          // console.log('IIIII', parsedMessage.payload.id);
         }
         //
         break;
@@ -126,15 +99,9 @@ wsServer.on('connection', (ws, request) => {
 
         });
 
-        // const myMsg = message.filter((el) => el.dataValues.user_id === userId);
-        // console.log('-=--=-=-=-=-=-=-', message[0].dataValues.user_id);
-        // console.log(myMsg);
-
-        // console.log('MEESAGE', message);
         const res = message.map((mess) => ({
           userName: mess.User.name, message: mess.message, ownMessage: mess.user_id,
         }));
-        // console.log(res);
 
         clientMap.forEach((client) => {
           if (client.readyState === WebSocket.OPEN) {
@@ -146,16 +113,6 @@ wsServer.on('connection', (ws, request) => {
         });
         break;
 
-        // case 'NEW_PRIVATE_MESSAGE':
-        //   const ownerId = await Post.findOne({
-        //     where: {
-
-        //     }
-        //   })
-        //   clientMap.forEach((client) => {
-        //     if ()
-        //   })
-
       default:
         break;
     }
@@ -163,29 +120,3 @@ wsServer.on('connection', (ws, request) => {
 });
 
 module.exports = { wsServer };
-
-// case 'NEW_MESSAGE_PRIVATE':
-//   clientMap.forEach((client) => {
-//     if (client.readyState === WebSocket.OPEN) {
-//       if (+parsedMessage.sendTo === client.userId || client.userId === userId) {
-//         // const [room] = await Room.finAll({where:{
-//         //   [Op.or]: [{user1:+parsedMessage.sendTo}, {user1:userId}],
-//         //   [Op.or]: [{user2:+parsedMessage.sendTo}, {user2:userId}]
-//         // }})
-//         // if (!room) {
-
-//         // }
-// console.log('=====><=========', parsedMessage.sendTo, client.userId, userId);
-
-//         client.send(JSON.stringify({
-//           type: parsedMessage.type,
-//           payload: {
-//             userName,
-//             message: parsedMessage.payload.message,
-//             ownMessage: userId === client.userId,
-//           },
-//         }));
-//       }
-//     }
-//   });
-//   break;
