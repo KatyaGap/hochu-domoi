@@ -28,5 +28,6 @@ module.exports = {
         rejectUnauthorized: false,
       },
     },
+    use_env_variable: process.env.DATABASE_URL,
   },
 };
