@@ -109,7 +109,7 @@ wsServer.on('connection', (ws, request) => {
         });
 
         const res = message.map((mess) => ({
-          userName: mess.User.name, message: mess.message, ownMessage: mess.user_id,
+          userName: mess.User.name, message: mess.message, userId: mess.user_id,
         }));
 
         clientMap.forEach((client) => {

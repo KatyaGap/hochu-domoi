@@ -91,25 +91,29 @@ function Maps() {
     });
 
     myCollection.current = new ymaps.GeoObjectCollection();
+    if (filtered.length) {
+      for (let i = 0; i < filtered.length; i += 1) {
+        myCollection.current.add(new ymaps.Placemark(
 
-    for (let i = 0; i < filtered.length; i += 1) {
-      myCollection.current.add(new ymaps.Placemark(
+          [+filtered[i].address_lattitude, +filtered[i].address_longitude],
 
-        [+filtered[i].address_lattitude, +filtered[i].address_longitude],
+          {
 
-        {
+            balloonContentHeader: filtered[i].text,
 
-          balloonContentHeader: filtered[i].text,
+            balloonContentBody: `<img src=${filtered[i].photo_url} height="150" width="200">`,
+          },
 
-          balloonContentBody: `<img src=${filtered[i].photo_url} height="150" width="200">`,
-        },
-
-        {
-          iconLayout: 'default#image',
-          iconImageHref: 'lable2.png',
-          iconImageSize: [35, 35],
-        },
-      ));
+          {
+            iconLayout: 'default#image',
+            iconImageHref: 'lable2.png',
+            iconImageSize: [35, 35],
+          },
+        ));
+      }
+    } else {
+      // eslint-disable-next-line no-unused-expressions
+      `<div>Ничего не найдено</div>`;
     }
 
     myMap.current?.geoObjects.add(myCollection.current);
@@ -120,7 +124,7 @@ function Maps() {
   }
 
   useEffect(() => {
-    if (filtered.length) {
+    if (filtered.length || adverts.length) {
       ymaps?.ready(init);
     }
     setFlag((prev) => !prev);
@@ -153,7 +157,7 @@ function Maps() {
 
         <div id="map" />
 
-        {filtered.length > 0 && (
+        {(filtered.length > 0 || adverts.length > 0) && (
         <Paper className="map-posts-overlay" elevation={8}>
 
           <Stack direction="row" className="filterstack">

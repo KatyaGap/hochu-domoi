@@ -54,7 +54,7 @@ export default function Newpost({ type }) {
   function makeBool1() {
     if (post.type_id && post.pet_id
       && getBreed() && post.color_id
-      && post.size && post.status_id && post.text
+      && post.size && post.text
     ) {
       return true;
     }

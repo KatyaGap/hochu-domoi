@@ -68,21 +68,22 @@ function CardMap({ post, hasLike, setTypeAndPan }) {
               {post?.timeSinceMissing}
             </Typography>
           </div>
-          <IconButton
-            aria-label="delete"
-            size="large"
-            onClick={() => makeLike(post)}
-            className={
-              likes.find((el) => el.post_id === post.id)
-                ? 'liked'
-                : 'favorites-button'
-            }
-          >
-            <FavoriteBorder
-              className="favorites-button-icon"
-              fontSize="inherit"
-            />
-          </IconButton>
+
+          <div className="card-overlay">
+            <IconButton
+              className="favorites-button"
+              aria-label="like"
+              size="large"
+              onClick={() => makeLike(post)}
+            >
+              <span className={likes.find((el) => el.post_id === post.id)
+                ? "material-symbols-outlined like-icon filled"
+                : "material-symbols-outlined like-icon"}
+              >
+                favorite
+              </span>
+            </IconButton>
+          </div>
         </CardContent>
       </CardActionArea>
     </Card>
