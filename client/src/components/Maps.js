@@ -101,7 +101,7 @@ function Maps() {
 
             balloonContentHeader: filtered[i].text,
 
-            balloonContentBody: `<img src=${filtered[i].photo_url} height="150" width="200">`,
+            balloonContentBody: `<img src=${filtered[i].photo_url} height="150" width="200"><br/><a href="/pet/${filtered[i].id}">подробнее</a>`,
           },
 
           {

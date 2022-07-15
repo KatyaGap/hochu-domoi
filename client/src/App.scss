@@ -44,7 +44,7 @@
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  background-color: rgba(255, 255, 255, 0.91);
+  background-color: rgba(255, 255, 255, 0.88);
   overflow-x: hidden;
 }
 
@@ -654,6 +654,17 @@
   justify-content: flex-start;
   align-items: center;
   margin-bottom: 2rem;
+  background-color: rgba(255,255,255,0.9);
+  border-radius: 2rem;
+  padding: 2rem;
+}
+
+.profile-my-data {
+  margin-bottom: 2rem;
+  background-color: rgba(255,255,255,0.8);
+  border-radius: 2rem;
+  padding: 2rem;
+
 }
 
 .MuiFormControl-root .MuiOutlinedInput-input{
@@ -992,10 +1003,6 @@
   align-items: center;
 }
 
-.chat-modal .MuiDialog-paper {
-  padding: 4rem 2rem 2rem;
-}
-
 .email-modal .MuiDialog-paper {
   padding: 1rem 2rem;
 }
@@ -1069,19 +1076,20 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding-bottom: 1rem;
   overflow-x: hidden;
-  overflow-y: scroll;
+  padding: 0rem 2rem 1rem;
 }
 
 .chat-modal .MuiPaper-root {
   display: flex;
   flex-direction: column;
+  padding: 4rem 0rem 2rem;
 }
 
 .chat-modal .chat-form {
   display: flex;
   align-items: flex-end;
+  padding: 0rem 2rem;
 }
 
 .chat-modal .form-control {
@@ -1095,20 +1103,46 @@
 
 .chat-modal .message {
   display: flex;
-  margin: 0.5rem 0;
+  flex-direction: column;
+  margin: 0.4rem 0;
 }
 
-.chat-modal .message-text {
+.chat-modal .own-message {
+  align-items: flex-end;
+}
+
+.message .message-name {
+  color:rgba(0, 0, 0, 0.45);
+  font-size: 0.75rem;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  letter-spacing: 0.08333em;
+  text-transform: uppercase;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.message .message-text {
+  padding: 0.5rem 1.25rem;
+  border-radius: 1.25rem;
+}
+
+.own-message .message-text {
+  border: #2776d2 1px solid;
+  color: #2776d2;
+  background-color: rgba(39, 118, 210, 0.1);
+}
+
+.incoming-message .message-text {
   background-color: #2776d2;
   color: #fff;
-  padding: 0.5rem 1.25rem;
-  border-radius: 1rem;
 }
 
 .own-message {
   align-self: flex-end;
 }
 
-.chat-modal .incoming-message .message-text {
-  
+.incoming-message {
+  align-self: flex-start;
 }

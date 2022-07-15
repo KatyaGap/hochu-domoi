@@ -96,18 +96,16 @@ export default function Pet() {
           </Stack>
 
           <Stack className="author-icons" direction="row" spacing={1}>
-            <Tooltip title="Показать телефон">
-              <Button onClick={(e) => setShowPhone(true)} variant="outlined">
-                {showPhone ? (
-                  <>
-                    <Call />
-                    <span className="phone-number">{pet.phone}</span>
-                  </>
-                ) : (
+            <Button onClick={(e) => setShowPhone(true)} variant="outlined">
+              {showPhone ? (
+                <>
                   <Call />
-                )}
-              </Button>
-            </Tooltip>
+                  <span className="phone-number">{pet.phone}</span>
+                </>
+              ) : (
+                <Call />
+              )}
+            </Button>
 
             <ModalEmail />
 
@@ -119,20 +117,18 @@ export default function Pet() {
                 <button type="button">Отмена</button>
               </form> */}
             {/* </ModalForMessage> */}
-            <Tooltip title="Открыть чат с автором объявления">
-              {user ? (
-                <BasicModal />
-              ) : (
-                <Button
-                  onClick={handleNav}
-                  variant="contained"
-                  disableElevation
-                  startIcon={<ChatIcon />}
-                >
-                  Чат
-                </Button>
-              )}
-            </Tooltip>
+            {user ? (
+              <BasicModal />
+            ) : (
+              <Button
+                onClick={handleNav}
+                variant="contained"
+                disableElevation
+                startIcon={<ChatIcon />}
+              >
+                Чат
+              </Button>
+            )}
           </Stack>
         </Paper>
 

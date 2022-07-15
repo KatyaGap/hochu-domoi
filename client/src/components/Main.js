@@ -20,6 +20,9 @@ function Main() {
   const newpostLink = (type) => {
     navigate(`/newpost?type=${type}`);
   };
+  const catalogLink = (type) => {
+    navigate(`/catalog`);
+  };
 
   return (
     <div className="container">
@@ -40,7 +43,7 @@ function Main() {
               <Typography className="main-last-posts-title" variant="h4" gutterBottom component="div">
                 Потерялись недавно
               </Typography>
-              <Button variant="text">Показать всех</Button>
+              <Button onClick={catalogLink} variant="text">Показать всех</Button>
             </div>
 
             <Carousel id={1} posts={fivelosts} likes={likes} />
@@ -53,7 +56,7 @@ function Main() {
               <Typography className="main-last-posts-title" variant="h4" gutterBottom component="div">
                 Ищут хозяев
               </Typography>
-              <Button variant="text">Показать всех</Button>
+              <Button onClick={catalogLink} variant="text">Показать всех</Button>
             </div>
             <Carousel id={2} posts={fivefounds} />
           </div>

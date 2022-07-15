@@ -1,13 +1,16 @@
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { Button, IconButton, TextField, Dialog, DialogActions } from '@mui/material';
 import { Send, Cancel } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import ChatIcon from '@mui/icons-material/Chat';
+import axios from 'axios';
 import { UserContext } from '../../context/user';
 
-const myIP = "192.168.0.14";
+const myIP = "192.168.43.59";
+
 const socket = new WebSocket(`ws://${myIP}:3002`);
+// const socket = new WebSocket(`ws://localhost:3002`);
 
 function ModalForChat({ id }) {
   const [open, setOpen] = useState(false);
@@ -21,10 +24,21 @@ function ModalForChat({ id }) {
   console.log('ID', iD.id);
   const roomId = (iD.id);
   console.log('user.id: ', user.id);
-  let ownMsg;
 
   const [conversation, setConversation] = useState([]);
-  console.log('conversation: ', conversation);
+
+  // const getData = () => {
+  //   const response = axios
+  //     .get('https://geolocation-db.com/json/')
+  //     .then((res) => {
+  //       console.log('res.data: ', res?.data);
+  //       setMyIP(res.data.IPv4);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   getData();
+  // }, []);
 
   useEffect(() => {
     socket.send(JSON.stringify({ type: 'GET_MESSAGES', roomId }));
@@ -32,6 +46,7 @@ function ModalForChat({ id }) {
 
   useEffect(() => {
     socket.onopen = () => {
+      console.log('socket opened');
       socket.send(JSON.stringify({ type: 'CONNECTION', postId: id, userNamed, userID: userId }));
     };
     socket.onmessage = (messageEvent) => {
@@ -42,7 +57,7 @@ function ModalForChat({ id }) {
           break;
         case 'NEW_MESSAGES':
           console.log(payload);
-          setConversation((prev) => [...prev, payload, ownMsg === user.id]);
+          setConversation((prev) => [...prev, payload]);
           break;
 
         default:
@@ -100,11 +115,10 @@ function ModalForChat({ id }) {
           <div className="chat-box">
 
             {conversation && conversation.map((el, index) => (
-              <div className={ownMsg ? 'message own-message' : 'message incoming-message'} key={index}>
+              <div className={el.userId === user.id ? 'message own-message' : 'message incoming-message'} key={index}>
                 <span className="message-name">
                   {el.userName}
                 </span>
-                :
                 <span className="message-text">{el.message}</span>
               </div>
             ))}

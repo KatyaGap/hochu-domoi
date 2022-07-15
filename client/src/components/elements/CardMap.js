@@ -22,10 +22,10 @@ function CardMap({ post, hasLike, setTypeAndPan }) {
 
   return (
     <Card className="card map-card" variant="outlined">
-      <CardActionArea sx={{ display: 'flex' }}>
+      <CardActionArea onClick={() => setTypeAndPan(post.address_lattitude, post.address_longitude)} sx={{ display: 'flex' }}>
         {/* <CardActionArea onClick={petLink} sx={{ display: 'flex' }}> */}
 
-        <CardMedia onClick={() => setTypeAndPan(post.address_lattitude, post.address_longitude)} className="card-photo" component="img" sx={{ width: 130 }} image={post?.photo_url} alt="Фото питомца" />
+        <CardMedia className="card-photo" component="img" sx={{ width: 130 }} image={post?.photo_url} alt="Фото питомца" />
         <CardContent className="card-content">
           <Typography
             className="card-description small-card-description"
