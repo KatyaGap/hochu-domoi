@@ -1,35 +1,39 @@
 /* eslint-disable no-case-declarations */
+import { useSelect } from '@mui/base';
 import React, { useState, useEffect, useContext, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { UserContext } from '../context/user';
+import '../App.css';
 
 const myIP = "192.168.0.14";
 const socket = new WebSocket(`ws://${myIP}:3002`);
 
-function Chat() {
+function Chat({ id }) {
   const { user } = useContext(UserContext);
   const [value, setValue] = useState("");
-  const [sendTo, setSendTo] = useState(null);
-  const userName = user.name;
-  console.log('userName: ', userName);
+  const [ownMessage, setOwnMessage] = useState(false);
+  const userNamed = user.name;
+  const userId = user.id;
+  console.log('id', user.id);
+  const iD = useParams();
+  console.log('ID', iD.id);
+  const roomId = (iD.id);
+
   const [conversation, setConversation] = useState([]);
 
   useEffect(() => {
-    socket.send(JSON.stringify({ type: 'GET_MESSAGES', userName }));
+    socket.send(JSON.stringify({ type: 'GET_MESSAGES', roomId }));
   }, []);
 
   useEffect(() => {
-    console.log('---------------------------------');
-
     socket.onopen = () => {
-      console.log("adsfdasf");
-      socket.send(JSON.stringify({ type: 'GET_MESSAGES' }));
+      socket.send(JSON.stringify({ type: 'CONNECTION', postId: id, userNamed, userID: userId }));
     };
     socket.onmessage = (messageEvent) => {
       const { type, payload } = JSON.parse(messageEvent.data);
-      console.log('-=-=-=-=-=-', type, payload);
       switch (type) {
         case 'GET_MESSAGES':
-          console.log(payload);
           setConversation(payload);
           break;
         case 'NEW_MESSAGES':
@@ -45,10 +49,11 @@ function Chat() {
 
   const sendMessage = async (e) => {
     e.preventDefault();
-    socket.send(JSON.stringify({ type: 'NEW_MESSAGES', payload: { message: value, id: user.id } }));
+
+    socket.send(JSON.stringify({ type: 'NEW_MESSAGES', payload: { message: value, id: user.id, postId: id, userNamed } }));
     setTimeout(() => {
       socket.send(JSON.stringify({ type: 'GET_MESSAGES' }));
-    }, 30);
+    }, 70);
 
     setValue("");
   };
@@ -76,25 +81,28 @@ function Chat() {
                 <button type="submit" className="my-1 btn btn-outline-success">OK</button>
               </form>
             </div>
-            <div className="chat" style={{ overflow: 'hidden' }}>
-              {conversation.map((el, index) => (
-                <div key={index}>
-                  <span>
-                    {el.userName}
-                    {' '}
-                    :
-                  </span>
-                  <br />
-                  <span>{el.message}</span>
-                </div>
+            <div className="flex-container" style={{ overflow: 'hidden' }}>
+              <div className="chatBox">
+                {conversation && conversation.map((el, index) => (
+                  <div key={index}>
+                    <span className={user ? 'own-message-name' : 'message-name'}>
+                      {el.userName}
+                      {' '}
+                      :
+                    </span>
+                    <br />
+                    <span className={user ? 'own-message-message' : 'message-message'}>{el.message}</span>
+                  </div>
 
-              ))}
+                ))}
+
+              </div>
             </div>
           </div>
         </div>
         <div />
       </div>
-      {/* </div> */}
+
     </>
 
   );

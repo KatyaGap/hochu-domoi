@@ -20,7 +20,7 @@ const style = {
   p: 4,
 };
 
-export default function BasicModal() {
+export default function BasicModal({ id }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -39,7 +39,7 @@ export default function BasicModal() {
             Чат што ли
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }} component="div">
-            <Chat />
+            <Chat id={id} />
           </Typography>
         </Box>
       </Modal>
