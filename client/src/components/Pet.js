@@ -7,13 +7,13 @@ import { useSelect } from '@mui/base';
 import { useDispatch, useSelector } from 'react-redux';
 import { Favorite, FavoriteBorder, Email, Call, PinDrop, Restore } from '@mui/icons-material';
 import ChatIcon from '@mui/icons-material/Chat';
-import Chat from './Chat';
 import ModalEmail from './elements/ModalEmail';
 import { getAdvertsThunk, makeLikeThunk } from '../redux/actions/adverts';
 import { UserContext } from '../context/user';
 import BasicModal from './elements/ModalForChat';
 import Gallery from './elements/Gallery';
 import { sendMessage } from '../redux/actions/message';
+import MapSmall from './elements/MapSmall';
 // import ModalForMessage from './elements/ModalForMessage';
 
 export default function Pet() {
@@ -30,6 +30,17 @@ export default function Pet() {
   const { user } = useContext(UserContext);
   const [modalActive, setModalActive] = useState(true);
   const [form, setForm] = useState('');
+  const [header, setHeader] = useState('');
+
+  React.useEffect(() => {
+    fetch(`/adverts/${id}`)
+      .then((res) => res.json())
+      .then((res) => {
+        setPet(res.post);
+        console.log('res.post: ', res.post);
+      });
+  }, []);
+  const handleNav = () => navigate('/auth');
 
   // Marat
   const handleSubmit = (e) => {
@@ -45,13 +56,6 @@ export default function Pet() {
   }, []);
   //
 
-  React.useEffect(() => {
-    fetch(`/adverts/${id}`)
-      .then((res) => res.json())
-      .then((res) => setPet(res.post));
-  }, []);
-  const handleNav = () => navigate('/auth');
-
   const mapToggle = () => {
     setShowMap(!showMap); // ВОЗМОЖНО
   };
@@ -65,7 +69,7 @@ export default function Pet() {
       <div className="content pet-page" style={{ flexGrow: 0 }}>
         <div className="page-header">
           <Typography variant="h3" gutterBottom component="div">
-            Заголовок
+            {header}
           </Typography>
           <IconButton
             className="favorites-button"
@@ -158,6 +162,9 @@ export default function Pet() {
             )}
           </div>
         </div>
+        {showMap ? (
+          <MapSmall pet={pet} />
+        ) : null }
 
         <table className="table">
           <tr>

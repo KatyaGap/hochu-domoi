@@ -3,7 +3,9 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import Chat from './Chat';
+import ChatIcon from '@mui/icons-material/Chat';
+import { useContext } from 'react';
+import Chat from '../Chat';
 
 const style = {
   position: 'absolute',
@@ -18,14 +20,14 @@ const style = {
   p: 4,
 };
 
-export default function BasicModal() {
+export default function BasicModal({ id }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
     <div>
-      <Button onClick={handleOpen}>Отправить сообщение</Button>
+      <Button onClick={handleOpen} variant="contained" disableElevation startIcon={<ChatIcon />}>Чат</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -37,7 +39,7 @@ export default function BasicModal() {
             Чат што ли
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }} component="div">
-            <Chat />
+            <Chat id={id} />
           </Typography>
         </Box>
       </Modal>

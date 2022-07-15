@@ -3,7 +3,7 @@ import { useSelect } from '@mui/base';
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { UserContext } from '../context/user';
+import { UserContext } from '../../context/user';
 
 const myIP = "192.168.0.14";
 const socket = new WebSocket(`ws://${myIP}:3002`);
@@ -58,51 +58,35 @@ function Chat({ id }) {
   };
 
   return (
-    <>
-      <div className="col-8">
+    <div className="row py-5">
+      <div className="col-4">
         <div className="card">
-          <div className="card-header">
-            Chat
+          <div className="card-body">
+            <form name="chat" onSubmit={sendMessage} className="row justify-content-end">
+              <input value={value} onChange={(e) => setValue(e.target.value)} name="message" type="text" id="inputMessage" className="form-control" />
+              <button type="submit" className="my-1 btn btn-outline-success">OK</button>
+            </form>
           </div>
-          <div id="chat" className="card-body" />
-        </div>
-      </div>
-      <div className="row py-5">
-        <div className="col-4">
-          <div className="card">
-            <div className="card-header">
-              Type something
+          <div className="flex-container" style={{ overflow: 'hidden' }}>
+            <div className="chatBox">
+              {conversation && conversation.map((el, index) => (
+                <div key={index}>
+                  <span className={user ? 'own-message-name' : 'message-name'}>
+                    {el.userName}
+                    {' '}
+                    :
+                  </span>
+                  <br />
+                  <span className={user ? 'own-message-message' : 'message-message'}>{el.message}</span>
+                </div>
 
-            </div>
-            <div className="card-body">
-              <form name="chat" onSubmit={sendMessage} className="row justify-content-end">
-                <input value={value} onChange={(e) => setValue(e.target.value)} name="message" type="text" id="inputMessage" className="form-control" />
-                <button type="submit" className="my-1 btn btn-outline-success">OK</button>
-              </form>
-            </div>
-            <div className="flex-container" style={{ overflow: 'hidden' }}>
-              <div className="chatBox">
-                {conversation && conversation.map((el, index) => (
-                  <div key={index}>
-                    <span className={user ? 'own-message-name' : 'message-name'}>
-                      {el.userName}
-                      {' '}
-                      :
-                    </span>
-                    <br />
-                    <span className={user ? 'own-message-message' : 'message-message'}>{el.message}</span>
-                  </div>
+              ))}
 
-                ))}
-
-              </div>
             </div>
           </div>
         </div>
-        <div />
       </div>
-
-    </>
+    </div>
 
   );
 }

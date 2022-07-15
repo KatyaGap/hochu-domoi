@@ -4,7 +4,6 @@ import { Slide, ToastContainer } from 'react-toastify';
 import Navbar from './components/elements/Navbar';
 import Main from './components/Main';
 import Auth from './components/Auth';
-import Chat from './components/Chat';
 import Maps from './components/Maps';
 import Pet from './components/Pet';
 import Newpost from './components/Newpost';
@@ -21,7 +20,6 @@ function App() {
         <Route path="/lost" element={<Maps filter="lost" />} />
         <Route path="/found" element={<Maps filter="found" />} />
         <Route path="/pet/:id" element={<Pet />} />
-        <Route path="/chat" element={<Chat />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/authnewpost" element={<Auth isNewPost />} />
         <Route path="/catalog" element={<Catalog />} />

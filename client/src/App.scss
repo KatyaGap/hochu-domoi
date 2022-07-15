@@ -306,11 +306,11 @@
 }
 
 .carousel-control-prev {
-  left: -30px;
+  left: -50px;
 }
 
 .carousel-control-next {
-  right: -30px;
+  right: -50px;
 }
 .toast-njksonkio{
 	font-size:0px
@@ -619,6 +619,7 @@
 }
 
 .table {
+  margin-top: 2rem;
   width: 80%;
 }
 
@@ -1025,4 +1026,42 @@
 .email-modal .MuiTypography-h6 {
   align-self: flex-start;
   padding-left: 0;
+}
+
+.pet-page .map-container {
+  height: 20rem;
+  width: 100vw;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+#map {
+  display: flex;
+  width: 100vw;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.map-card {
+  position: relative;
+}
+
+.map-card .card-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.map-card .like-icon {
+  color: white;
+}
+
+.map-card .filters-chips {
+  flex-wrap: wrap;
+}
+
+.MuiDialog-root .MuiDialog-container {
+  min-width: 35%;
+  max-width: 100%;
 }
