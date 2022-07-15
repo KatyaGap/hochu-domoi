@@ -3,7 +3,6 @@
 const WebSocket = require('ws');
 // const { Message } = require('./db/models/message');
 const uuidv4 = require('uuid');
-const { getMessages } = require('./WScontroller/controller');
 const { Message, User } = require('./db/models');
 
 const wsServer = new WebSocket.Server({
@@ -17,9 +16,9 @@ wsServer.on('connection', (ws, request) => {
   // console.log(request.session);
   const userId = uuidv4.v4();
   console.log('USERID', userId);
-  const userName = 'vasya';
+  // const userName = 'vasya';
   ws.userId = userId;
-  ws.userName = userName;
+  // ws.userName = userName;
 
   clientMap.set(userId, ws);
   // console.log('ckient conected', clientMap);
@@ -42,6 +41,9 @@ wsServer.on('connection', (ws, request) => {
         break;
 
       case 'NEW_MESSAGES':
+        const name = parsedMessage.userName;
+        console.log('parsedMessage: ', parsedMessage);
+        // console.log('name: ', name);
         if (parsedMessage.payload.message && parsedMessage.payload.id) {
           const newMessage = await Message.create({
             message: parsedMessage.payload.message,
@@ -52,7 +54,7 @@ wsServer.on('connection', (ws, request) => {
           clientMap.forEach((client) => {
             client.send(JSON.stringify({
               type: 'NEW_MESSAGES',
-              payload: { userName, newMessage },
+              payload: { name, newMessage },
             }));
           });
         }

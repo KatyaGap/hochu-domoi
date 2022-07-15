@@ -1,19 +1,20 @@
 /* eslint-disable no-case-declarations */
 import React, { useState, useEffect, useContext, useRef } from 'react';
-// import axios from 'axios';
 import { UserContext } from '../context/user';
 
-const socket = new WebSocket('ws://localhost:3002');
+const myIP = "192.168.0.14";
+const socket = new WebSocket(`ws://${myIP}:3002`);
 
 function Chat() {
   const { user } = useContext(UserContext);
   const [value, setValue] = useState("");
   const [sendTo, setSendTo] = useState(null);
-
+  const userName = user.name;
+  console.log('userName: ', userName);
   const [conversation, setConversation] = useState([]);
 
   useEffect(() => {
-    socket.send(JSON.stringify({ type: 'GET_MESSAGES' }));
+    socket.send(JSON.stringify({ type: 'GET_MESSAGES', userName }));
   }, []);
 
   useEffect(() => {
