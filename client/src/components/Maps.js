@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography';
 import CardMap from './elements/CardMap';
 
 import { getAdvertsThunk, getFilteredThunk, getParamsThunk } from '../redux/actions/adverts';
+import FilterChip from './elements/FilterChip';
 
 function Maps() {
   const location = useLocation();
@@ -25,37 +26,38 @@ function Maps() {
   const myMap = useRef(null);
   const geoObjects = useRef([]);
   const clusterer = useRef(null);
-  console.log('location', location);
 
   const placemarks = [];
   const { ymaps } = window;
   const dispatch = useDispatch();
   const { params, filtered, adverts } = useSelector((state) => state);
   const { sizes, types, pets, colors, breeds, statuses } = params;
-  console.log('types', types);
   function getType() {
     if (`/map${location.pathname}`.includes('found')) return 1;
     return 2;
   }
   const [filter, setFilter] = useState({ type_id: getType() });
   useEffect(() => {
-    dispatch(getParamsThunk());
-    dispatch(getAdvertsThunk());
-    dispatch(getFilteredThunk(filter));
-    setGo((prev) => !prev);
+    if (filtered.length) {
+      dispatch(getParamsThunk());
+      dispatch(getAdvertsThunk());
+      dispatch(getFilteredThunk(filter));
+      setGo((prev) => !prev);
+    } else {
+      dispatch(getParamsThunk());
+      dispatch(getFilteredThunk([]));
+    }
+    console.log('filtered: ', filtered);
   }, [filter]);
 
   const [flag, setFlag] = useState(false);
   // if (filtered.length !== 0 && !flag) {
   //   setFlag(true);
   // }
-  console.log('filtered1', filtered);
-  console.log('adverts', adverts);
 
-  const handleChange = useCallback((e) => {
-    setFilter((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleSetFilter = useCallback((name, value) => {
+    setFilter((prev) => ({ ...prev, [name]: value }));
   });
-  console.log('filter', filter);
   // const handleSubmit = (e) => {
   //   e.preventDefault();
   //   dispatch(getFilteredThunk(filter));
@@ -119,7 +121,6 @@ function Maps() {
 
   useEffect(() => {
     if (filtered.length) {
-      console.log('filtered.length', filtered.length);
       ymaps?.ready(init);
     }
     setFlag((prev) => !prev);
@@ -128,10 +129,8 @@ function Maps() {
     };
   }, [filtered.length, filter, location.pathname]);
 
-  console.log('postss', posts);
-
   const setTypeAndPan = (latt, long) => {
-    console.log('latt, long', [+latt, +long]);
+    // console.log('latt, long', [+latt, +long]);
     myMap.current.panTo([+latt, +long], {
       flying: true,
       // Задержка между перемещениями.
@@ -156,13 +155,59 @@ function Maps() {
 
         {filtered.length > 0 && (
         <Paper className="map-posts-overlay" elevation={8}>
-          {filtered.map((post) => <CardMap setTypeAndPan={setTypeAndPan} post={post} />)}
 
+          <Stack direction="row" className="filterstack">
+
+            <Stack direction="row" spacing={2} className="filters-chips">
+              <FilterChip
+                filterName="Вид питомца"
+                name="pet_id"
+                options={pets}
+                handleSetFilter={handleSetFilter}
+              />
+
+              {filter.pet_id === 1 && (
+              <FilterChip
+                filterName="Порода"
+                name="breed_id"
+                options={breeds}
+                handleSetFilter={handleSetFilter}
+              />
+              )}
+
+              <FilterChip
+                filterName="Цвет"
+                name="color_id"
+                options={colors}
+                handleSetFilter={handleSetFilter}
+              />
+
+              <FilterChip
+                filterName="Размер"
+                name="size_id"
+                options={sizes}
+                handleSetFilter={handleSetFilter}
+              />
+
+              {filter.type_id === 1 && (
+              <FilterChip
+                filterName="Статус"
+                name="status_id"
+                options={statuses}
+                handleSetFilter={handleSetFilter}
+              />
+              )}
+            </Stack>
+
+          </Stack>
+
+          {filtered.map((post, i) => <CardMap setTypeAndPan={setTypeAndPan} key={i + 1} post={post} />)}
         </Paper>
         )}
       </div>
-      <div>
-        <form>
+
+      <div className="old-filters">
+        {/* <form>
           <div>
             <Typography variant="h4" component="div" gutterBottom>
               Пожалуйста, выберите данные
@@ -286,7 +331,7 @@ function Maps() {
           <Button type="submit" variant="contained">
             Выбрать объявления
           </Button>
-        </form>
+        </form> */}
       </div>
     </>
   );

@@ -6,7 +6,8 @@ import { useParams } from 'react-router-dom';
 import { UserContext } from '../context/user';
 import '../App.css';
 
-const socket = new WebSocket('ws://localhost:3002');
+const myIP = "192.168.0.14";
+const socket = new WebSocket(`ws://${myIP}:3002`);
 
 function Chat({ id }) {
   const { user } = useContext(UserContext);
@@ -52,7 +53,7 @@ function Chat({ id }) {
     socket.send(JSON.stringify({ type: 'NEW_MESSAGES', payload: { message: value, id: user.id, postId: id, userNamed } }));
     setTimeout(() => {
       socket.send(JSON.stringify({ type: 'GET_MESSAGES' }));
-    }, 30);
+    }, 70);
 
     setValue("");
   };

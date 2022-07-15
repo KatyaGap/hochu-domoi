@@ -175,8 +175,18 @@ router.route('/fiveFound').get(async (req, res) => {
 
 router.route('/filter').post(async (req, res) => {
   try {
+    console.log('req.body: ', req.body);
+    const filtered = {};
+
+    for (const key in req.body) {
+      if (req.body[key]) {
+        filtered[key] = req.body[key];
+      }
+    }
+    console.log('filtered: ', filtered);
+
     const postsFind = await Post.findAll({
-      where: req.body,
+      where: filtered,
       order: [['lost_date', 'DESC']],
       include: [
         {
@@ -231,6 +241,7 @@ router.route('/filter').post(async (req, res) => {
       photo_url: el.Images[0]?.image,
       flag: true, // Марат - спец флаг чтобы проверить, работал ли фильтр, но он мб и не нужен, но удалять боюсь
     }));
+    console.log('result: ', result);
     res.json(result);
   } catch (error) {
     console.log(error);

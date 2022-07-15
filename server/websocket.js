@@ -5,7 +5,6 @@ const WebSocket = require('ws');
 // const { Message } = require('./db/models/message');
 const uuidv4 = require('uuid');
 const { Op } = require('sequelize');
-const { getMessages } = require('./WScontroller/controller');
 const { Message, User, Room, Post } = require('./db/models');
 
 const { log } = console;
@@ -40,12 +39,22 @@ wsServer.on('connection', (ws, request) => {
         break;
 
       case 'NEW_MESSAGES':
+        const name = parsedMessage.userName;
+        console.log('parsedMessage: ', parsedMessage);
+        // console.log('name: ', name);
         if (parsedMessage.payload.message && parsedMessage.payload.id) {
           const ownerPost = await Post.findOne({
             where: {
-              id: parsedMessage.payload.postId,
+              id: parsedMessage.payload.id,
             },
           });
+
+          // clientMap.forEach((client) => {
+          //   client.send(JSON.stringify({
+          //     type: 'NEW_MESSAGES',
+          //     payload: { name, newMessage },
+          //   }));
+          // });
 
           let room = await Room.findAll({ where: {
             [Op.or]: [
