@@ -1,9 +1,6 @@
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import { Send } from '@mui/icons-material';
+import { Button, IconButton, TextField, Dialog, DialogActions } from '@mui/material';
+import { Send, Cancel } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import ChatIcon from '@mui/icons-material/Chat';
@@ -17,15 +14,17 @@ function ModalForChat({ id }) {
   const dispatch = useDispatch();
   const { user } = useContext(UserContext);
   const [value, setValue] = useState("");
-  const [ownMessage, setOwnMessage] = useState(false);
   const userNamed = user.name;
   const userId = user.id;
   console.log('id', user.id);
   const iD = useParams();
   console.log('ID', iD.id);
   const roomId = (iD.id);
+  console.log('user.id: ', user.id);
+  let ownMsg;
 
   const [conversation, setConversation] = useState([]);
+  console.log('conversation: ', conversation);
 
   useEffect(() => {
     socket.send(JSON.stringify({ type: 'GET_MESSAGES', roomId }));
@@ -43,7 +42,7 @@ function ModalForChat({ id }) {
           break;
         case 'NEW_MESSAGES':
           console.log(payload);
-          setConversation((prev) => [...prev, payload]);
+          setConversation((prev) => [...prev, payload, ownMsg === user.id]);
           break;
 
         default:
@@ -85,7 +84,7 @@ function ModalForChat({ id }) {
   };
 
   return (
-    <div className="email-modal-icon">
+    <div className="chat-modal-icon">
       <Button
         onClick={handleClickOpen}
         variant="contained"
@@ -95,49 +94,42 @@ function ModalForChat({ id }) {
         Чат
       </Button>
 
-      <Dialog className="email-modal" open={open} onClose={handleClose}>
+      <Dialog className="chat-modal" open={open} onClose={handleClose}>
 
-        <div className="row py-5">
-          <div className="col-4">
-            <div className="card">
-              <div className="card-body">
-                <form name="chat" onSubmit={sendMessage} className="row justify-content-end">
-                  <input value={value} onChange={(e) => setValue(e.target.value)} name="message" type="text" id="inputMessage" className="form-control" />
-                  <button type="submit" className="my-1 btn btn-outline-success">OK</button>
-                </form>
+        <div className="chat-wrapper">
+          <div className="chat-box">
+
+            {conversation && conversation.map((el, index) => (
+              <div className={ownMsg ? 'message own-message' : 'message incoming-message'} key={index}>
+                <span className="message-name">
+                  {el.userName}
+                </span>
+                :
+                <span className="message-text">{el.message}</span>
               </div>
-              <div className="flex-container" style={{ overflow: 'hidden' }}>
-                <div className="chatBox">
-                  {conversation && conversation.map((el, index) => (
-                    <div key={index}>
-                      <span className={user ? 'own-message-name' : 'message-name'}>
-                        {el.userName}
-                        {' '}
-                        :
-                      </span>
-                      <br />
-                      <span className={user ? 'own-message-message' : 'message-message'}>{el.message}</span>
-                    </div>
+            ))}
 
-                  ))}
-
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
-        <DialogActions>
+        <form name="chat" onSubmit={sendMessage} className="chat-form">
           <TextField
-            label="Multiline"
+            label="Ваше сообщение"
+            id="inputMessage"
+            className="form-control"
             multiline
             maxRows={4}
             value={value}
-            onChange={handleChange}
+            onChange={(e) => setValue(e.target.value)}
           />
-          <Button variant="outlined" onClick={handleClose}>Отмена</Button>
-          <Button type="submit" variant="contained" endIcon={<Send />}>Отправить</Button>
-        </DialogActions>
+          <Button size="large" className="chat-send-button" type="submit" variant="contained" endIcon={<Send />}>Отправить</Button>
+        </form>
+
+        <div className="dialog-overlay">
+          <IconButton onClick={handleClose} aria-label="delete">
+            <Cancel />
+          </IconButton>
+        </div>
       </Dialog>
     </div>
   );
