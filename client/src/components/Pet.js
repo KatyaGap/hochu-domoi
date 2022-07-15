@@ -1,9 +1,5 @@
 import '../App.scss';
 import React, { useContext, useState } from 'react';
-import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
 import Typography from '@mui/material/Typography';
 import { Avatar, Button, IconButton, Paper, Stack, Tooltip, Modal, MoreVertIcon } from '@mui/material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -12,12 +8,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Favorite, FavoriteBorder, Email, Call, PinDrop, Restore } from '@mui/icons-material';
 import ChatIcon from '@mui/icons-material/Chat';
 import Chat from './Chat';
+import ModalEmail from './elements/ModalEmail';
 import { getAdvertsThunk, makeLikeThunk } from '../redux/actions/adverts';
 import { UserContext } from '../context/user';
 import BasicModal from './elements/ModalForChat';
 import Gallery from './elements/Gallery';
 import { sendMessage } from '../redux/actions/message';
-import ModalForMessage from './elements/ModalForMessage';
+// import ModalForMessage from './elements/ModalForMessage';
 
 export default function Pet() {
   const dispatch = useDispatch();
@@ -107,22 +104,17 @@ export default function Pet() {
                 )}
               </Button>
             </Tooltip>
-            <div onClick={() => setModalActive((prev) => !prev)}>
 
-              <Tooltip title="Написать на почту">
-                <Button variant="outlined">
-                  <Email />
-                </Button>
-              </Tooltip>
-            </div>
-            <ModalForMessage active={!modalActive} setActive={setModalActive}>
-              {/* <p>Hello Kate!!!</p>
+            <ModalEmail />
+
+            {/* <ModalForMessage active={!modalActive} setActive={setModalActive}> */}
+            {/* <p>Hello Kate!!!</p>
               <form onSubmit={handleSubmit}>
                 <textarea name="message" onChange={handleChange} value={form} />
                 <button type="submit">Отправить Письмо</button>
                 <button type="button">Отмена</button>
               </form> */}
-            </ModalForMessage>
+            {/* </ModalForMessage> */}
             <Tooltip title="Открыть чат с автором объявления">
               {user ? (
                 <BasicModal />

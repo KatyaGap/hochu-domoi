@@ -4,7 +4,6 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../context/user';
-import '../App.css';
 
 const myIP = "192.168.0.14";
 const socket = new WebSocket(`ws://${myIP}:3002`);

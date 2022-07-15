@@ -990,3 +990,39 @@
   flex-wrap: wrap;
   align-items: center;
 }
+
+/* ПАШИН ЧАТИК */
+
+.connection_message {
+  width: 400px;
+  text-align: center;
+}
+
+.message {
+  width: 400px;
+  border: 2px solid teal;
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 15px;
+}
+
+.own-message-name{
+  float: right;
+}
+
+.own-message-message{
+  float: right;
+}
+
+.email-modal .MuiDialog-paper {
+  padding: 1rem 2rem;
+}
+
+.email-modal .MuiFormControl-root {
+  margin-bottom: 0.5rem;
+}
+
+.email-modal .MuiTypography-h6 {
+  align-self: flex-start;
+  padding-left: 0;
+}
