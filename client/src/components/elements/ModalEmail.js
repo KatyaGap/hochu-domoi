@@ -43,11 +43,9 @@ function Modal() {
 
   return (
     <div className="email-modal-icon">
-      <Tooltip title="Написать на почту">
-        <Button variant="outlined" onClick={handleClickOpen}>
-          <Email />
-        </Button>
-      </Tooltip>
+      <Button variant="outlined" onClick={handleClickOpen}>
+        <Email />
+      </Button>
 
       <Dialog className="email-modal" open={open} onClose={handleClose}>
         <DialogTitle>

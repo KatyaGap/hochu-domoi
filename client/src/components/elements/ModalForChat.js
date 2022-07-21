@@ -1,12 +1,15 @@
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { Button, IconButton, TextField, Dialog, DialogActions } from '@mui/material';
 import { Send, Cancel } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import ChatIcon from '@mui/icons-material/Chat';
+import axios from 'axios';
 import { UserContext } from '../../context/user';
 
 const myIP = "192.168.43.59";
+
+// const socket = new WebSocket(`ws://${myIP}:3002`);
 const socket = new WebSocket(`ws://localhost:3002`);
 
 function ModalForChat({ id }) {
@@ -18,7 +21,7 @@ function ModalForChat({ id }) {
   const userId = user.id;
   const iD = useParams();
   const roomId = (iD.id);
-  let ownMsg;
+  console.log('user.id: ', user.id);
 
   const [conversation, setConversation] = useState([]);
 
@@ -28,6 +31,7 @@ function ModalForChat({ id }) {
 
   useEffect(() => {
     socket.onopen = () => {
+      console.log('socket opened');
       socket.send(JSON.stringify({ type: 'CONNECTION', postId: id, userNamed, userID: userId }));
     };
     socket.onmessage = (messageEvent) => {
@@ -38,7 +42,7 @@ function ModalForChat({ id }) {
           break;
         case 'NEW_MESSAGES':
           console.log(payload);
-          setConversation((prev) => [...prev, payload, ownMsg === user.id]);
+          setConversation((prev) => [...prev, payload]);
           break;
 
         default:
@@ -96,11 +100,10 @@ function ModalForChat({ id }) {
           <div className="chat-box">
 
             {conversation && conversation.map((el, index) => (
-              <div className={ownMsg ? 'message own-message' : 'message incoming-message'} key={index}>
+              <div className={el.userId === user.id ? 'message own-message' : 'message incoming-message'} key={index}>
                 <span className="message-name">
                   {el.userName}
                 </span>
-                :
                 <span className="message-text">{el.message}</span>
               </div>
             ))}
