@@ -5,6 +5,35 @@
 @import "../node_modules/bootstrap/scss/root";
 @import "../node_modules/bootstrap/scss/carousel";
 
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 500,
+  'GRAD' 0,
+  'opsz' 48
+}
+.material-symbols-outlined.filled {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 600,
+  'GRAD' 0,
+  'opsz' 48
+}
+
+.like-icon {
+  transition: all 0.3s;
+}
+
+.small-card .like-icon {
+  color: #fff;
+}
+
+.like-icon.filled {
+  color: rgba(211, 46, 47, 0.9);
+  transition: all 0.3s;
+}
+
+
 * {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -15,7 +44,7 @@
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  background-color: rgba(255, 255, 255, 0.91);
+  background-color: rgba(255, 255, 255, 0.88);
   overflow-x: hidden;
 }
 
@@ -29,6 +58,7 @@
 
 .content {
   width: 60rem;
+  max-width: 60rem;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -36,7 +66,7 @@
   align-items: center;
 }
 
-.content > * {
+.content.innermargin > * {
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
@@ -159,23 +189,50 @@
   display: flex;
 }
 
-.small-card,
+.card.small-card,
 .small-card .MuiCardActionArea-root {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  position: relative;
 }
 
-.card-content {
+.small-card .card-overlay {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  padding-right: 12px;
+  top: 0;
+  left: 0;
+}
+
+.map-card .card-action-area,
+.card-wide .card-action-area {
+  display: flex;
+  align-items: stretch;
+}
+
+.small-card .card-content,
+.map-card .card-content,
+.card-wide .card-content {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   justify-content: space-between;
 }
 
+.small-card .card-description {
+  font-size: 0.9rem;
+}
+
+.card-content .card-bottom {
+  margin-top: .5rem;
+}
+
 .card-content .card-description {
   flex-grow: 1;
-  font-size: 0.9rem;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -moz-box;
@@ -188,7 +245,6 @@
 }
 
 .card-content .card-address {
-  margin-top: .5rem;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -moz-box;
@@ -205,10 +261,16 @@
   color:rgba(0, 0, 0, 0.45)
 }
 
-.main-last-posts .main-last-posts-title-wrapper {
+.main-last-posts .main-last-posts-title-wrapper,
+.profile-my-data-title {
   display: flex;
   justify-content: space-between;
   width: 100%;
+  align-items: center;
+}
+
+.main-last-posts .card-status {
+  background-color: rgba(255, 255, 255, 0.85);
 }
 
 /* КАРУСЕЛЬ НА ГЛАВНОЙ */
@@ -244,18 +306,16 @@
 }
 
 .carousel-control-prev {
-  left: -30px;
+  left: -50px;
 }
 
 .carousel-control-next {
-  right: -30px;
+  right: -50px;
 }
 .toast-njksonkio{
 	font-size:0px
 }
-.MuiFormControl-root .MuiOutlinedInput-input{
-	width: 40vw;
-}
+
 .file {
 	margin: 15px
 }
@@ -296,7 +356,7 @@
 }
 
 .map-card .card-content {
-  max-width: 22rem;
+  max-width: 18rem;
 }
 
 /* СКРОЛЛБАР НА КАРТЕ */
@@ -313,4 +373,776 @@
 .map-posts-overlay::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.4); 
+}
+
+ /* ПРОФИЛЬ */
+
+.profile-my-data-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile-my-data-text {
+  width: 70%;
+}
+
+.profile-my-data-data {
+  display: flex;
+  height: 56px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.profile-textfield.read-only {
+  color: #222;
+}
+
+.profile-my-data-data.send-form {
+  justify-content: center;
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.profile-my-data-data.send-form button {
+  width: 50%;
+}
+
+.profile-my-data-data .profile-textfield {
+  width: 70%;
+}
+
+.profile-my-data-data .MuiTypography-h6 {
+  margin: 0;
+}
+
+.profile-container .avatar-container {
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.avatar-flex {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+.avatar-flex .delete-button {
+  cursor: pointer;
+  color: #ef5350;
+  transition: color 0.3s;
+}
+
+.avatar-flex .delete-button:hover {
+  color: #c62828;
+  transition: color 0.3s;
+}
+
+.profile-container .avatar-fade {
+  display: flex;
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  color:rgba(255, 255, 255, 0.91);
+  opacity: 0;
+  transition: all 0.25s;
+}
+
+.avatar-container:hover .avatar-fade {
+  opacity: 1;
+  transition: all 0.25s;
+  cursor: pointer;
+}
+
+.profile-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 0px 40px;
+  width: 60rem;
+}
+
+.my-posts-container {
+  width: 100%;
+}
+ 
+.profile-wrapper > * {
+   margin-top: 2rem;
+   margin-bottom: 2rem;
+ }
+
+.card-wide {
+  position: relative;
+}
+ 
+.card-wide .card-photo {
+  aspect-ratio: 5/4;
+  object-fit: cover;
+}
+
+.card-wide .card-bottom {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.card-wide .post-delete-button {
+  position: relative;
+  bottom: 4rem;
+  left: 0px;
+  transition: 0.3s all;
+}
+
+.card-wide:hover .post-delete-button {
+  bottom: 0rem;
+  transition: 0.3s all;
+}
+
+.card-wide .card-top {
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+}
+
+.card-wide .card-address,
+.card-wide .card-timesincemissing {
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+}
+
+.card-wide .card-overlay {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  margin-top: 1rem;
+  margin-right: 1rem;
+  z-index: 3;
+  & > * {
+    margin-left: 0.5rem;
+  }
+}
+
+/* СТРАНИЦА ЖИВОТНОГО */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: flex-start;
+  padding-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+.container .post-owner-header {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  min-width: 50%;
+  max-width: 100%;
+  position: sticky;
+  top: 2rem;
+  z-index: 2;
+  margin-top: 0;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+}
+
+.pet-page .like-icon {
+  font-size: 2rem;
+}
+
+.container .gallery {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.gallery-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 0;
+}
+
+.gallery-wrapper .gallery-timesince,
+.gallery-wrapper .map-and-address {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  color: #444;
+  display: flex;
+  justify-content: space-between;
+  & .MuiTypography-caption {
+    font-size: 0.9rem;
+    padding-top: 2px;
+  }
+  & .gallery-address {
+    width: 75%;
+  }
+}
+
+.author {
+  display: flex;
+  align-items: center;
+}
+
+.author .author-name {
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  margin-left: 1rem;
+  margin-right: 3rem;
+}
+
+.author-icons .phone-number {
+  font-size: 1rem;
+  margin-left: 0.5rem;
+  letter-spacing: 1px;
+}
+
+.page-header .favorites-button-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.favorites-button-icon.checked {
+  color: #d32f2f;
+}
+
+.table {
+  margin-top: 2rem;
+  width: 80%;
+}
+
+.table td {
+  vertical-align: top;
+  padding: 0.5rem 1rem;
+  // border: #222 1px dotted;
+}
+
+.table .description .MuiTypography-subtitle1 {
+  font-weight: 500;
+  color:#999;
+}
+
+.table .description {
+  width: 20%
+}
+
+.table .value .MuiTypography-subtitle1 {
+  font-weight: 400;
+  color:#222;
+}
+
+/* НОВЫЙ ПОСТ */
+
+.newpost-content {
+  width: 50rem;
+  max-width: 50rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 2rem;
+  background-color: rgba(255,255,255,0.9);
+  border-radius: 2rem;
+  padding: 2rem;
+}
+
+.profile-my-data {
+  margin-bottom: 2rem;
+  background-color: rgba(255,255,255,0.8);
+  border-radius: 2rem;
+  padding: 2rem;
+
+}
+
+.MuiFormControl-root .MuiOutlinedInput-input{
+	min-width: 300px;
+}
+
+.newpost-item {
+  width: 100%;
+  margin-top: 2rem;
+  // border:rgba(0, 0, 0, 0.45) 2px solid;
+}
+
+.newpost-item .MuiTypography-h6 {
+  margin-bottom: 1rem;
+}
+
+.newpost-item .newpost-type {
+  width: 100%;
+  justify-content: center;
+  & > * {
+    flex-grow: 1;
+    font-size: 1.2rem;
+  }
+}
+
+.newpost-item .newpost-pet {
+  min-width: 50%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: row;
+
+  & .newpost-select {
+    flex-shrink: 1;
+    flex-grow: 1;
+    position: relative;
+  }
+
+  & .newpost-breed {
+    margin-left: 1rem;
+  }
+}
+
+.newpost-item .newpost-size {
+  width: 100%;
+  justify-content: center;
+  & > * {
+    flex-grow: 1;
+  }
+}
+
+.newpost-size .newpost-size-button {
+  flex-direction: column;
+}
+
+.newpost-item .newpost-description {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  & > * {
+    width: 100%;
+  }
+}
+
+
+.newpost-item.newpost-button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  & > * {
+    width: 50%;
+  }
+}
+
+.newpost-upload-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 4rem;
+  cursor: pointer;
+  background-color: rgb(39 118 210 / 20%);
+  border-radius: 8px;
+}
+
+.newpost-upload-label.uploaded {
+  background-color: rgb(76 175 80 / 20%);
+}
+
+.newpost-upload-input {
+  visibility: hidden;
+  display: none;
+}
+
+.newpost-tel {
+  display: flex;
+  justify-content: flex-start;
+  & > * {
+    width: 50%;
+  }
+}
+
+.size-icon {
+  mask-position: 50% 50%;
+  mask-size: cover;
+  mask-repeat: no-repeat;
+  mask-clip: content-box;
+  background-position: 50% 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-clip: content-box;
+  background-color: rgba(0, 0, 0, 0.54);
+  width: 5rem;
+  height: 5rem;
+}
+
+.Mui-selected .size-icon {
+  background-color: #2776d2;
+}
+
+.map-container {
+  width: 100%;
+}
+#map2 {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.newpost-item.buttons {
+  display: flex;
+  width: 100%;
+  & > * {
+    flex-grow: 1;
+  }
+  :last-child{
+    margin-left: 1rem;
+  }
+}
+
+.newpost-map-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  :last-child {
+    color: #888;
+  }
+}
+
+.newpost-map-address {
+  display: flex;
+  width: 100%;
+  & > :first-child {
+    flex-grow: 3;
+    margin-right: 1rem;
+  }
+  & > :last-child {
+    flex-grow: 1;
+  }
+}
+
+.newpost-map-address .react-dadata__container {
+  height: 58px;
+}
+.newpost-map-address .newpost-map-address-string {
+  padding: 16.5px 14px 0px;
+  height: 58px;
+  margin-bottom: 0;
+  letter-spacing: 0.5px;
+  font-weight: 400;
+  color: #222;
+}
+
+.newpost-map-address .react-dadata__input {    font: inherit;
+  letter-spacing: inherit;
+  color: currentColor;
+  box-sizing: content-box;
+  background: none;
+  height: 1.4375em;
+  -webkit-tap-highlight-color: transparent;
+  display: block;
+  min-width: 0;
+  width: 95%;
+  margin-right: 2rem;
+  -webkit-animation-name: mui-auto-fill-cancel;
+  animation-name: mui-auto-fill-cancel;
+  -webkit-animation-duration: 10ms;
+  animation-duration: 10ms;
+  padding: 16.5px 14px;
+}
+
+/* ВЫБОР ЦВЕТА */
+
+.newpost-item .color-selector {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.color-item .color-wrapper {
+  display: inline-block;
+  width: 3rem;
+  height: 3rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+.color-item .color-wrapper .color-label {
+  display: inline-block;
+  font-size: 0px;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 100px;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+              0px 2px 2px 0px rgb(0 0 0 / 14%),
+              0px 1px 5px 0px rgb(0 0 0 / 12%);
+  cursor: pointer;
+}
+
+.color-item .color-radio {
+  display: none;
+}
+
+.color-item .color-radio:checked + .color-label {
+  outline: 2px solid rgba(39, 118, 210, 0.8);
+  box-shadow: 0px 7px 8px -1px rgb(39 118 210 / 30%),
+              0px 12px 17px 3px rgb(39 118 210 / 21%),
+              0px 3px 11px 4px rgb(39 118 210 / 18%);
+}
+
+
+/* КАТАЛОГ */
+
+.my-posts-container {
+  margin-top: 2rem;
+}
+
+.content.catalog {
+  align-items: flex-start;
+  margin-top: 2rem;
+} 
+
+.chip-select {
+  position: relative;
+}
+
+.chip-select .chip-select-selector {
+  position: absolute;
+  margin: 0;
+  top: 6px;
+  left: 0px;
+  width: 120px;
+  max-width: 120px;
+  height: 0px;
+  transform: translateX(-120px);
+}
+
+.chip-select .filter-chip {
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  text-align: center;
+  text-decoration-color: rgba(0, 0, 0, 0.54);
+  text-decoration-line: none;
+  text-decoration-style: solid;
+  text-decoration-thickness: auto;
+  text-indent: 0px;
+  text-rendering: auto;
+  text-shadow: none;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-stretch: 100%;
+  font-style: normal;
+  font-variant-caps: normal;
+  font-variant-east-asian: normal;
+  font-variant-ligatures: normal;
+  font-variant-numeric: normal;
+  font-weight: 500;
+  padding: 8px 8px;
+  color: rgba(0, 0, 0, 0.54);
+  height: auto;
+  border-radius: 18px;
+}
+
+.chip-select .filter-chip.MuiChip-filled {
+  color: white;
+}
+
+.catalog .filters-paper {
+  position: sticky;
+  padding: 0rem 1.5rem;
+  top: 0px;
+  width: 100%;
+  display: flex;
+  border-radius: 8px;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%);
+}
+
+.content.catalog {
+  position: relative;
+}
+
+.catalog .filter-header {
+  margin-top: 1.2rem;
+  color:rgba(0, 0, 0, 0.7)
+}
+
+.filterstack .filter-type {
+  margin-right: 2rem;
+}
+
+.filterstack .filter-type,
+.filterstack .chip-select {
+  margin-top: 0.35rem;
+  margin-bottom: 0.35rem;
+}
+
+.catalog .filter-apply-button {
+  flex-shrink: 0;
+  margin-left: 2rem;
+}
+
+.catalog .filterstack {
+  padding-left: 1rem;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.catalog .filters-chips {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.email-modal .MuiDialog-paper {
+  padding: 1rem 2rem;
+}
+
+.email-modal .MuiFormControl-root {
+  margin-bottom: 0.5rem;
+}
+
+.email-modal .MuiTypography-h6 {
+  align-self: flex-start;
+  padding-left: 0;
+}
+
+.pet-page .map-container {
+  height: 20rem;
+  width: 100vw;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+#map {
+  display: flex;
+  width: 100vw;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.map-card {
+  position: relative;
+}
+
+.map-card .card-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.map-card .like-icon {
+  color: white;
+}
+
+.map-card .filters-chips {
+  flex-wrap: wrap;
+}
+
+.MuiDialog-root .MuiPaper-root {
+  min-width: 35%;
+  max-width: 100%;
+  position: relative;
+}
+
+.MuiDialog-root .dialog-overlay {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+
+.chat-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow-y: scroll;
+}
+
+.chat-box {
+  min-height: 30vh;
+  max-height: 80vw;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow-x: hidden;
+  padding: 0rem 2rem 1rem;
+}
+
+.chat-modal .MuiPaper-root {
+  display: flex;
+  flex-direction: column;
+  padding: 4rem 0rem 2rem;
+}
+
+.chat-modal .chat-form {
+  display: flex;
+  align-items: flex-end;
+  padding: 0rem 2rem;
+}
+
+.chat-modal .form-control {
+  flex-grow: 1;
+  margin-right: 1rem;
+}
+
+.chat-modal .chat-send-button {
+  margin-bottom: 0.4rem;
+}
+
+.chat-modal .message {
+  display: flex;
+  flex-direction: column;
+  margin: 0.4rem 0;
+}
+
+.chat-modal .own-message {
+  align-items: flex-end;
+}
+
+.message .message-name {
+  color:rgba(0, 0, 0, 0.45);
+  font-size: 0.75rem;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  letter-spacing: 0.08333em;
+  text-transform: uppercase;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.message .message-text {
+  padding: 0.5rem 1.25rem;
+  border-radius: 1.25rem;
+}
+
+.own-message .message-text {
+  border: #2776d2 1px solid;
+  color: #2776d2;
+  background-color: rgba(39, 118, 210, 0.1);
+}
+
+.incoming-message .message-text {
+  background-color: #2776d2;
+  color: #fff;
+}
+
+.own-message {
+  align-self: flex-end;
+}
+
+.incoming-message {
+  align-self: flex-start;
 }

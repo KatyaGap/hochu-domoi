@@ -2,10 +2,10 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Types', [
       {
-        type: 'found',
+        type: 'Я нашел',
       },
       {
-        type: 'lost',
+        type: 'Я потерял',
       },
     ], {});
   },

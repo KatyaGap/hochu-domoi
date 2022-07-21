@@ -47,15 +47,49 @@ function UserContextProvider({ children }) {
     }
   };
 
+  const handleUpdate = async (data) => {
+    let result;
+    const fetchUrl = '/auth/update';
+    const response = await fetch(fetchUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json;charset=utf-8' },
+      body: JSON.stringify(data),
+    });
+    console.log('data: ', data);
+    if (response.ok) {
+      result = await response.json();
+      if (result.id) {
+        setUser({ id: result.id, name: result.name, email: result.email });
+        setMessage(result.message);
+        return result;
+      }
+      setMessage(result.message);
+    }
+    return result;
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`/lk/avatar`, { method: 'delete' });
+      const result = await response.json();
+      console.log('res1', result);
+      setUser(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
         user,
         handleAuth,
         handleLogout,
+        handleUpdate,
         loading,
         message,
         setMessage,
+        handleDelete,
       }}
     >
       {children}

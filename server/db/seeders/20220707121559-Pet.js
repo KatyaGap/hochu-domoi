@@ -3,14 +3,14 @@ module.exports = {
     await queryInterface.bulkInsert(
       'Pets',
       [
-        {
-          pet: 'dog',
-        },
-        {
-          pet: 'cat',
-        },
+        { pet: 'Собака' },
+        { pet: 'Кошка' },
+        { pet: 'Крыса' },
+        { pet: 'Хомяк' },
+        { pet: 'Попугай' },
+        { pet: 'Крокодил' },
       ],
-      {}
+      {},
     );
   },
   async down(queryInterface, Sequelize) {

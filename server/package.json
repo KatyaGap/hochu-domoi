@@ -11,16 +11,20 @@
     "moment": "^2.29.4",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.7.7",
+    "op": "^0.0.6",
     "path": "^0.12.7",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.21.2",
     "sequelize-cli": "^6.4.1",
     "session-file-store": "^1.5.0",
+    "uuid": "^8.3.2",
+    "uuid4": "^2.0.2",
     "ws": "^8.8.0"
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {

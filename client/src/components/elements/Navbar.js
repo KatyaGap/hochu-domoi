@@ -7,10 +7,11 @@ import { Message, AddCircle } from '@mui/icons-material';
 // import '../App.scss';
 
 import AdbIcon from '@mui/icons-material/Adb';
+import { useDispatch, useSelector } from 'react-redux';
 import { UserContext } from '../../context/user';
 
-const pages = ['Потеряшки', 'Найдёныши', 'Каталог'];
-const pagesLinks = ['lost', 'found', 'catalog'];
+const pages = ['Потеряшки', 'Найдёныши', 'Каталог', "Избранное"];
+const pagesLinks = ['lost', 'found', 'catalog', 'profile/favor'];
 const settings = ['Профиль', 'Выйти'];
 const settingsLinks = ['profile', 'logout'];
 
@@ -22,7 +23,8 @@ function Navbar() {
 
   const navLink = (pagesLinksArrNumber) => {
     setAnchorElNav(null);
-    navigate(`/${pagesLinks[pagesLinksArrNumber]}`);
+    // navigate(`/${pagesLinks[pagesLinksArrNumber]}`);
+    window.location.replace(`/${pagesLinks[pagesLinksArrNumber]}`);
   };
 
   const navSettings = (settingsLinksArrNumber) => {
@@ -100,7 +102,7 @@ function Navbar() {
             <Box>
               <img src="/iconW24.png" alt="logo" width="24" height="24" style={{ marginRight: ".5rem" }} />
             </Box>
-            <Typography variant="h5" noWrap component="a" href="" sx={{ mr: 2, display: { xs: 'flex', md: 'none' }, flexGrow: 1, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none' }}>
+            <Typography onClick={mainLink} variant="h5" noWrap component="a" href="" sx={{ mr: 2, display: { xs: 'flex', md: 'none' }, flexGrow: 1, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none' }}>
               ХОТИМ ДОМОЙ
             </Typography>
           </Box>
@@ -118,23 +120,15 @@ function Navbar() {
               ? null
               : (
                 <>
-                  {user?.id
-                    ? (
-                      <Tooltip title="Мои сообщения">
-                        <IconButton onClick={chatLink} aria-label="delete">
-                          <Message sx={{ color: "#fff" }} />
-                        </IconButton>
-                      </Tooltip>
-                    ) : null}
 
                   <Button onClick={newPostLink} sx={{ display: { xs: 'none', sm: 'none', lg: 'inline-flex' } }} variant="contained" color="secondary" startIcon={<AddCircle />}>Подать объявление</Button>
                   <IconButton onClick={newPostLink} sx={{ display: { sm: 'inline-flex', lg: 'none' } }} aria-label="Add new post"><AddCircle sx={{ color: "#fff" }} /></IconButton>
                   {user?.id
                     ? (
-                      <Box className="navbar=avatar" sx={{ flexGrow: 0 }}>
+                      <Box className="navbar-avatar" sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                            <Avatar alt="Remy Sharp" src="/doge.jpg" width="40" height="40" />
+                            <Avatar alt="Remy Sharp" src={user?.user_photo} width="40" height="40" />
                           </IconButton>
                         </Tooltip>
                         <Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right' }} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>

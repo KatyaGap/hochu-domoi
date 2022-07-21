@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import '../App.scss';
 import { TextField, Typography } from '@mui/material';
@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function Auth({ isNewPost }) {
   const [regToggle, setRegToggle] = useState(false);
-  const { handleAuth, handleLogout, message, setMessage } = useContext(UserContext);
+  const { handleAuth, message, setMessage } = useContext(UserContext);
   setMessage(''); // скрываем НОВОЕ сообщение с ошибкой при переходе на регистрацию/логин
   const [switched, setSwitched] = useState(false);
 
@@ -29,29 +29,17 @@ function Auth({ isNewPost }) {
     handleAuth(data, regToggle, isNewPost);
   };
 
-  // toast.configure();
-
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
   return (
     <div className="auth-container">
       <div className="auth-title">
-        <Typography
-          onClick={(e) => regAuthToggle(e)}
-          variant="h4"
-          className="auth-title-text"
-          gutterBottom
-          component="div"
-        >
+        <Typography onClick={(e) => regAuthToggle(e)} variant="h4" className="auth-title-text" gutterBottom component="div">
           Авторизация
         </Typography>
+
         <Switch {...label} checked={switched} onClick={(e) => regAuthToggle(e)} />
-        <Typography
-          onClick={(e) => regAuthToggle(e)}
-          variant="h4"
-          className="auth-title-text auth-off"
-          gutterBottom
-          component="div"
-        >
+
+        <Typography onClick={(e) => regAuthToggle(e)} variant="h4" className="auth-title-text auth-off" gutterBottom component="div">
           Регистрация
         </Typography>
       </div>
@@ -61,20 +49,8 @@ function Auth({ isNewPost }) {
           <TextField required name="name" label="Имя" variant="outlined" />
         ) : null}
         <TextField required name="email" label="Почта" variant="outlined" />
-        <TextField
-          required
-          name="password"
-          label="Пароль"
-          type="password"
-          autoComplete="current-password"
-          variant="outlined"
-        />
-        <Button
-          variant="contained"
-          type="submit"
-          className="form-button"
-          size="large"
-        >
+        <TextField required name="password" label="Пароль" type="password" autoComplete="current-password" variant="outlined" />
+        <Button variant="contained" type="submit" className="form-button" size="large">
           Отправить
         </Button>
       </form>

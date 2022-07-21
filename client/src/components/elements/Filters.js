@@ -1,157 +1,90 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { IconButton, Input, Stack, TextField } from '@mui/material';
-import Button from '@mui/material/Button';
-import SendIcon from '@mui/icons-material/Send';
-import { PhotoCamera } from '@mui/icons-material';
-import Typography from '@mui/material/Typography';
-import { useDispatch } from 'react-redux';
-import PostList from './PostList';
-import { getFilteredThunk } from '../../redux/actions/adverts';
+import { Box, FormControl, Button, Select, InputLabel, ToggleButtonGroup, ToggleButton, MenuItem, Stack, Paper, Typography } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { getFilteredThunk, getParamsThunk } from '../../redux/actions/adverts';
+import FilterChip from './FilterChip';
 
-export default function Filters({ adverts, setFilteredPosts }) {
+export default function Filters({ adverts }) {
   const dispatch = useDispatch();
+  const { params, filtered } = useSelector((state) => state);
+  const { types, pets, breeds, colors, sizes, statuses } = params;
   const [filter, setFilter] = React.useState({});
-  const handleChange = React.useCallback((e) => {
-    setFilter((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  React.useEffect(() => {
+    dispatch(getParamsThunk());
+  }, []);
+
+  React.useEffect(() => {
+    dispatch(getFilteredThunk(filter));
+  }, [filter]);
+
+  const handleSetFilter = React.useCallback((name, value) => {
+    setFilter((prev) => ({ ...prev, [name]: value }));
   });
-  const handleSubmit = (e) => {
+
+  const handleApplyFilter = (e) => {
     e.preventDefault();
     dispatch(getFilteredThunk(filter));
-    setFilter({});
-    e.target.reset();
   };
-  console.log(filter);
-  return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <Typography variant="h4" component="div" gutterBottom>
-          Пожалуйста, выберите данные
-        </Typography>
-        <Box sx={{ minWidth: 120 }}>
-          <div className="select">
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">
-                Какие животные вас интересуют?
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                name="type_id"
-                value={filter.type_id}
-                label="Pet"
-                onChange={handleChange}
-              >
-                <MenuItem value={1}>Найденыши</MenuItem>
-                <MenuItem value={2}>Потеряшки</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-          <div className="select">
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">
-                Вид животного
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                name="pet_id"
-                value={filter.pet_id}
-                label="Pet"
-                onChange={handleChange}
-              >
-                <MenuItem value={1}>Собака</MenuItem>
-                <MenuItem value={2}>Кошка</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-          {filter.pet_id === 1 && (
-            <div className="select">
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Порода</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  name="breed_id"
-                  value={filter.breed_id}
-                  label="Breed"
-                  onChange={handleChange}
-                >
-                  <MenuItem value={1}>Такса</MenuItem>
-                  <MenuItem value={2}>Метис</MenuItem>
-                  <MenuItem value={3}>Двортерьер</MenuItem>
-                  <MenuItem value={4}>Иное</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-          )}
 
-          <div className="select">
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Цвет</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                name="color_id"
-                value={filter.color_id}
-                label="Color"
-                onChange={handleChange}
-              >
-                <MenuItem value={1}>Черный</MenuItem>
-                <MenuItem value={2}>Коричневый</MenuItem>
-                <MenuItem value={3}>Белый</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-          <div className="select">
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Размер</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                name="size"
-                value={filter.size}
-                label="Size"
-                onChange={handleChange}
-              >
-                <MenuItem value={1}>Мелкий</MenuItem>
-                <MenuItem value={2}>Средний</MenuItem>
-                <MenuItem value={3}>Крупный</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-          {filter.type_id === 1 && (
-            <div className="select">
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Статус</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  name="status_id"
-                  value={filter.status_id}
-                  label="Status"
-                  onChange={handleChange}
-                >
-                  <MenuItem value={1}>Замечен на улице</MenuItem>
-                  <MenuItem value={2}>Ищу передержку</MenuItem>
-                  <MenuItem value={3}>
-                    Животное на передержке. Ищу хозяина
-                  </MenuItem>
-                  <MenuItem value={4}>Ищу только старого хозяина</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-          )}
-        </Box>
+  const [typeButtonValue, setTypeButtonValue] = React.useState("");
+  const handleChangeType = (event, newTypeId) => {
+    setTypeButtonValue(newTypeId);
+    handleSetFilter("type_id", newTypeId);
+  };
+
+  return (
+    <form onSubmit={handleApplyFilter} style={{ width: "100%" }}>
+      <div className="filters-paper">
+        <Stack direction="row" className="filterstack">
+
+          <ToggleButtonGroup className="filter-type" onChange={handleChangeType} color="primary" value={typeButtonValue} exclusive>
+            <ToggleButton value={2} name="type_id">Потеряшки</ToggleButton>
+            <ToggleButton value={1} name="type_id">Найденыши</ToggleButton>
+          </ToggleButtonGroup>
+
+          <Stack direction="row" spacing={2} className="filters-chips">
+            <FilterChip
+              filterName="Вид питомца"
+              name="pet_id"
+              options={pets}
+              handleSetFilter={handleSetFilter}
+            />
+
+            {filter.pet_id === 1 && (
+            <FilterChip
+              filterName="Порода"
+              name="breed_id"
+              options={breeds}
+              handleSetFilter={handleSetFilter}
+            />
+            )}
+
+            <FilterChip
+              filterName="Цвет"
+              name="color_id"
+              options={colors}
+              handleSetFilter={handleSetFilter}
+            />
+
+            <FilterChip
+              filterName="Размер"
+              name="size_id"
+              options={sizes}
+              handleSetFilter={handleSetFilter}
+            />
+
+            {filter.type_id === 1 && (
+            <FilterChip
+              filterName="Статус"
+              name="status_id"
+              options={statuses}
+              handleSetFilter={handleSetFilter}
+            />
+            )}
+          </Stack>
+
+        </Stack>
       </div>
-      <Button type="submit" variant="contained">
-        Выбрать объявления
-      </Button>
     </form>
   );
 }

@@ -32,7 +32,7 @@ router.route('/register').post(async (req, res) => {
         password: await Bcrypt.hash(password),
         name,
         role_id: 2, // по умолчанию создаем НЕ АДМИНА
-        user_photo: null, // по умолчанию аватарки не будет, ее потом можно будет добавить в личном кабинете
+        user_photo: '/userpics/doge.jpg', // по умолчанию на аватарке будет Doge, потом можно будет изменить :)
       });
       req.session.userId = user.id;
       req.session.userName = user.name;
@@ -50,7 +50,7 @@ router.route('/register').post(async (req, res) => {
   }
 });
 
-router.route('/login').post(async (req, res) => { // пока не прописал логику связанную с админом
+router.route('/login').post(async (req, res) => {
   try {
     const { email, password } = req.body;
     if (email && password) {
@@ -74,6 +74,25 @@ router.route('/login').post(async (req, res) => { // пока не пропис�
     console.log(err);
     const message = 'Какая-то ошибка, попробуй еще раз';
     res.json({ message: `${message}` });
+  }
+});
+
+router.route('/update').post(async (req, res) => {
+  const { userId } = req.session;
+  try {
+    const { name, email, password } = req.body;
+    const user = await User.findOne({ where: { id: userId }, attributes: ['id', 'name', 'email'] });
+    if (name) { user.name = name; }
+    if (email) { user.email = email; }
+    if (password) { user.password = await Bcrypt.hash(password); }
+    user.save();
+
+    req.session.userName = user.name;
+
+    const message = 'Успешно обновлено!';
+    res.json({ user, message: `${message}` });
+  } catch (err) {
+    res.json({ message: `${err}` });
   }
 });
 
