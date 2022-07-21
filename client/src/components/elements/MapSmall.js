@@ -28,37 +28,8 @@ function MapSmall({ pet }) {
   const { params, filtered, adverts } = useSelector((state) => state);
   const { sizes, types, pets, colors, breeds, statuses } = params;
   console.log('types', types);
-  // function getType() {
-  //   if (`/map${location.pathname}`.includes('found')) return 1;
-  //   return 2;
-  // }
-  // const [filter, setFilter] = useState({ type_id: getType() });
-  // useEffect(() => {
-  //   dispatch(getParamsThunk());
-  //   dispatch(getAdvertsThunk());
-  //   dispatch(getFilteredThunk(filter));
-  //   setGo((prev) => !prev);
-  // }, [filter]);
+
   const [flag, setFlag] = useState(false);
-  // if (filtered.length !== 0 && !flag) {
-  //   setFlag(true);
-  // }
-  console.log('filtered1', filtered);
-  console.log('adverts', adverts);
-  // const handleChange = useCallback((e) => {
-  //   setFilter((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  // });
-  // console.log('filter', filter);
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   dispatch(getFilteredThunk(filter));
-  //   console.log('filtered!!', filtered);
-  //   setPosts(filtered);
-  // };
-  // const myCollection = new ymaps.GeoObjectCollection();
-  // const handlerLabel = () => {
-  //   myCollection.add(myPlacemark);
-  // };
   function init() {
     myMap.current = new ymaps.Map(
       'map',

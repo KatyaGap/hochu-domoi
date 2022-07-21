@@ -29,8 +29,6 @@ function Auth({ isNewPost }) {
     handleAuth(data, regToggle, isNewPost);
   };
 
-  // toast.configure();
-
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
   return (
     <div className="auth-container">

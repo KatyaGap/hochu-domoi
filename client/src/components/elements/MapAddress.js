@@ -9,7 +9,6 @@ export default function MapAddress({ deleteLable, addressСoordinates, save, coo
   const id = useId();
 
   const suggestionsRef = useRef < AddressSuggestions > (null);
-  // console.log('inputCoord', inputCoord);
 
   const inputHandler = (e) => {
     setInputCoord((prev) => ({
@@ -47,23 +46,6 @@ export default function MapAddress({ deleteLable, addressСoordinates, save, coo
         {coord.adress
           ? <Button startIcon={<RestartAlt />} className="newpost-map-address-button" variant="outlined" onClick={deleteLable} type="button">Очистить</Button>
           : <Button startIcon={<Search />} className="newpost-map-address-button" variant="outlined" onClick={addressСoordinates} type="button">Поиск</Button>}
-
-        {/* <div><input type="text" id="suggest" value={inputs.adress} onChange={inputHandler} name="adress" placeholder="Введите адрес" style={{ width: "400px", height: "40px" }} /></div> */}
-        {/* <Button variant="outlined" onClick={(e) => save(e.preventDefault())} id="button" type="submit">Сохранить метку</Button> */}
-
-        {/* <div className="newpost-map-address">
-          <TextField
-            id="suggest"
-            type="text"
-            value={inputs.adress}
-            onChange={inputHandler}
-            label="Адрес"
-            name="adress"
-            placeholder="Введите адрес"
-            variant="outlined"
-          /> */}
-
-        {/* <Button variant="outlined" onClick={(e) => save(e.preventDefault())} id="button" type="submit">Сохранить метку</Button> */}
 
       </div>
     </form>

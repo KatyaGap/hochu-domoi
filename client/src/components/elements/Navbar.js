@@ -120,14 +120,6 @@ function Navbar() {
               ? null
               : (
                 <>
-                  {/* {user?.id
-                    ? (
-                      <Tooltip title="Мои сообщения">
-                        <IconButton onClick={chatLink} aria-label="delete">
-                          <Message sx={{ color: "#fff" }} />
-                        </IconButton>
-                      </Tooltip>
-                    ) : null} */}
 
                   <Button onClick={newPostLink} sx={{ display: { xs: 'none', sm: 'none', lg: 'inline-flex' } }} variant="contained" color="secondary" startIcon={<AddCircle />}>Подать объявление</Button>
                   <IconButton onClick={newPostLink} sx={{ display: { sm: 'inline-flex', lg: 'none' } }} aria-label="Add new post"><AddCircle sx={{ color: "#fff" }} /></IconButton>

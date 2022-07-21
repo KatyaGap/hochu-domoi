@@ -84,9 +84,6 @@ export default function Filters({ adverts }) {
           </Stack>
 
         </Stack>
-        {/* <Button type="submit" variant="contained" className="filter-apply-button">
-          Применить
-        </Button> */}
       </div>
     </form>
   );

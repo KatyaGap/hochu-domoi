@@ -6,8 +6,8 @@ import { useParams } from 'react-router-dom';
 import ChatIcon from '@mui/icons-material/Chat';
 import { UserContext } from '../../context/user';
 
-const myIP = "192.168.0.14";
-const socket = new WebSocket(`ws://${myIP}:3002`);
+const myIP = "192.168.43.59";
+const socket = new WebSocket(`ws://localhost:3002`);
 
 function ModalForChat({ id }) {
   const [open, setOpen] = useState(false);
@@ -16,15 +16,11 @@ function ModalForChat({ id }) {
   const [value, setValue] = useState("");
   const userNamed = user.name;
   const userId = user.id;
-  console.log('id', user.id);
   const iD = useParams();
-  console.log('ID', iD.id);
   const roomId = (iD.id);
-  console.log('user.id: ', user.id);
   let ownMsg;
 
   const [conversation, setConversation] = useState([]);
-  console.log('conversation: ', conversation);
 
   useEffect(() => {
     socket.send(JSON.stringify({ type: 'GET_MESSAGES', roomId }));

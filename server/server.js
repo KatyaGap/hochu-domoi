@@ -8,15 +8,6 @@ const PORT = process.env.PORT || 3002;
 const server = createServer(app);
 
 server.on('upgrade', (request, socket, head) => {
-  // sessionParser(request, {}, () => {
-  // if (!request.session.userId) {
-  //   console.log(request.session);
-  //   socket.write('Status 401');
-  //   socket.destroy();
-  //   return;
-  // }
-
-  // console.log('====>', head.toString());
   console.log('Session is parsed..');
 
   wsServer.handleUpgrade(request, socket, head, (ws) => {

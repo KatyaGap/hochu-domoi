@@ -51,23 +51,10 @@ function Maps() {
   }, [filter]);
 
   const [flag, setFlag] = useState(false);
-  // if (filtered.length !== 0 && !flag) {
-  //   setFlag(true);
-  // }
 
   const handleSetFilter = useCallback((name, value) => {
     setFilter((prev) => ({ ...prev, [name]: value }));
   });
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   dispatch(getFilteredThunk(filter));
-  //   console.log('filtered!!', filtered);
-  //   setPosts(filtered);
-  // };
-  // const myCollection = new ymaps.GeoObjectCollection();
-  // const handlerLabel = () => {
-  //   myCollection.add(myPlacemark);
-  // };
 
   function init() {
     myMap.current = new ymaps.Map(
@@ -112,8 +99,7 @@ function Maps() {
         ));
       }
     } else {
-      // eslint-disable-next-line no-unused-expressions
-      `<div>Ничего не найдено</div>`;
+      <div>Ничего не найдено</div>;
     }
 
     myMap.current?.geoObjects.add(myCollection.current);
@@ -134,7 +120,6 @@ function Maps() {
   }, [filtered.length, filter, location.pathname]);
 
   const setTypeAndPan = (latt, long) => {
-    // console.log('latt, long', [+latt, +long]);
     myMap.current.panTo([+latt, +long], {
       flying: true,
       // Задержка между перемещениями.
@@ -209,134 +194,7 @@ function Maps() {
         </Paper>
         )}
       </div>
-
-      <div className="old-filters">
-        {/* <form>
-          <div>
-            <Typography variant="h4" component="div" gutterBottom>
-              Пожалуйста, выберите данные
-            </Typography>
-            <Box sx={{ minWidth: 120 }}>
-
-              <div className="select">
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">
-                    Вид животного
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    name="pet_id"
-                    value={filter.pet_id}
-                    label="Pet"
-                    onChange={handleChange}
-                  >
-                    {pets?.map((item, ind) => (
-                      <MenuItem key={ind + 1} value={ind + 1}>
-                        {item.pet}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </div>
-              {filter.pet_id === 1 && (
-              <div className="select">
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">Порода</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    name="breed_id"
-                    value={filter.breed_id}
-                    label="Breed"
-                    onChange={handleChange}
-                  >
-                    {breeds?.map((item, ind) => (
-                      <MenuItem key={ind + 1} value={ind + 1}>
-                        {item.breed}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </div>
-              )}
-
-              <div className="select">
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">Цвет</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    name="color_id"
-                    value={filter.color_id}
-                    label="Color"
-                    onChange={handleChange}
-                  >
-                    {colors?.map((item, ind) => (
-                      <MenuItem key={ind + 1} value={ind + 1}>
-                        {item.color_name}
-                        <span
-                          style={{
-                            backgroundColor: `${item.hex}`,
-                            width: '100px',
-                            borderRadius: '20px',
-                            margin: '10px',
-                          }}
-                        >
-                          color
-                        </span>
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </div>
-              <div className="select">
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">Размер</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    name="size_id"
-                    value={filter.size_id}
-                    label="Size"
-                    onChange={handleChange}
-                  >
-                    {sizes?.map((item, ind) => (
-                      <MenuItem key={ind + 1} value={ind + 1}>
-                        {item.size}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </div>
-              {filter.type_id === 1 && (
-              <div className="select">
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">Статус</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    name="status_id"
-                    value={filter.status_id}
-                    label="Status"
-                    onChange={handleChange}
-                  >
-                    {statuses?.map((item, ind) => (
-                      <MenuItem key={ind + 1} value={ind + 1}>
-                        {item.status}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </div>
-              )}
-            </Box>
-          </div>
-          <Button type="submit" variant="contained">
-            Выбрать объявления
-          </Button>
-        </form> */}
-      </div>
+      <div className="old-filters" />
     </>
   );
 }

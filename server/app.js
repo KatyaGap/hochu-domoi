@@ -5,12 +5,10 @@ const morgan = require('morgan');
 const path = require('path');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
-// const upload = require('./middlewares/middlewares');
 const { User } = require('./db/models');
 const Bcrypt = require('./utils/bcrypt');
 const advertsRouter = require('./routers/advertsRouter');
 const registerRouter = require('./routers/registerRouter');
-const chatRouter = require('./routers/chatRouter');
 const mapRouter = require('./routers/mapRouter');
 const lkRouter = require('./routers/lkRouter');
 const checkSession = require('./middlewares/checkSession');
@@ -47,8 +45,6 @@ app.use(checkSession);
 app.use('/adverts', advertsRouter); // правим
 app.use('/auth', registerRouter); // оставляем
 
-// app.use('/get-messages', chatRouter);
-// app.use('/new-messages', chatRouter);
 app.use('/map', mapRouter); // правим
 app.use('/lk', lkRouter); // роутер для личного кабинета
 app.use('/message', messageRouter);

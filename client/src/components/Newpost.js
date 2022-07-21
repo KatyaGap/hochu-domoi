@@ -22,8 +22,6 @@ export default function Newpost({ type }) {
   const { sizes, types, pets, colors, breeds, statuses } = params;
   const [coord, setCoord] = useState({});
   const ref = useRef();
-  // console.log('params', params);
-  // console.log('pets', pets);
   useEffect(() => {
     dispatch(getParamsThunk());
   }, []);
@@ -128,7 +126,6 @@ export default function Newpost({ type }) {
       setPost((prev) => ({ ...prev, [e.target.name]: e.target.value }));
       post[e.target.name] = e.target.value;
     }
-    console.log('post: ', post);
   }, []);
 
   const changePage = () => {
@@ -153,8 +150,6 @@ export default function Newpost({ type }) {
     console.log('newSizeId: ', newSizeId);
     setSizeButtonValue(newSizeId);
     const result = { target: { name: "size", value: newSizeId } };
-    // event.target.value = event.target.closest('.newpost-size-button').value;
-    // console.log('.value: ', event.target.closest('.newpost-size-button').value);
     handleChange(result);
   };
 

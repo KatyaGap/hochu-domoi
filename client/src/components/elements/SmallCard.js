@@ -26,12 +26,7 @@ export default function SmallCard({ post }) {
   const makeLike = (e, obj) => {
     dispatch(makeLikeThunk(obj));
     likes.indexOf((el) => el.post_id === post.id);
-    // const icon = e.target.classList.contains('like-icon') ? e.target : e.target.querySelector('.like-icon'); // находим элемент иконки
-    // icon.classList.toggle("filled");
   };
-
-  // console.log('likes: ', likes);
-  // console.log('post: ', post);
 
   return (
     <Card sx={{ minWidth: 216, maxWidth: 216 }} className="card small-card">

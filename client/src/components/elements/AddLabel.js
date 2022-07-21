@@ -81,10 +81,7 @@ function AddLabel({ coord, setCoord }) {
           });
       });
     }
-    //   myMap.geoObjects.events.add('click', function (e) {
-    //      object = e.get('target');
-    //     myMap.geoObjects.remove(object)
-    // },
+
     myMap.current.events.add('click', (e) => {
       const coords = e.get('coords');
       setCoord({ coordinates: e.get('coords') });
@@ -101,14 +98,9 @@ function AddLabel({ coord, setCoord }) {
       getAddress(coords);
     });
   }
-  // console.log('coord', coord);
   useEffect(() => {
     ymaps.ready(init);
   }, []);
-
-  // useEffect(() => {
-  //   // console.log(myPlacemark);
-  // });
 
   const deleteLable = (e) => {
     setCoord('');

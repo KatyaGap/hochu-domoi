@@ -14,7 +14,6 @@ import BasicModal from './elements/ModalForChat';
 import Gallery from './elements/Gallery';
 import { sendMessage } from '../redux/actions/message';
 import MapSmall from './elements/MapSmall';
-// import ModalForMessage from './elements/ModalForMessage';
 
 export default function Pet() {
   const dispatch = useDispatch();
@@ -57,11 +56,11 @@ export default function Pet() {
   //
 
   const mapToggle = () => {
-    setShowMap(!showMap); // ВОЗМОЖНО
+    setShowMap(!showMap);
   };
   const makeLike = React.useCallback((obj) => {
     dispatch(makeLikeThunk(obj));
-    setFlag((prev) => !prev); // ВОЗМОЖНО
+    setFlag((prev) => !prev);
   }, []);
 
   return (
@@ -110,15 +109,6 @@ export default function Pet() {
             </Tooltip>
 
             <ModalEmail />
-
-            {/* <ModalForMessage active={!modalActive} setActive={setModalActive}> */}
-            {/* <p>Hello Kate!!!</p>
-              <form onSubmit={handleSubmit}>
-                <textarea name="message" onChange={handleChange} value={form} />
-                <button type="submit">Отправить Письмо</button>
-                <button type="button">Отмена</button>
-              </form> */}
-            {/* </ModalForMessage> */}
             <Tooltip title="Открыть чат с автором объявления">
               {user ? (
                 <BasicModal />

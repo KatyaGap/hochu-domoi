@@ -14,7 +14,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-// import { use } from '../../../../server/routers/mapRouter';
 import { deleteLikeThunk } from '../../redux/actions/adverts';
 
 function CardWide({ post, handleDeletePost }) {

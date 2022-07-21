@@ -109,10 +109,10 @@ router
           post_id: post.id,
         })),
       );
-      res.json({ id: post.id }); // тупо строка для теста. Потом поменять на что-то правильное
+      res.json({ id: post.id });
     } catch (error) {
       console.log(error);
-      res.json({ message: 'Ошибка в введённых данных, пост не создан!' }); // тупо строка для теста. Потом поменять на что-то правильное
+      res.json({ message: 'Ошибка в введённых данных, пост не создан!' });
     }
   });
 module.exports = router;

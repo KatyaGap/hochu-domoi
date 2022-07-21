@@ -182,14 +182,6 @@ router
           where: { user_id: res.locals.userId, post_id: id },
         });
       }
-
-      // const post = {
-      //   ...like,
-      //   text: like['Post.text'],
-      //   address_string: like['Post.address_string'],
-      //   photo_url: like['Post.Images.image'],
-      //   type_id: like['Post.type_id'],
-      // };
       const post = {
         photo_url: like.Post.dataValues.Images[0].dataValues.image,
         text: like.Post.dataValues.text,
