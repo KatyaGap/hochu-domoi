@@ -12,10 +12,6 @@ export default function MapAddressOld({ addressСoordinates, save, setCoord, inp
       ...prev,
       [e.target.name]: e.target.value,
     }));
-    // setCoord((prev) => ({
-    //   ...prev,
-    //   [e.target.name]: e.target.value,
-    // }));
   };
   const changeLableHandler = (e) => {
     setCangeLable({ [e.target.name]: e.target.value });

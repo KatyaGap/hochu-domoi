@@ -1,7 +1,6 @@
 import React from 'react';
 import { ArrowForwardIos } from '@mui/icons-material';
 import SmallCard from './SmallCard';
-import { makeLikeThunk } from '../../redux/actions/adverts';
 
 function Carousel({ posts, id }) {
   return (

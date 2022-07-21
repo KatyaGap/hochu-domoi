@@ -14,9 +14,6 @@ import { sendMessageThunk } from '../../redux/actions/message';
 
 function Modal() {
   const [open, setOpen] = React.useState(false);
-  const [userAnswer, setUserAnswer] = React.useState('');
-  const input = useRef(null);
-  const value = {};
   const [form, setForm] = useState('');
   const dispatch = useDispatch();
   const params = useParams();

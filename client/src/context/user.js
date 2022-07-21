@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const UserContext = createContext();
 
@@ -32,7 +32,6 @@ function UserContextProvider({ children }) {
     });
     if (response.ok) {
       const result = await response.json();
-      console.log('result', result);
       if (result.id) {
         setUser({ id: result.id, name: result.name, email: result.email });
         if (newPost) {
@@ -72,7 +71,6 @@ function UserContextProvider({ children }) {
     try {
       const response = await fetch(`/lk/avatar`, { method: 'delete' });
       const result = await response.json();
-      console.log('res1', result);
       setUser(result);
     } catch (error) {
       console.log(error);

@@ -3,11 +3,8 @@ import { useContext } from 'react';
 import { AppBar, Toolbar, Box, Menu, Avatar, Container, Button, Tooltip, MenuItem, IconButton, Typography, Stack } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
-import { Message, AddCircle } from '@mui/icons-material';
-// import '../App.scss';
+import { AddCircle } from '@mui/icons-material';
 
-import AdbIcon from '@mui/icons-material/Adb';
-import { useDispatch, useSelector } from 'react-redux';
 import { UserContext } from '../../context/user';
 
 const pages = ['Потеряшки', 'Найдёныши', 'Каталог', "Избранное"];

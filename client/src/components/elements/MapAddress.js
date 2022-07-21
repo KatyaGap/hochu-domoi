@@ -40,7 +40,6 @@ export default function MapAddress({ deleteLable, addressСoordinates, save, coo
               minChars="4"
               delay="400"
               inputProps={{ placeholder: 'Адрес', required: true }}
-              // customInput={<TextField placeholder="Введите адрес" variant="outlined" label="Адрес" />}
             />
           )}
         {coord.adress

@@ -1,13 +1,8 @@
-import { ImageList, ImageListItem, ImageListItemBar, Stack } from '@mui/material';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Stack } from '@mui/material';
+import React, { useState } from 'react';
 import CardWide from './CardWide';
 
 function PostList({ adverts, posts = [] }) {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
   const [isEmpty, setIsEmpty] = useState(false);
   if (posts.length !== 0 && !isEmpty) {
     setIsEmpty(true);

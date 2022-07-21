@@ -14,9 +14,7 @@ function Chat({ id }) {
   const [ownMessage, setOwnMessage] = useState(false);
   const userNamed = user.name;
   const userId = user.id;
-  console.log('id', user.id);
   const iD = useParams();
-  console.log('ID', iD.id);
   const roomId = (iD.id);
 
   const [conversation, setConversation] = useState([]);

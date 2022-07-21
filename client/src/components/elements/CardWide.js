@@ -29,7 +29,6 @@ function CardWide({ post, handleDeletePost }) {
 
   const { likes } = useSelector((state) => state);
   const deleteLike = React.useCallback((post_id) => {
-    console.log('id', post_id);
     dispatch(deleteLikeThunk(post_id));
   }, []);
   return (

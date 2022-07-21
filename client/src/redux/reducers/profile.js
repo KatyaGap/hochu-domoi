@@ -8,8 +8,6 @@ const paramsReducer = (state = initialState, action) => {
     case GET_PROFILE:
       return payload;
     case DELETE_PROFILEPOST:
-      console.log('state', state);
-      console.log('payload', payload);
       return state.filter((post) => post.id !== payload);
     default:
       return state;

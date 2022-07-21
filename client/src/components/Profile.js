@@ -3,7 +3,6 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { styled } from '@mui/material/styles';
-import { CollectionsBookmarkRounded } from '@mui/icons-material';
 import { UserContext } from '../context/user';
 import { deleteProfilePostThunk, getProfileThunk } from '../redux/actions/adverts';
 import CardWide from './elements/CardWide';
@@ -17,7 +16,7 @@ function Profile() {
     dispatch(deleteProfilePostThunk(id));
   }, []);
 
-  const { profile, filtered } = useSelector((state) => state);
+  const { profile } = useSelector((state) => state);
   useEffect(() => {
     dispatch(getProfileThunk());
   }, []);
@@ -49,7 +48,6 @@ function Profile() {
       fetch('/lk/avatar', { method: 'PUT', body: formData })
         .then((response) => response.json())
         .then((result) => {
-          console.log('result photo', result.user_photo);
           setPhoto(result.user_photo);
         })
         .finally(() => setInput({}));

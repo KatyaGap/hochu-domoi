@@ -5,8 +5,7 @@ import Button from '@mui/material/Button';
 import { PhotoCamera, Send, KeyboardArrowRight, KeyboardArrowLeft } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { getAdvertsThunk, getParamsThunk } from '../redux/actions/adverts';
-import filterReducer from '../redux/reducers/filter';
+import { getParamsThunk } from '../redux/actions/adverts';
 import AddLabel from './elements/AddLabel';
 import { UserContext } from '../context/user';
 
@@ -88,7 +87,6 @@ export default function Newpost({ type }) {
     formData.append('address_lattitude', coord?.coordinates[0]);
     formData.append('address_longitude', coord?.coordinates[1]);
     formData.append('address_string', coord?.adress);
-    console.log('formData', Object.fromEntries(formData));
     fetch(`/map/${type}`, {
       method: 'Post',
       body: formData,
@@ -97,7 +95,6 @@ export default function Newpost({ type }) {
       .then((result) => {
         setPosts((prev) => [...prev, result]);
         const newPostId = result?.id;
-        console.log('result: ', result);
         if (result.message) {
           setMessage(result.message);
         } else {
@@ -131,7 +128,6 @@ export default function Newpost({ type }) {
   const changePage = () => {
     if (makeBool1()) {
       setFlag((prev) => !prev);
-      console.log("post:::", post);
     } else {
       makeToast();
     }
@@ -147,7 +143,6 @@ export default function Newpost({ type }) {
 
   const [sizeButtonValue, setSizeButtonValue] = useState('');
   const handleChangeSize = (event, newSizeId) => {
-    console.log('newSizeId: ', newSizeId);
     setSizeButtonValue(newSizeId);
     const result = { target: { name: "size", value: newSizeId } };
     handleChange(result);

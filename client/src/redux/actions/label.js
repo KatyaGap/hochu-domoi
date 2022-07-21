@@ -9,7 +9,6 @@ export const getLabel = (value) => ({
 export const labelMap = (filter) => (dispatch) => {
   axios(`/map/${filter}`)
     .then((res) => {
-      // console.log('res', res.data);
       dispatch(getLabel(res.data));
     })
     .catch((err) => console.log(err));

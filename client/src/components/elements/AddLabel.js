@@ -37,7 +37,6 @@ function AddLabel({ coord, setCoord }) {
         iconImageHref: 'lable2.png',
         iconImageSize: [35, 35],
       }));
-      console.log(myMap.current);
     })
       .catch((err) => {
         console.log(err);
@@ -125,7 +124,6 @@ function AddLabel({ coord, setCoord }) {
         addressСoordinates={addressСoordinates}
       />
       <div id="map2" style={{ height: "400px" }} />
-      {/* <Maps inputs={inputs} setInputs={setInputs} inputCoord={inputCoord} setInputCoord={setInputCoord} changeLable={changeLable} setCangeLable={setCangeLable} addressСoordinates={addressСoordinates} /> */}
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {
-  Button,
   Card,
   CardMedia,
   CardContent,
@@ -12,14 +11,13 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { FavoriteBorder, PinDrop, Restore } from '@mui/icons-material';
+import { PinDrop, Restore } from '@mui/icons-material';
 import { makeLikeThunk } from '../../redux/actions/adverts';
 
 export default function SmallCard({ post }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { likes } = useSelector((state) => state);
-  const [flag, setFlag] = React.useState(false);
   const petLink = () => {
     navigate(`/pet/${post.id}`);
   };

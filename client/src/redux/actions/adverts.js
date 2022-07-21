@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import {
   DELETE_LIKE,
   DELETE_PROFILEPOST,
@@ -45,7 +43,6 @@ export const getProfileThunk = () => async (dispatch) => {
   try {
     const response = await fetch('/lk');
     const result = await response.json();
-    console.log('result profile', result);
     dispatch(getProfile(result));
   } catch (error) {
     console.log(error);
@@ -97,7 +94,6 @@ export const deleteProfilePostThunk = (id) => async (dispatch) => {
   try {
     const response = await fetch(`/lk/${id}`, { method: 'delete' });
     const result = await response.json();
-    console.log('result', result);
     if (response.ok) {
       console.log(response);
       dispatch(deleteProfilePost(id));
@@ -136,34 +132,3 @@ export const makeLikeThunk = (obj) => async (dispatch) => {
     console.log(error);
   }
 };
-
-// export const getLostThunk = () => async (dispatch) => {
-//   try {
-//     const response = await fetch('/map/lost');
-//     const result = await response.json();
-//     console.log('getlost', result);
-//     dispatch(getLost(result));
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-// export const getFoundThunk = () => async (dispatch) => {
-//   try {
-//     const response = await fetch('/map/found');
-//     const result = await response.json();
-//     console.log('getfound', result);
-//     dispatch(getFound(result));
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-// export const yaAction = (value) => ({
-//   type: GET_LOST,
-//   payload: value,
-// })
-
-// export const yandexMap = (body) => (dispatch) => {
-//   axios.post('http://localhost:3002/map', body)
-//     .then((res) => dispatch(yaAction(res.data)))
-//     .catch((err) => console.log(err));
-// };

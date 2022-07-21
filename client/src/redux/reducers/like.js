@@ -10,12 +10,8 @@ const likeReducer = (state = initialState, action) => {
       }
       return [...state, payload];
     case DELETE_LIKE:
-      console.log('payload', payload);
       return state.filter((like) => like.post_id !== payload);
     case GET_LIKES:
-      console.log('payload get likes', payload);
-      // let lost = state.lost.find((el) => el.id === payload.id);
-      // lost.name = lost.name;
       return payload;
     default:
       return state;

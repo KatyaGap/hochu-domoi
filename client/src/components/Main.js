@@ -8,8 +8,6 @@ import Carousel from './elements/Carousel';
 
 function Main() {
   const dispatch = useDispatch();
-  const [imgArray1, setImgArray1] = useState([]);
-  const [imgArray2, setImgArray2] = useState([]);
   const { fivelosts, fivefounds, likes } = useSelector((state) => state);
   useEffect(() => {
     dispatch(getFiveLostThunk());

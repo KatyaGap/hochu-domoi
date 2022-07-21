@@ -7,7 +7,7 @@ import FilterChip from './FilterChip';
 export default function Filters({ adverts }) {
   const dispatch = useDispatch();
   const { params, filtered } = useSelector((state) => state);
-  const { types, pets, breeds, colors, sizes, statuses } = params;
+  const { pets, breeds, colors, sizes, statuses } = params;
   const [filter, setFilter] = React.useState({});
   React.useEffect(() => {
     dispatch(getParamsThunk());

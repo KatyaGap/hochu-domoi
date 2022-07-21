@@ -16,7 +16,6 @@ function CardMap({ post, hasLike, setTypeAndPan }) {
   };
 
   const makeLike = React.useCallback((obj) => {
-    console.log('clicckkk');
     dispatch(makeLikeThunk(obj));
   }, []);
 

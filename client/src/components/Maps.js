@@ -1,18 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 
-import { Paper, IconButton, Input, Stack, TextField } from '@mui/material';
+import { Paper, Stack } from '@mui/material';
 
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Button from '@mui/material/Button';
-
-import Typography from '@mui/material/Typography';
 import CardMap from './elements/CardMap';
 
 import { getAdvertsThunk, getFilteredThunk, getParamsThunk } from '../redux/actions/adverts';
@@ -20,14 +11,10 @@ import FilterChip from './elements/FilterChip';
 
 function Maps() {
   const location = useLocation();
-  const [posts, setPosts] = useState([]);
   const [go, setGo] = useState(false);
   const myCollection = useRef([]);
   const myMap = useRef(null);
-  const geoObjects = useRef([]);
-  const clusterer = useRef(null);
 
-  const placemarks = [];
   const { ymaps } = window;
   const dispatch = useDispatch();
   const { params, filtered, adverts } = useSelector((state) => state);
@@ -47,7 +34,6 @@ function Maps() {
       dispatch(getParamsThunk());
       dispatch(getFilteredThunk([]));
     }
-    console.log('filtered: ', filtered);
   }, [filter]);
 
   const [flag, setFlag] = useState(false);

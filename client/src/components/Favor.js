@@ -42,7 +42,6 @@ function Favor() {
                     <CardWide
                       key={post?.id}
                       post={post}
-                      // handleDelete={handleDeletePost}
                     />
                   ))}
                 </Stack>
